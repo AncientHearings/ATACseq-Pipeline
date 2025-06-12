@@ -1,0 +1,70 @@
+samples:  
+ - ATAC_Rep1_ENCFF121EPT
+ 
+#...................fastp....................................................
+ dir_raw_data: "data/"
+ dir_trimmed_data: "results/fastp"
+ thread: 4
+
+
+ 
+#...................For  bowtie2............................... 
+index_bowtie2:   "raw_data/genome/index/index"
+inputs_bowtie2:  "results/fastp/cleaned_reads"
+outputs_bowtie2: "results/aligned_reads"
+threads:          8
+
+
+#..................SAMTOOLS..................................
+#...................SAM TO BAM ..............................
+
+input_samtools_view: "results/aligned_reads"
+output_samtools_view: "results/samtools_view"
+
+#............................................................
+#.................SAMTOOLS...................................
+#..................SORT......................................
+
+input_samtools_sort: "results/samtools_view"
+output_samtools_sort: "results/samtools_sort"
+threads: 4
+
+
+#config.yaml file is a configuration file which has inputs and outputs paths , tools parameters and other settings to run the workflow dynamically.
+#It means that when others run the pipeline, they can edit the configuration file as per necessaties. 
+#There's no need to touch the code,  which the code remains clean and maintained allowing to be reproducible as the logical flowi.e., the algorithm issn't broke.
+ #(Software Architecture (Separation of Concerns) which means that keep different reponsibilities in different places so we change one without disturbing the other. 
+ 
+ 
+
+#Reason for choosing the yaml format:
+ 
+#Easy to read and clean makes knowing where to edit and what  with ease.
+#Multiple samples can be handles in simple, clear  structure. 
+#There's no need to quote any data type. YAML understands datatypes automatically.
+#Widely used in docker compose, github actions and kubernetes.
+#-Reliable and familiar.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#...........................................................
+#........................SAMTOOLS...........................
+#.........................INDEX.............................
+input_samtools_index: "results/samtools_sort"
+output_samtools_index: "results/samtools_index"
+threads: 4
