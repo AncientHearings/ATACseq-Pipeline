@@ -1,0 +1,6 @@
+name: SamtoolsMarkdup_env
+channels: 
+  - biconda 
+  - conda-forge
+dependencies: 
+  - samtools=1.22
