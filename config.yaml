@@ -45,26 +45,21 @@ threads: 4
 #Widely used in docker compose, github actions and kubernetes.
 #-Reliable and familiar.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #...........................................................
 #........................SAMTOOLS...........................
 #.........................INDEX.............................
 input_samtools_index: "results/samtools_sort"
 output_samtools_index: "results/samtools_index"
 threads: 4
+#............................................................
+#............................................................
+#............................................................
+
+#............................................................
+#.........................samtools...........................
+#..........................markdup..........................
+input_1_samtools_markdup: "results/samtools_index"
+input_2_samtools_markdup: "results/samtools_sort" 
+output_samtools_markdup: "results/samtools_markdup"
+threads: 4
+
