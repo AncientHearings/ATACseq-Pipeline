@@ -240,7 +240,7 @@ rule samtools_markdup:
        benchmark_markdup = lambda wildcards: f"Benchmarks/samtools_markdup/{wildcards.sample}.txt"
 
      log:
-       samtools_markdup = lambda wildcards: f"logs/samtools_markdup/{wildcards.sample}.log"
+       samtools_markdup = lambda wildcards: f"logs/samtools_markdup/{wildcards.sample}_samtools_markdup.log"
 
      conda:
        "envs/SamtoolsMarkdup.yaml"
@@ -261,4 +261,183 @@ rule samtools_markdup:
 
       """
        
+ #..............................................................
+ #........................SAMTOOLS..............................
+ #........................FLAGSTAT..............................
+ 
+#INPUT_SAMTOOLS_FLAGSTAT = config["input_samtools_flagstat"]
+#Snakefile is written in python syntax. Assignment operator is used to assign value to a variable. '=' is used instead of ':' as in #a yaml file.
+
+OUTPUT_SAMTOOLS_FLAGSTAT = config["output_samtools_flagstat"]
+THREADS = config["threads'] 
+#config[] is to access the value from the variable threads in config.yaml file just like accessing value using key in python
+#dictionary.
+
+rule samtools_flagstat:
+     input: 
+       BAM_MARKDUP = rule.samtools_markdup.output.bam_markdup
+     output:
+       SAMTOOLS_FLAGSTAT = lambda wildcards: f"{OUTPUT_SAMTOOLS_F.FLAGSTAT}/{wildcards.sample}.flagstat.txt"
+     benchmark:
+       samtools_flagstat = lambda wildcards: f"Benchmarks/samtools_flagstats/{wildcards.sample}.txt"
+     log:
+       samtools_flagstat = lambda wildcards: f"logs/samtools_flagstat/{wildcards.sample}_post_samtools_markdup_qc.log"
+     conda:
+       "envs/samtools_flagstat.yaml"
+     threads:
+        THREADS
+     message:
+       "Generating general mapping statistics"
+     shell:
+       """
+       samtools flagstat \
+       -@{threads} \
+       {input.BAM_MARKDUP} \
+       > \
+       {output.SAMTOOLS_FLAGSTAT} \
+       2> {log}
+       """
+#................................................................
+#................................................................
+#...............................................................
+
+
+
+#...............................................................
+#.........................SAMTOOLS..............................
+#...........................STATS...............................
+
+OUTPUT_SAMTOOLS_STATS = config["output_samtools_stats"]
+THREADS: threads
+
+rule samtools_stats:
+     input:
+       INPUT_SAMTOOLS_STATS = rule.samtools_markdup.output.bam_markdup
+     output:
+       SAMTOOLS_STATS  = lambda wildcards: f"{OUTPUT_SAMTOOLS_STATS/{wildcards.sample}.stats.txt" 
+     benchmark:
+       samtools_stats = lambda wildcards: f"Benchmarks/samtools_stats/{wildcards.sample}.stats.txt"
+     log:
+       samtools_stats = lambda wildcards: f"logs/samtools_stats/{sample}_samtools.sort_post_samtools_markdup.log"
+     conda:
+       "envs/samtools_stats.yaml"
+     message:
+       "Providing detailed read statistics"
+     shell:
+       """
+       samtools stats \
+       -@{threads} \
+       {input.INPUT_SAMTOOLS_STATS} \
+       > \
+       {output.SAMTOOLS_STATS} \
+       2> {log}
+       """
+#...............................................................
+#...............................................................
+#...............................................................
+
+
+     
+#...............................................................
+#........................Picard.................................
+#............CollectAlignmentSummaryMterics.....................
+
+OUTPUT_PICARD = config["output_picard"]
+THREADS: config["threads"]
+
+rule picard:
+     input:
+       INPUT_PICARD = rule.samtool_markdup.output.bam_markdup
+     output:
+       OUTPUT_PICARD = lambda wildcards: f"{OUTPUT_PICARD}/{wildcards.sample}.alignment_metrics.txt"
+     benchmark:
+       picard = lambda wildcards: f"Benchmarks/picard/{wildcards.sample}.alignment_metrics.txt"
+     log:
+       picard = lambda wildcard: f"logs/picard/{wildcards.sample}_alignment_metrics_post_samtools_markdup.log"
+     conda:
+       "envs/Picard_CollectAlignmentSummaryMetrics.yaml"
+     message:
+       "Proviiding Detailed Alignment QC, paltform-specific stats"
+     shell:
+       """
+       picard CollectAlignmentSummaryMetrics \
+       R={params.ref} \ *
+       I={input.INPUT_PICARD} \
+       O={output.OUTPUT_PICARD} \
+       VALIDATION_STRINGENCY=LENIENT \
+       2> {log}
+       """
+#................................................................
+#................................................................
+#...............................................................
+
+
+
+#................................................................
+#.....................qualimap...................................
+#......................bamqc.....................................
+
+OUTPUT_QUALIMAP = config["output_qualimap"]
+THREADS = config["threads"]
+
+rule qualimap_bamqc:
+     input:
+       INPUT_QUALIMAP_BAMQC=rule.samtools_markdup.output.bam_markdup
+     output:
+       OUTPUT_QUALIMAP_BAMQC = lambda wildcards: f"{OUTPUT_QUALIMAP}/{wildcards.sample}_qualimapreport.html"
+     benchmark:
+       qualimap_bamqc = lambda wildcards: f"Benchmarks/post_samtools_markdup_benchmark_files/
+       qualimap_bamqc/{wildcards.sample}qualimapreport.txt"
+     log:
+       qualimap_bamqc = lambda wildcards: f"logs/post_samtools_markdup_tools_log_files/
+       qualimap_bamqc/{wildcards.sample}_qualimapreport_post_samtools_markdup.log"
+     conda:
+       "envs/post_samtools_markdup_tools_env_files/qualimap_bamqc.yaml:"
+     message:
+       "Generating visual summary, coverage distribution, GC basis"
+     shell:
+       """
+       qualimap bamqc \
+       -@{threads} \
+       -bam \
+       {input.INPUT_QUALIMAP_BAMQC} \
+       -outdir \
+       {output.OUTPUT_QUALIMAP_BAMQC} \
+       -outformat HTML \
+       2> {log}
+       """
+#...............................................................
+#...............................................................
+#...............................................................
+
+
+
+#................................................................
+#........................multiqc.................................
+#................................................................
+
+OUTPUT_MULTIQC = config["output_multiqc"]
+THREADS = config["threads"]
+
+rule multiqc:
+     input:
+     output:
+       multiqc = lambda wildcards: f"{OUTPUT_MULTIQC}/{wildcards.sample}
+    benchmark:
+       multiqc = lambda wildcards: f"Benchmarks/post_samtools_markdup_tools_benchmarks_files/multiqc/multiqc_benchmark.txt"
+    log:
+      multiqc = lambda wildcards: f"logs/post_samtools_markdup_tools_log_files/multiqc/{wildcards.sample} 
+      _post_samtools_markdup_multiqc.log"
+    conda:
+      "envs/post_samtools_markdup_tools_env_files/multiqc.yaml"
+    message:
+      "Generating a single readable HTML reports for all"
+    shell:
+      """
+      multiqc \
        
+     
+     
+   
+      
+      
