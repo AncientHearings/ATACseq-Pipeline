@@ -240,7 +240,7 @@ rule samtools_markdup:
        benchmark_markdup = lambda wildcards: f"Benchmarks/samtools_markdup/{wildcards.sample}.txt"
 
      log:
-       samtools_markdup = lambda wildcards: f"logs/samtools_markdup/{wildcards.sample}_samtools_markdup.log"
+       samtools_markdup = lambda wildcards: f"logs/post_samtools_markdup_qc_tools_log_files/samtools_markdup/{wildcards.sample}_samtools_markdup.log"
 
      conda:
        "envs/SamtoolsMarkdup.yaml"
@@ -279,11 +279,11 @@ rule samtools_flagstat:
      output:
        SAMTOOLS_FLAGSTAT = lambda wildcards: f"{OUTPUT_SAMTOOLS_F.FLAGSTAT}/{wildcards.sample}.flagstat.txt"
      benchmark:
-       samtools_flagstat = lambda wildcards: f"Benchmarks/samtools_flagstats/{wildcards.sample}.txt"
+       samtools_flagstat = lambda wildcards: f"Benchmarks/post_samtools_markdup_qc_tools_benchmark_files/samtools_flagstats/{wildcards.sample}.txt"
      log:
-       samtools_flagstat = lambda wildcards: f"logs/samtools_flagstat/{wildcards.sample}_post_samtools_markdup_qc.log"
+       samtools_flagstat = lambda wildcards: f"logs/post_samtools_markdup_qc_tools_log_files/samtools_flagstat/{wildcards.sample}_post_samtools_markdup_qc.log"
      conda:
-       "envs/samtools_flagstat.yaml"
+       "envs/post_samtools_markdup_qc_env_files/samtools_flagstat.yaml"
      threads:
         THREADS
      message:
@@ -316,11 +316,11 @@ rule samtools_stats:
      output:
        SAMTOOLS_STATS  = lambda wildcards: f"{OUTPUT_SAMTOOLS_STATS/{wildcards.sample}.stats.txt" 
      benchmark:
-       samtools_stats = lambda wildcards: f"Benchmarks/samtools_stats/{wildcards.sample}.stats.txt"
+       samtools_stats = lambda wildcards: f"Benchmarks/post_samtools_markdup_qc_benchmark_files/samtools_stats/{wildcards.sample}.stats.txt"
      log:
-       samtools_stats = lambda wildcards: f"logs/samtools_stats/{sample}_samtools.sort_post_samtools_markdup.log"
+       samtools_stats = lambda wildcards: f"logs/post_samtools_markdup_qc_tools_log_files/samtools_stats/{sample}_samtools.sort_post_samtools_markdup.log"
      conda:
-       "envs/samtools_stats.yaml"
+       "envs/post_samtools_markdup_qc_tools_env_files/samtools_stats.yaml"
      message:
        "Providing detailed read statistics"
      shell:
@@ -351,11 +351,11 @@ rule picard:
      output:
        OUTPUT_PICARD = lambda wildcards: f"{OUTPUT_PICARD}/{wildcards.sample}.alignment_metrics.txt"
      benchmark:
-       picard = lambda wildcards: f"Benchmarks/picard/{wildcards.sample}.alignment_metrics.txt"
+       picard = lambda wildcards: f"Benchmarks/post_samtools_markdup_qc_tools_benchmark_files/picard/{wildcards.sample}.alignment_metrics.txt"
      log:
-       picard = lambda wildcard: f"logs/picard/{wildcards.sample}_alignment_metrics_post_samtools_markdup.log"
+       picard = lambda wildcard: f"logs/post_samtools_markdup_qc_tools_log_files/picard/{wildcards.sample}_alignment_metrics_post_samtools_markdup.log"
      conda:
-       "envs/Picard_CollectAlignmentSummaryMetrics.yaml"
+       "envs/post_samtools_markdup_qc_tools_env_files/Picard_CollectAlignmentSummaryMetrics.yaml"
      message:
        "Proviiding Detailed Alignment QC, paltform-specific stats"
      shell:
@@ -386,13 +386,13 @@ rule qualimap_bamqc:
      output:
        OUTPUT_QUALIMAP_BAMQC = lambda wildcards: f"{OUTPUT_QUALIMAP}/{wildcards.sample}_qualimapreport.html"
      benchmark:
-       qualimap_bamqc = lambda wildcards: f"Benchmarks/post_samtools_markdup_benchmark_files/
+       qualimap_bamqc = lambda wildcards: f"Benchmarks/post_samtools_markdup_qc_tools_benchmark_files/
        qualimap_bamqc/{wildcards.sample}qualimapreport.txt"
      log:
-       qualimap_bamqc = lambda wildcards: f"logs/post_samtools_markdup_tools_log_files/
+       qualimap_bamqc = lambda wildcards: f"logs/post_samtools_markdup_qc_tools_log_files/
        qualimap_bamqc/{wildcards.sample}_qualimapreport_post_samtools_markdup.log"
      conda:
-       "envs/post_samtools_markdup_tools_env_files/qualimap_bamqc.yaml:"
+       "envs/post_samtools_markdup_qc_tools_env_files/qualimap_bamqc.yaml:"
      message:
        "Generating visual summary, coverage distribution, GC basis"
      shell:
@@ -424,12 +424,12 @@ rule multiqc:
      output:
        multiqc = lambda wildcards: f"{OUTPUT_MULTIQC}/{wildcards.sample}
     benchmark:
-       multiqc = lambda wildcards: f"Benchmarks/post_samtools_markdup_tools_benchmarks_files/multiqc/multiqc_benchmark.txt"
+       multiqc = lambda wildcards: f"Benchmarks/post_samtools_markdup_qc_tools_benchmarks_files/multiqc/multiqc_benchmark.txt"
     log:
-      multiqc = lambda wildcards: f"logs/post_samtools_markdup_tools_log_files/multiqc/{wildcards.sample} 
+      multiqc = lambda wildcards: f"logs/post_samtools_markdup_qc_tools_log_files/multiqc/{wildcards.sample} 
       _post_samtools_markdup_multiqc.log"
     conda:
-      "envs/post_samtools_markdup_tools_env_files/multiqc.yaml"
+      "envs/post_samtools_markdup_qc_tools_env_files/multiqc.yaml"
     message:
       "Generating a single readable HTML reports for all"
     shell:
