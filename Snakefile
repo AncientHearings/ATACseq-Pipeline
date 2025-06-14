@@ -140,7 +140,7 @@ rule samtools_sort:
        "envs/samtools_sort.yaml"
      threads:      
         THREADS
-     benchmark: H
+     benchmark: 
         lambda wildcards: f"Benchmarks/samtools_sort/{wildcards.sample}.txt"
      message: 
         "Sorting, in progress, the BAM file for the sample {wildcards.sample} using the samtools sort"            
@@ -214,14 +214,51 @@ rule samtools_index:
 	2> {log}
 
       """
-      
-
-
-
-
-
-
 #.............................................................
 #.............................................................
 #.............................................................
 
+#.............................................................
+#......................samtools...............................
+#.......................markdup...............................
+
+#INPUT_1_SAMTOOLS_MARKDUP = config["input_1_samtools_markdup"]
+#INPUT_2_SAMTOOLS_MARKDUP = config["input_2_samtools_markdup"]
+OUTPUT_SAMTOOLS_MARKDUP = config["output_samtools_markdup"]
+THREADS = config["threads"]
+
+rule samtools_markdup:
+
+     input:
+       bam_sorted_for_samtools_markdup   = rules.samtools_sort.output.bam_sorted,
+       bam_indexed_for_samtools_markdup  = rules.samtools_index.output.bam_indexed
+
+     output:
+       bam_markdup = lambda wildcards: f"{OUTPUT_SAMTOOLS_MARKDUP}/{wildcards.sample}.bam.markdup"
+
+     benchmark:
+       benchmark_markdup = lambda wildcards: f"Benchmarks/samtools_markdup/{wildcards.sample}.txt"
+
+     log:
+       samtools_markdup = lambda wildcards: f"logs/samtools_markdup/{wildcards.sample}.log"
+
+     conda:
+       "envs/SamtoolsMarkdup.yaml"
+
+     threads:
+       THREADS
+
+     message:
+       "Marking duplicates, in progress, by  the samtools markdup"
+
+     shell:
+      """
+       samtools markdup -r -s \
+       -@{threads} \
+       {input.bam_sorted_for_samtools_markdup} \
+       {output.bam_markdup} \
+       2> {log.samtools_markdup}
+
+      """
+       
+       
