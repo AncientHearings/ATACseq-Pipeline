@@ -410,6 +410,118 @@ rule qualimap_bamqc:
 #...............................................................
 #...............................................................
 
+#The rule syntax is used to create a rule with this name.
+#This is used to manage dependencies internally*. 
+   #Used for visualization in DAG. 
+   #To run a specific rule.
+   #Supports advanced rule management
+#The rule parameters define how the rule behaves.
+
+
+#..............................................................
+#.........................deeptools............................
+#.......................bamCoverage............................
+#Instead of 
+
+
+
+OUTPUT_BAMCOVERAGE = config["output_bamCoverage"]
+THREADS = config["threads"]
+
+
+rule bamCoverage: 
+     input: 
+       INPUT_BAMCOVERAGE_SAMTOOLS_MARKDUP_OUTPUT = rules.samtools_rule.output.bam_markdup, 
+       INPUT_BAMCOVERAGE_SAMTOOLS_INDEXED = rules.samtools_indexed.output.bam_indexed
+     output: 
+       BAMCOVERAGE_OUTPUT = lambda wildcards: f"{OUTPUT_BAMCOVERAGE}/{wildcards.sample}_coverage.bw" 
+     benchmark:
+       lambda wildcards: f"Benchmark/bamCoverage/{wildcards.sample}.txt"    
+     log:
+       bamCoverage_stderr = lambda wildcards: f"logs/bamCoverage/{wildcards.sample}.err", 
+       bamCoverage_stdout = lambda wildcards: f"logs/bamCoverage/{wildcards.sample}.out"
+     conda: 
+       "envs/bamCoverage.yaml"
+     threads: 
+       THREADS
+     params: 
+       binSize = config["BINSIZE"],
+       normalize = config["NORMALIZE"],
+     message: 
+       "Generating BigWig for genome browsers"
+     shell:
+       """
+       bamCoverage \
+       -b {input.INPUT_BAMCOVERAGE_SAMTOOLS_MARKDUP_OUTPUT} \
+       -o {output.BAMCOVERAGE_OUTPUT} \
+       --binSize {params.binSize} \
+       --normalizeUsing {params.normalize} \
+       --numberOfProcessors {threads} \
+       > {log.bamCoverage_stdout} 2> {log.bamCoverage_stderr}
+       """
+       
+           
+#Only one input file is mentioned explicitly but the other #must be present alongside to work efficiently.       
+#params is a special snakemake keyword used to pass arbitrary parameters to the shell command within a rule.
+#numberOfProcessors or numberOfThreads. confirm using bamCoverage --help
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #................................................................
