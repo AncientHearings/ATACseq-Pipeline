@@ -122,6 +122,43 @@ threads: 4
 
 
 #.............................................................
+#.....................picard..................................
+#.............CollectInsertSizeFragments......................
+
+output:
+  picard_CollectInsertSizeFragements: "results/
+  picard_CollectInsertSizeFragements"
+  picard_CollectInsertSizeFragements_visualization: "results/ 
+  picard_CollectInsertSizeFragements/Visualization"
+  
+threads: 4
+
+#...............................................................
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#.............................................................
 #.......................deeptools.............................
 #.......................bamCoverage...........................
 output_bamCoverge: "results/deeptools/bamCoverage"
