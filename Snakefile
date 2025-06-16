@@ -464,8 +464,62 @@ rule picard_CollectInsertSizeFragmentsMetricsAnd histogram:
 
 #lambda patterns is used for dynamic output.
 #config[] is for scalability.
+#................................................................
+#...............................................................
+#...............................................................
 
 
+
+
+#..............................................................
+#........................preseq................................
+#..............................................................
+#To estimateif sequencing deeper will yeild more unique reads.
+#...............................................................
+#..............................................................
+#..............................................................
+
+OUTPUT_PRESEQ = config["output"] ["preseq"]
+THREADS  = config["threads"]
+#config[] is for scalability
+
+rule  preseq_lc_exstrap:
+      input: 
+        in_preseq = rule.samtools_markdup.output.bam_markdup
+      
+      output: 
+        out_preseq = lambda wildcards: f"{OUTPUT_PRESEQ}/{wildcards.sample}.txt"
+        
+      benchmark: 
+        lambda wildcards: f"Benchmarks/preseq/{wildcards.sample}.txt"
+         
+      log:
+        stdout = lambda wildcards: f"logs/preseq/{wildcards.sample}.out"
+        stderr = lambda wildcards: f"logs/preseq/{wildcards.sample}.err"
+        
+     conda: 
+        "envs/preseq.yaml"
+        
+     message: 
+        "Estimating library complexity and unique reads with preseq"
+        
+     shell:
+       """
+        preseq lc_exstrap -B \
+        -o {output.out_preseq} \
+        {input.in_preseq} \
+        >{log.stdout} 2> {log.stderr}
+       """
+#.............................................................
+#.............................................................
+#.............................................................   
+ 
+ #Message is for makinglogs readable
+ #Clean log handling - a hallmark of prodiction-grade pipeline   
+ #resource and params parameter are kept on hold for now.   
+#.............................................................
+#.............................................................
+#.............................................................
 
 
 
