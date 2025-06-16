@@ -127,7 +127,7 @@ threads: 4
 
 output:
   picard_CollectInsertSizeFragements: "results/
-  picard_CollectInsertSizeFragements"
+  picard_CollectInsertSizeFragements/metrics"
   picard_CollectInsertSizeFragements_visualization: "results/ 
   picard_CollectInsertSizeFragements/Visualization"
   

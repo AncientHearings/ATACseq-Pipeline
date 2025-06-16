@@ -410,6 +410,94 @@ rule qualimap_bamqc:
 #...............................................................
 #...............................................................
 
+
+
+#...............................................................
+#.......................picard.................................
+#.....................CollectInsertSizeFragements...............................
+
+OUTPUT_INSERTSIZE = config["output"] ["picard_CollectInsertSizeFragements"]
+
+OUTPUT_INSERTSIZE_VISUALIZATION = config ["output"] ["picard_CollectInsertSizeFragements"]
+
+THREADS = config["threads"]
+
+rule picard_CollectInsertSizeFragmentsMetricsAnd histogram:
+     input:
+       input_picard_CollectInsertSizeFragementMetrics = rule.samtools_markdup.output.bam_markdup
+     
+     output:  
+       metrics = lambda wildcards: f"{OUTPUT_INSERTSIZE}/{wildcards.sample}.txt"
+       histogram = lambda wildcards: f"{OUTPUT_INSERTSIZE_VISUALIZATION}/{wildcards.sample}.pdf"
+       
+     benchmark: 
+       lambda wildcards: f"Benchmarks/picard_CollectInsertSizeFragements/{wildcards.sample}.txt"
+       
+     log: 
+       stdout = lambda wildcards: f"logs/picard_CollectInsertSizeFragements/{wildcards.sample}.out"
+       stderr = lambda wildcards: f"logs/picard_CollectInsertSizeFragements/{wildcards.sample}.err"
+       
+     conda:
+       "envs/picard_CollectInsertSizeFragementsMetrics.yaml"
+      
+     threads:
+       THREADS
+      
+     message: 
+       " Assessing nucleosome periodicity"
+       
+     shell:
+       """
+       picard CollectInsertSizeMetrics \
+       I=
+       {input.input_picard_CollectInsertSizeFragementMetrics} \
+       O={output.metrics} \
+       H={output.histogram} \
+       M=0.5 \
+       > {log.stdout} 2> {log.stderr}
+       """
+ #By default M=0.5       
+#It excludes the tails  in the histogram where the insert size is extremely rare.
+#Only the central 50-% of the data will be used for calculating mean,etc.      
+#To avoid skewed statistics from contaminant fragements.
+#Need to read paper regarding the value. I may make it configurable by adding setting in the configuration file for future-proofing the pipeline.
+
+#lambda patterns is used for dynamic output.
+#config[] is for scalability.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #The rule syntax is used to create a rule with this name.
 #This is used to manage dependencies internally*. 
    #Used for visualization in DAG. 
