@@ -192,9 +192,8 @@ threads: 4
 #.............................................................
 
 
-
-
-
+#To add configuration for dynamic pieces means to create an #object (config dictionary) and assign a value (setting YAML #keys) to it. The value can be changed as per requirement, and #the new value will be used in the rule, making the workflow #dynamic(rules react to changing configuration) by accessing the value using config[].
+#A central control(single source of truth) is established along with dynamic behavior.
 
 
 
