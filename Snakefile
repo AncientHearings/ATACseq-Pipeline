@@ -612,13 +612,65 @@ rule bamCoverage:
 #..............................................................
 
 
+#The rule synatx is used to define a rule. A rule starts with #with the rule syntax, followed by the  rule's name and #colon. The colon  indicates the start of the rule body. Inside the rule body, parameters like input, output, threads, params, log, and shell are provided. These parameters control the behavior and execution of the rule.
 
 
 #..............................................................
 #.........................MACS2................................
 #.......................PeakCalling ............................
 
-OU
+OUTPUT_MACS2 =  config["output_macs2_peak_calling"]
+THREADS = config["threads"]
+
+rule macs_PeakCalling:
+     input:
+       input_samtools_markdup =  temp(rule.samtools_markdup.output.bam_markdup)
+        
+     output:
+       output_narrowPeak = protected(lambda wildcards: f"{OUTPUT_MACS2}/{wildcards.sample}_peaks.narrowPeak")
+     
+     params: 
+     
+       
+     benchmark:
+       lambda wildcards: f"Benchmarks/MACS2/{wildcards.sample}.txt"
+       
+     log:
+       stdout = lambda wildacards: f"logs/MACS2/{wildcards.sample}.out"
+       stedrr = lambda wildcards: f"logs/MACS2/{wildcards.sample}.err"
+       
+     conda:
+       "envs/macs2_peakcall.yaml"
+       
+     threads: 
+        THREADS
+     
+     resources:
+     
+         
+       
+     message:
+       "Peak calling, im progress for {wildcards.sample}"
+       
+     shell:
+       """
+       macs2 callpeak \
+       -t {input.input_samtools_markdup} \
+       -f BAMPE \
+       -g {params.genome_size} \
+       -n {wildcards.sample} \
+       -q {params.qval} \
+       --outdir {params.outdir} \
+       --keep-dup all \
+       --call-summits \
+       > {log.stdout} 2> {log.stderr}
+       """
+       
+#Need to understand params and resources rule parameters
+#...............................................................
+#...............................................................
+#...............................................................
+#...............................................................        
 
 
 
