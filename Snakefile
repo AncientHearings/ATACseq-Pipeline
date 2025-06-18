@@ -672,86 +672,53 @@ rule macs_PeakCalling:
 #...............................................................
 #...............................................................        
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #................................................................
 #........................multiqc.................................
 #................................................................
+#expand() is a snakemake utility function. 
 
-OUTPUT_MULTIQC = config["output_multiqc"]
+OUTPUT_MULTIQC_1 = config["output_multiqc"]["html"]
+OUTPUT_MULTIQC_2 = config["output_multiqc"]["zip"] 
 THREADS = config["threads"]
 
 rule multiqc:
-     input:
-     output:
-       multiqc = lambda wildcards: f"{OUTPUT_MULTIQC}/{wildcards.sample}
+    input:
+       expand("results/
+    output:
+       html = protect(lambda wildcards: f"{OUTPUT_MULTIQC_1}/{wildcards.sample}_report.html")
+       zip = protect(lambda wildcards: f"{OUTPUT_MULTIQC_2}/{wildcards.sample}+_report.zip")
+       
     benchmark:
-       multiqc = lambda wildcards: f"Benchmarks/post_samtools_markdup_qc_tools_benchmarks_files/multiqc/multiqc_benchmark.txt"
+       multiqc = lambda wildcards: f"Benchmarks/multiqc/multiqc_benchmark.txt"
+
     log:
-      multiqc = lambda wildcards: f"logs/post_samtools_markdup_qc_tools_log_files/multiqc/{wildcards.sample} 
-      _post_samtools_markdup_multiqc.log"
+      stdout = lambda wildacards: f"{logs/multiqc/{wildcards.sample}.out"}
+      stderr = lambda wildcards: f"{logs/multiqc/{wildcards.sample}.err"
+      
+    params:
+    
+    resources:  
+            
     conda:
-      "envs/post_samtools_markdup_qc_tools_env_files/multiqc.yaml"
+      "envs/multiqc.yaml"
+      
+    threads:
+       Threads
+       
     message:
       "Generating a single readable HTML reports for all"
+
     shell:
       """
       multiqc \
+      -@{threads} \
+      
+      """
+      
+#................................................................
+#.....................Some confusion. Sort out during revision........................................................
+#.................................................................
+      
        
      
      
