@@ -195,67 +195,13 @@ threads: 4
 #To add configuration for dynamic pieces means to create an #object (config dictionary) and assign a value (setting YAML #keys) to it. The value can be changed as per requirement, and #the new value will be used in the rule, making the workflow #dynamic(rules react to changing configuration) by accessing the value using config[].
 #A central control(single source of truth) is established along with dynamic behavior.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #.............................................................
 #.........................multiqc.............................
 #.............................................................
-#input_multiqc: "results/samtools_markdup"
-output_multiqc: "results/samtools_markdup_post_qc/multiqc"
+#The input paths is not provided as they will be accessed from the  rules of the corresponding package software, for  whose outputs the multqc is used.
+output_multiqc:
+      html = "results/multiqc/html"
+      zip = "results/multiqc/zip"
 threads: 4
 #.............................................................
 #.............................................................
