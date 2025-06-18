@@ -685,8 +685,8 @@ rule multiqc:
     input:
        expand("results/
     output:
-       html = protect(lambda wildcards: f"{OUTPUT_MULTIQC_1}/{wildcards.sample}_report.html")
-       zip = protect(lambda wildcards: f"{OUTPUT_MULTIQC_2}/{wildcards.sample}+_report.zip")
+       html = protected(lambda wildcards: f"{OUTPUT_MULTIQC_1}/{wildcards.sample}_report.html")
+       zip = protected(lambda wildcards: f"{OUTPUT_MULTIQC_2}/{wildcards.sample}+_report.zip")
        
     benchmark:
        multiqc = lambda wildcards: f"Benchmarks/multiqc/multiqc_benchmark.txt"
@@ -718,6 +718,66 @@ rule multiqc:
 #................................................................
 #.....................Some confusion. Sort out during revision........................................................
 #.................................................................
+      
+      
+      
+#................................................................
+#.......................bedtools.................................
+#..............................................................
+
+OUTPUT_BEDTOOLS = config["output"]["bedtools"]
+THREADS = config["threads"]["defaults"]
+
+rule blacklist_filter:
+     input:
+        peaks = rule.macs2_PeakCalling.output.output_narrowPeak
+        blacklist = temp(config["blacklist_file"])
+        
+     output:
+        output_peaks_no_overlaps = protected(lambda wildcards: f"{OUTPUT_BEDTOOLS}/{wildcards.sample}_filtered.bed")
+      
+      params:
+        extra = config["params"]["bedtools"]["intersect_opt"]
+      
+      resources
+         memory = config["resources"]["bedtools"]["mem_mb"]
+                       
+         time = config["resources"]["bedtools"]["time"]
+
+      benchmark:
+          lambda wildcards: f"Benchmarks/bedtools/{wildcards.sample}.txt"
+
+      log:
+        stdout = lambda wildcards: f"logs/{wildcards.sample}.out"
+        stderr = lambda wildcards: f"logs/{wildcards.sample}.err"
+        
+      threads:
+        THREADS
+        
+      conda:
+        "envs/bedtools.yaml"
+        
+      message:
+        "Filtering peaks that overlap with blacklisted regions"
+        
+      shell: 
+         """
+         bedtools intersect \
+         -@{threads} \
+         {params.extra} \
+         -a {input.peaks} \
+         -b {input.blacklist} \
+         > \
+         {output.output_peaks_no_overlaps}
+         > {log.stdout} 2> {log.stderr}
+         """ 
+        
+#benchamark enables profiling  optimization           
+#threads is used after finding if the tool can parallelize
+#benchmark helps identify slow steps and optimize.
+#log is for debugging and reproducibility. 
+#resources for memory/CPU scaling- crucial for reproducibility.
+
       
        
      
