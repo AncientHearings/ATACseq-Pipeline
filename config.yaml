@@ -212,7 +212,7 @@ threads: 4
 #.........................bedtools............................
 #.............................................................
 output:
-   bedtools: "results/bedtools"
+   bedtools: "results/bedtools" 
 threads: 
    defaults: 2
    bedtools: 4
@@ -224,10 +224,10 @@ resources:
       
 params:
    bedtools:
-     intersect_opt: "-v"
+     intersect_opt: "-v" #Reports only those entries in "-a" that don't overlap with "-b".
      
 blacklist_file: "resources/blacklists/hg38-blacklist.bed"
-
+#ENCODE-defined Blacklisted regions
 #Clean snakefiles and centralized configs
 #..............................................................
 #.....
