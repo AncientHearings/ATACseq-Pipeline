@@ -208,6 +208,35 @@ threads: 4
 #.............................................................
 
 
+#.............................................................
+#.........................bedtools............................
+#.............................................................
+output:
+   bedtools: "results/bedtools"
+threads: 
+   defaults: 2
+   bedtools: 4
+
+resources:
+   bedtools: 
+      mem_mb: 1000
+      time: "00:10:00"
+      
+params:
+   bedtools:
+     intersect_opt: "-v"
+     
+blacklist_file: "resources/blacklists/hg38-blacklist.bed"
+
+#Clean snakefiles and centralized configs
+#..............................................................
+#.....
+
+
+#params is used to make the shell command options dynamic.
+#Resource puts a limit on RAM usage. 
+
+   
 
 
 
