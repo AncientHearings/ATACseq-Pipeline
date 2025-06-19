@@ -730,7 +730,7 @@ THREADS = config["threads"]["defaults"]
 
 rule blacklist_filter:
      input:
-        peaks = rule.macs2_PeakCalling.output.output_narrowPeak
+        peaks = rule.macs2_PeakCalling.output.output_narrowPeak,
         blacklist = temp(config["blacklist_file"])
         
      output:
@@ -740,7 +740,7 @@ rule blacklist_filter:
         extra = config["params"]["bedtools"]["intersect_opt"]
       
       resources
-         memory = config["resources"]["bedtools"]["mem_mb"]
+         memory = config["resources"]["bedtools"]["mem_mb"], 
                        
          time = config["resources"]["bedtools"]["time"]
 
@@ -780,8 +780,75 @@ rule blacklist_filter:
 
       
        
+#...............................................................
+#.........................diffbind..............................
+#...............................................................
+
+OUTPUT_DIFFBIND = config["output"]["bedtools"]    
+THREADS = config["threads"]["default"]   
+#Rule name is clear and appropriate. 
+rule diff_peak_analysis:   
+     input: 
+        samplesheet = temp(config["input"]["sample_sheet"])
+        bam_files =  rule.samtools_markdup.output.bam_markdup
+        peak_files = rule.macs_peakCalling.output.output.narrow_Peak
      
-     
+     output:
+        report_diffbind = protected(lambda wildcards: f"{OUTPUT_DIFFBIND}/{wildcards.sample}.rds")
+        
+      benchmark: 
+        lambda wildcards: f"Benchmarks/diffbind/{wildcards.sample}.txt"
+        
+      log: 
+        stdout=lambda wildcards: f"logs/diffbind/{wildcards.sample}.out"
+        stderr=lambda wildcards: f"logs/diffbind/{wildcards.sample}.err"
+        
+      params:
+         script = config["params"]["diffbind"]["scripts"]
+       
+      resources: 
+         memory = config["resources"]["mem_mb"]["diffbind"]
+         time = config["resources"]["time"]["diffbind"]
+          
+      conda:
+        "envs/diffbind.yaml"
+       
+      threads:
+         THREADS 
+         
+       message: 
+         "Testing for differential accessibility in progress",
+       
+       group: 
+         "diffbind_analysis"
+         
+       priority: 
+          100
+       
+       onstart: 
+          lambda wildcards: f"Staring DiffBInd for Sample {wildcards.sample}...")
+              
+       shell: 
+         """
+         Rscript \
+         {params.script} \
+         {input.samplesheet} \
+         {output.report_diffbind} \
+         > {log.stdout} 2> {log.stderr}
+         """
+         
+#Need to check if the Rscript supports the-@{threads}
+
+#Need to check if the rule parameter message is supported by the current version. 
+
+#Threads will be handled internally using BiocParallel.
+
+  
+         
+        
+        
+         
+        
    
       
       
