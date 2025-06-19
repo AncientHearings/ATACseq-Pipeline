@@ -236,7 +236,32 @@ blacklist_file: "resources/blacklists/hg38-blacklist.bed"
 #params is used to make the shell command options dynamic.
 #Resource puts a limit on RAM usage. 
 
+#.............................................................
+#............................diffbind.........................
+#.............................................................
+#Configurations are in key-value pairs.
+output: 
+  diffbind_output: "results/diffbind"
+  
+threads: 
+  default: 2
+  diffbind: 4
+
+params: 
+  diffbind:
+     script: "scripts/diffbind/RScript"
+
+resources: 
+  mem_mb:
+   diffbind: 
+  time:      
+   diffbind: 
    
+#Configurations are in key-value pairs
+
+#...............................................................
+#...............................................................
+#...............................................................   
 
 
 
