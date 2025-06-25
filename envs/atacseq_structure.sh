@@ -45,7 +45,7 @@ for dir in */; do "touch ${dir}README.md"; done
 #................................Moving files into relevant sections................................................................
 
 #AlignmentAndPostAlignment
-mv bowtie2.yaml samtools_*.yaml picard_*.yaml bedtools  AlignmentAndPost*
+mv bowtie2.yaml samtools_*.yaml samtools_view.yaml  picard_*.yaml bedtools.yaml Picard_AlignmentSummaryMetrics.yaml  AlignmentAndPost*
 
 #QualityAndPreprocessing
 mv fastp.yaml fastqc.yaml multiqc.yaml qualimap_bamqc.yaml preseq.yaml  phantompeakqualtools.yaml QualityControl*
@@ -54,8 +54,8 @@ mv fastp.yaml fastqc.yaml multiqc.yaml qualimap_bamqc.yaml preseq.yaml  phantomp
 mv macs2_peakcall.yaml idr.yaml ChIPseeker.yaml diffbind.yaml PeakCalling*
 
 #VisualizationAndDownstream
-mv deepTools.yaml igvtools.yaml ChIPseeker.yaml  Visuali*
-mv preseq_visualization.yaml 
+mv deepTools.yaml igvtools.yaml ChIPseeker.yaml preseq_visualization.yaml  Visuali*
+ 
 
 
 echo "Operation Successfull"
