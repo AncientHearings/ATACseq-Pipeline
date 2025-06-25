@@ -1,0 +1,7 @@
+name: bwa_env
+channels: 
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - bwa 0.7.19 
