@@ -1,7 +1,0 @@
-name: minimap_env
-channels:
-  - bioconda
-  - conda-forge
-  - defaults
-dependencies:
-  - minimap 0.2 0
