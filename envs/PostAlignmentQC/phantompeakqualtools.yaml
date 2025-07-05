@@ -1,0 +1,7 @@
+name: phantompeakqualtools_env 
+channels: 
+  - bioconda 
+  - conda-forge 
+  - defaults
+dependencies: 
+  - phantompeakqualtools = 1.2.2
