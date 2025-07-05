@@ -1,0 +1,7 @@
+name: pygenometracks_env
+channels" 
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies: 
+  - pygenometracks = 3.9 

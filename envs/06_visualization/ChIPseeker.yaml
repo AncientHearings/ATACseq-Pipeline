@@ -1,0 +1,8 @@
+#/home/himanshu/ATACseq_Pipeline/envs/06_visualization
+name: chipseeker_env 
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies: 
+  - bioconductor-chipseeker = 1.42.0
