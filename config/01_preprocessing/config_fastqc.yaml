@@ -1,0 +1,12 @@
+fastqc:
+   input:
+      R1: "data/fastp/output/"
+      R2: "data/fastp/output/"
+   output: "data/fastqc/output/"
+   params:
+     threads: 
+        default: 2 #Assuming the user has atleast dual-core CPU 
+        
+    
+      
+     
