@@ -1,0 +1,12 @@
+minimap2:
+  input:
+    R1: "data/01_preprocessing/fastp/output/"
+    R2: "data/01_preprocessing/fastp/output/"
+  output: 
+    sam: "data/02_alignment/minimap2/output/"
+  params:
+    threads: 
+      default:2 
+    index: "data/02_alignment/minimap2/index/genome.mmi"
+    preset: "sr" #short reads
+    
