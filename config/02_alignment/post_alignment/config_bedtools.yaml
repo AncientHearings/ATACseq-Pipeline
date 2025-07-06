@@ -7,5 +7,4 @@ bedtools:
   params:
     threads:
       default: 2
-#output filtered peaks
-     
+#output filtered peaks     
