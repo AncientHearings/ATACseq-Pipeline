@@ -1,0 +1,16 @@
+fastp:
+   input: 
+      R1: "data/fastp/input"
+      R2: "data/fastp/input"
+   output:
+      R1_trimmed: "data/fastp/output/"
+      R2_trimmed: "data/fastp/output/"
+      html: "data/fastp/output/"
+      json: "data/fastp/output/"
+   params:
+      threads: 4
+      trim_front1: 5
+      trim_front2: 5
+      length_required: 30 
+       
+       
