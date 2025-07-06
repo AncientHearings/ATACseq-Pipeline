@@ -1,0 +1,10 @@
+bedtools:
+  input:
+    peaks: "data/04_peak_calling/macs2/input/"
+    blacklist: "data/02_alignment/post_alignment/bedtools/annotation/"
+  output: 
+     filtered_peaks: "data/02_alignment/post_alignment/bedtools/output/"
+  params:
+    threads:
+      default: 2
+     
