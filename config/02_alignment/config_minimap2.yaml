@@ -7,6 +7,6 @@ minimap2:
   params:
     threads: 
       default:2 
-    index: "data/02_alignment/minimap2/index/genome.mmi"
+    index: "data/02_alignment/minimap2/index/genome.mmi" #buit using minimap2-d genome.mmi genome.fa
     preset: "sr" #short reads
     
