@@ -1,0 +1,10 @@
+bowtie2:
+  input: 
+    R1: "data/01_preprocessing/fastp/output/"
+    R2: "data/01_preprocessing/fastp/output/"
+  output: "data/02_alignment/bowtie2/output/"
+  params:
+    index: "data/02_alignment/bowtie2/index/genome"
+    threads:
+      default: 2
+      
