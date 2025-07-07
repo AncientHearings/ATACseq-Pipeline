@@ -1,0 +1,11 @@
+idr:
+  input:
+    rep1_bed: "data/04_peak_calling/genrich/output/"
+    rep2_bed: "data/04_peak_calling/genrich/output/"
+  output:
+    result_dir: "data/04_peak_calling/idr/output/"
+  params:
+    threads:
+      default: 2 
+    peak_type: "narrow"
+    
