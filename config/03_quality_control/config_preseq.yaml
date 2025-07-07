@@ -1,0 +1,9 @@
+preseq:
+  input:
+    markdup_bam: "data/02_alignment/post_alignment/samtools/markdup/output"
+  output:
+    predicted_complexity: "data/03_quality_control/preseq/output/"
+  params:
+    threads:
+      default: 2
+      
