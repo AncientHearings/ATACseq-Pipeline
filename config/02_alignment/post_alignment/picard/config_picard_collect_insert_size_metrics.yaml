@@ -1,12 +1,13 @@
-picard_collect_alignment_summary_metrics:
+picard_collect_insert_size_metrics:
   input:
-    sorted_bam: "data/02_alignment/samtools/sort/output/"
+    bam_sorted: "data/02_alignment/samtools/sort/input/"
   output:
-    alignment_metrics: "data/02_alignment/picard_metrics/CollectInsertSizeMetrics/output/"
+    metrics: "data/02_alignment/picard_metrics/collect_insert_size_metrics/output/"
+    histogram: "data/02_alignment/picard_metrics/collect_insert_size_metrics/output/"
   params:
-    reference: "data/02_alignment/picard_metrics/CollectInsertSizeMetrics/reference/genome.fa"
-    threads:
-      default: 2 #Assuming that the user has atleast dual core CPU.
+    threads: 
+      deafult: 2
+    M: 0.5
     validation_stringency: LENIENT
-      
+    
     
