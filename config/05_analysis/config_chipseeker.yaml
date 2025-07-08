@@ -1,0 +1,11 @@
+chipseeker:
+  input:
+    peak_dir: "data/04_peak_Calling/macs/output/"
+  output:
+    annotation_dir: "data/05_analysis/chipseeker/output/"
+  params:
+    genome: "hg38"
+    threads:
+      default: 2
+    txdb: "org.Hs.eg.db"
+  
