@@ -1,0 +1,11 @@
+complexheatmap:
+  input:
+    OK
+  output:
+    heatmap_dir: "data/06_visualization/complexheatmap/output/"
+  params:
+    threads:
+      default: 2
+    palette: "RdBu"
+    cluster_rows: TRUE
+    cluster_cols: TRUE
