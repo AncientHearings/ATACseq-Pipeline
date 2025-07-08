@@ -1,0 +1,12 @@
+pygenometrack:
+  input:
+    track_file: "data/06_visualization/pygenometracks/input/"
+  output:
+    pdf: "data/06_visualization/pygenometracks/output/"
+  params:
+    threads:
+      default: 2
+    width: 10
+    dpi: 300
+    
+     
