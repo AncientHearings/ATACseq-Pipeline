@@ -23,3 +23,6 @@ rule all:
         
         #samtools_view
         expand("results/samtools_view/{sample}.filtered.bam", sample=SAMPLES), 
+        
+        #samtools stats
+        expand("results/samtools_stats/{sample}.stats.txt", sample=SAMPLES), 
