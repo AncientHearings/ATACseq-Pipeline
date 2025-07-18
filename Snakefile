@@ -8,14 +8,17 @@ rule all:
     input:
         #02_alignment
         #bowtie2
-        expand("results/output/{sample}.bam", samples=SAMPLES),
+        expand("results/output/{sample}.bam", sample=SAMPLES),
         
         #post_alignment
         #samtools
         #samtools_sort
-        expand("results/samtools_sort/{sample}.sorted.bam", samples=SAMPLES),
+        expand("results/samtools_sort/{sample}.sorted.bam", sample=SAMPLES),
         
         #samtools_index
-        expand("results/samtools_index/{sample}.sorted.bam.bai, samples=SAMPLES), 
+        expand("results/samtools_index/{sample}.sorted.bam.bai", sample=SAMPLES), 
+        
+        #samtools_markdup
+        expand("results/samtools_markdup/{sample}.dedup.bam", sample=SAMPLES), 
         
         
