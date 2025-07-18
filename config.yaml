@@ -1,267 +1,74 @@
-samples:  
- - ATAC_Rep1_ENCFF121EPT
+SAMPLES:
+  - sample1
+  - sample2
  
-#...................fastp....................................................
- dir_raw_data: "data/"
- dir_trimmed_data: "results/fastp"
- thread: 4
-
-
- 
-#...................For  bowtie2............................... 
-index_bowtie2:   "raw_data/genome/index/index"
-inputs_bowtie2:  "results/fastp/cleaned_reads"
-outputs_bowtie2: "results/aligned_reads"
-threads:          8
-
-
-#..................SAMTOOLS..................................
-#...................SAM TO BAM ..............................
-
-input_samtools_view: "results/aligned_reads"
-output_samtools_view: "results/samtools_view"
-
-#............................................................
-#.................SAMTOOLS...................................
-#..................SORT......................................
-
-input_samtools_sort: "results/samtools_view"
-output_samtools_sort: "results/samtools_sort"
-threads: 4
-
-
-#config.yaml file is a configuration file which has inputs and outputs paths , tools parameters and other settings to run the workflow dynamically.
-#It means that when others run the pipeline, they can edit the configuration file as per necessaties. 
-#There's no need to touch the code,  which the code remains clean and maintained allowing to be reproducible as the logical flowi.e., the algorithm issn't broke.
- #(Software Architecture (Separation of Concerns) which means that keep different reponsibilities in different places so we change one without disturbing the other. 
- 
- 
-
-#Reason for choosing the yaml format:
- 
-#Easy to read and clean makes knowing where to edit and what  with ease.
-#Multiple samples can be handles in simple, clear  structure. 
-#There's no need to quote any data type. YAML understands datatypes automatically.
-#Widely used in docker compose, github actions and kubernetes.
-#-Reliable and familiar.
-
-
-
-#...........................................................
-#........................SAMTOOLS...........................
-#.........................INDEX.............................
-input_samtools_index: "results/samtools_sort"
-output_samtools_index: "results/samtools_index"
-threads: 4
-#............................................................
-#............................................................
-#............................................................
-
-
-
-#............................................................
-#.........................samtools...........................
-#..........................markdup..........................
-input_1_samtools_markdup: "results/samtools_index"
-input_2_samtools_markdup: "results/samtools_sort" 
-output_samtools_markdup: "results/samtools_markdup"
-threads: 4
-#............................................................
-#............................................................
-#............................................................
-
-#............Post samtools markdup QC........................
-#The input variables  are comment out  because the inputs these can be accessed from the rule created for samtools markdup using the syntax rule.output.bam_markdup 
-
-
-
-
-
-#............................................................
-#.........................samtools.........................SAM..
-#..........................flagstat..........................
-#input_samtools_flagstat: "results/samtools_markdup"
-output_samtools_flagstat: "result/samtools_markdup_post_qc/samtools_flagstat"
-threads: 4
-#............................................................
-#............................................................
-#............................................................
-
-
-
-#............................................................
-#......................samtools..............................
-#........................stats...............................
-#Iput_1_samtools_stats: output_samtools_markdup #Wrong this #will be treated as a string value. 
-#input_samtools_stats:  "results/samtools_markdup"
-output_samtools_stats: "results/samtools_markdup/post_qc/samtools_stats"
-threads: 4
-#............................................................
-#.......................Picard...............................
-#............CollectALignmentSummaryMetrics..................
-#input_picard: "results/samtools_markdup"
-output_picard: "results/samtools_markdup_post_qc/picard"
-threads: 4
-#............................................................
-#............................................................
-#............................................................
-
-
-
-#............................................................
-#.......................qualimap bamqc.......................
-#............................................................
-#input_qualimap: "results/samtools_markdup"
-output_qualimap: "results/samtools_markdup_post_qc/qualimap"
-threads: 4
-#.............................................................
-#.............................................................
-#.............................................................
-
-
-
-
-#.............................................................
-#.....................picard..................................
-#.............CollectInsertSizeFragments......................
-
-output:
-  picard_CollectInsertSizeFragements: "results/
-  picard_CollectInsertSizeFragements/metrics"
-  picard_CollectInsertSizeFragements_visualization: "results/ 
-  picard_CollectInsertSizeFragements/Visualization"
-  
-threads: 4
-
-#...............................................................
-#...............................preseq.........................
-#..............................................................
-
-output: 
-  preseq: "results/preseq"
-
-threads: 4
-
-#...............................................................
-#..............................................................
-#..............................................................
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#.............................................................
-#.......................deeptools.............................
-#.......................bamCoverage...........................
-output_bamCoverge: "results/deeptools/bamCoverage"
-threads: 4 
-params: 
- binSize: x
- normalizeUsing: y  
-
-
-#Nested dictionary can be created i.e., key-value pairs under a key.
-
-#.............................................................
-#.............................................................
-#.............................................................
-
-
-
-#.............................................................
-#...........................macs2.............................
-#.......................peak calling..........................
-output_macs2_peak_calling : "results/macs2_peak_calling/"
-threads: 4 
-#.............................................................
-#.............................................................
-#.............................................................
-
-
-#To add configuration for dynamic pieces means to create an #object (config dictionary) and assign a value (setting YAML #keys) to it. The value can be changed as per requirement, and #the new value will be used in the rule, making the workflow #dynamic(rules react to changing configuration) by accessing the value using config[].
-#A central control(single source of truth) is established along with dynamic behavior.
-
-#.............................................................
-#.........................multiqc.............................
-#.............................................................
-#The input paths is not provided as they will be accessed from the  rules of the corresponding package software, for  whose outputs the multqc is used.
-output_multiqc:
-      html = "results/multiqc/html"
-      zip = "results/multiqc/zip"
-threads: 4
-#.............................................................
-#.............................................................
-#.............................................................
-
-
-#.............................................................
-#.........................bedtools............................
-#.............................................................
-output:
-   bedtools: "results/bedtools" 
-threads: 
-   defaults: 2
-   bedtools: 4
-
-resources:
-   bedtools: 
-      mem_mb: 1000
-      time: "00:10:00"
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+fastp:
+   input: 
+      R1: "data/fastp/input"
+      R2: "data/fastp/input"
+   output:
+      R1_trimmed: "results/fastp"
+      R2_trimmed: "results/fastp"
+      html: "results/fastp"
+      json: "results/fastp"
+   params:
+      threads: 4
+      trim_front1: 5
+      trim_front2: 5
+      length_required: 30 
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>       
+fastqc:
+   output: "results/fastqc"
+   params:
+     threads: 
+        default: 2 #Assuming the user has atleast dual-core CPU 
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+mitoATAC:
+  input: 
+  output: "data/01_preprocessing/mitoATAC/output"
+  params: 
+    threads: 
+      default: 2
+    mito_chr: "chrM"
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#02: ALIGNMENT 
+#bowtie2
+bowtie2:
+  input: 
+    R1: "data/01_preprocessing/fastp/output"
+    R2: "data/01_preprocessing/fastp/output"
+  output: "results/bowtie2"
+  params:
+    index: "data/02_alignment/bowtie2/index/genome"
+    threads:
+      default: 2
       
-params:
-   bedtools:
-     intersect_opt: "-v" #Reports only those entries in "-a" that don't overlap with "-b".
-     
-blacklist_file: "resources/blacklists/hg38-blacklist.bed"
-#ENCODE-defined Blacklisted regions
-#Clean snakefiles and centralized configs
-#..............................................................
-#.....
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#Post alignment
+#Samtools
+#samtools sort 
+samtools_sort:
+  input:
+    bam: "results/bowtie2"
+  output:
+    sorted_bam: "results/samtools_sort"   
+  params:
+    threads:
+      default: 2
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#samtools index
+samtools_index: 
+    input:
+        sorted: "results/samtools_sort"
+    output:
+        index: "results/samtools_index"
+    params:
+        threads:
+            default: 2 
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+                  
 
-
-#params is used to make the shell command options dynamic.
-#Resource puts a limit on RAM usage. 
-
-#.............................................................
-#............................diffbind.........................
-#.............................................................
-#Configurations are in key-value pairs.
-output: 
-  diffbind_output: "results/diffbind"
-  
-threads: 
-  default: 2
-  diffbind: 4
-
-params: 
-  diffbind:
-     script: "scripts/diffbind/RScript"
-
-resources: 
-  mem_mb:
-   diffbind: 
-  time:      
-   diffbind: 
-   
-#Configurations are in key-value pairs
-
-#...............................................................
-#...............................................................
-#...............................................................   
-
-
-
+             
+    
+             
