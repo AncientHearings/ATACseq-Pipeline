@@ -76,8 +76,18 @@ samtools_markdup:
   params:
     threads:
       default: 2
-      remove_duplicates: "r"s
+      remove_duplicates: "r"
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#samtools view
+samtools_view:
+   input:
+       markdup_bam: "results/samtools_markdup"
+   output:
+       filtered_bam: "results/samtools_view"
+   params:
+       threads: 
+           default: 2
+       MAPQ: 30
+       flags: 1804
+       
     
-             
-    
-             
