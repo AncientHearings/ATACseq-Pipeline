@@ -21,4 +21,5 @@ rule all:
         #samtools_markdup
         expand("results/samtools_markdup/{sample}.dedup.bam", sample=SAMPLES), 
         
-        
+        #samtools_view
+        expand("results/samtools_view/{sample}.filtered.bam", sample=SAMPLES), 
