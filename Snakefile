@@ -14,3 +14,8 @@ rule all:
         #samtools
         #samtools_sort
         expand("results/samtools_sort/{sample}.sorted.bam", samples=SAMPLES),
+        
+        #samtools_index
+        expand("results/samtools_index/{sample}.sorted.bam.bai, samples=SAMPLES), 
+        
+        
