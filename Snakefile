@@ -26,3 +26,7 @@ rule all:
         
         #samtools stats
         expand("results/samtools_stats/{sample}.stats.txt", sample=SAMPLES), 
+        
+        #picard CollectAlignmentSummaryMetrics
+        expand("results/picard/CollectAlignmentSummaryMetrics/{sample}.alignment_metrics.txt", sample=SAMPLES), 
+        
