@@ -1,3 +1,5 @@
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 SAMPLES: 
     - sample1
     - sample2
@@ -29,4 +31,8 @@ rule all:
         
         #picard CollectAlignmentSummaryMetrics
         expand("results/picard/CollectAlignmentSummaryMetrics/{sample}.alignment_metrics.txt", sample=SAMPLES), 
+        
+        #picard CollectInsertSizeMetrics
+        expand("results/picard/CollectInsertSizeMetrics/{sample}.insert_metrics.txt", sample=SAMPLES),
+        expand("results/picard/CollectInsertSizeMetrics/{sample}.alignment_metrics.pdf", sample=SAMPLES), 
         
