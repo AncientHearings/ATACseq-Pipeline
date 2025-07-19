@@ -1,0 +1,38 @@
+rule picard_CollectAlignmentSummaryMetrics:
+    input:
+        filtered_bam=lambda wildcards: config['picard_collect_alignment_summary_metrics']['input']['filtered_bam'] +  "{wildcards.sample}.filtered.bam"
+        
+    output:
+        alignment_metrics=config['picard_collect_alignment_summary_metrics']['output']['alignment_metrics'] + "/{sample}.alignment_metrics.txt"
+        
+    params:
+        reference_genome=config['picard_collect_alignment_summary_metrics']['params']['reference_genome'], 
+        validation_stringency=config['picard_collect_alignment_summary_metrics']['params']['validation_stringency']
+        
+    benchmark:
+        "../benchmarks/picard/CollectAlignmentSummaryMetrics/{sample}.txt"
+        
+    log:
+        stdout="../logs/picard/CollectAlignmentSummaryMetrics/stdout/{sample}.out", 
+        stderr="../logs/picard/CollectAlignmentSummaryMetrics/stderr/{sample}.err"
+        
+    conda:
+        "../envs/02_alignment/post_alignment/picard/picard_metrics.yaml"
+        
+    threads:
+        config['picard_collect_alignment_summary_metrics']['params']['threads']['default']
+        
+    message:
+        "Providing Alignment Summary Metrics..."
+        
+    shell:
+        """
+        picard CollectAlignmentSummaryMetrics \
+        -@ {threads} \
+        I={input.filtered_bam} \
+        O={output.alignment_metrics} \
+        R={params.reference_genome} \
+        VALIDATION_STRINGENCY={params.validation_stringency} \
+        > {log.stdout} \
+        2> {log.stderr} 
+        """   
