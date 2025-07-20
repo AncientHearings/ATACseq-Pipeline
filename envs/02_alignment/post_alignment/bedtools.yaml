@@ -1,3 +1,4 @@
+#/home/himanshu/ATACseq_Pipeline/envs/02_alignment/post_alignment
 name: bedtools_env 
 channels: 
   - bioconda
