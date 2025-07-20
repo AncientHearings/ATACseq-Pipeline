@@ -141,5 +141,16 @@ tn5_shift:
             default: 2
 #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>                            
-           
+#bedtools genomecove 
+bedtools_genomecov:
+  input:
+        sorted_bam: "results/samtools_sort" 
+  output: 
+        bedgraph: "results/bedtools_genomecov"
+  params:
+    genome: "data/bedtools/reference/genome.chrom.sizes"
+    threads:
+      default: 2
+    extra: "-bg"
+#output filtered peaks                
     
