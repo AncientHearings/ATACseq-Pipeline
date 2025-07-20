@@ -6,6 +6,19 @@ SAMPLES:
 
 configfile: "../config.yaml"
 
+include: "../rule/bowtie2.smk"
+include: "../rule/samtools_sort.smk"
+include: "../rule/samtools_index.smk"
+include: "../rule/samtools_markdup.smk"
+include: "../rule/samtools_view.smk"
+include: "../rule/samtools_stats.smk"
+include: "../rule/picard_CollectAlignmentSummaryMetrics.smk"
+include: "../rule/picard_CollectInsertSizerMetrics.smk"
+include: "../rule/tn5_shift.smk"
+include: "../rule/bedtools_genomecov.smk"
+
+
+
 rule all:
     input:
         #02_alignment
@@ -35,4 +48,12 @@ rule all:
         #picard CollectInsertSizeMetrics
         expand("results/picard/CollectInsertSizeMetrics/{sample}.insert_metrics.txt", sample=SAMPLES),
         expand("results/picard/CollectInsertSizeMetrics/{sample}.alignment_metrics.pdf", sample=SAMPLES), 
+        
+        #tn5 shift
+        expand("results/tn5_shift/{sample}.shifted.bam", sample=SAMPLE), 
+        expand("results/tn5_shift/{sample}.shifted.bam.bai", sample=SAMPLE),
+        
+        #bedtools_genomecov
+        expand("results/bedtools_genomecov/{sample}.bedgraph", sample=SAMPLES), 
+        
         
