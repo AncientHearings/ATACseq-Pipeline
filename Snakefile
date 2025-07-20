@@ -50,10 +50,10 @@ rule all:
         expand("results/picard/CollectInsertSizeMetrics/{sample}.alignment_metrics.pdf", sample=SAMPLES), 
         
         #tn5 shift
-        expand("results/tn5_shift/{sample}.shifted.bam", sample=SAMPLE), 
-        expand("results/tn5_shift/{sample}.shifted.bam.bai", sample=SAMPLE),
+        expand("results/tn5_shift/{sample}.shifted.bam", sample=SAMPLES), 
+        expand("results/tn5_shift/{sample}.shifted.bam.bai", sample=SAMPLES),
         
         #bedtools_genomecov
         expand("results/bedtools_genomecov/{sample}.bedgraph", sample=SAMPLES), 
         
-        
+         
