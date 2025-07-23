@@ -6,17 +6,19 @@ SAMPLES:
 
 configfile: "../config.yaml"
 
-include: "../rule/bowtie2.smk"
-include: "../rule/samtools_sort.smk"
-include: "../rule/samtools_index.smk"
-include: "../rule/samtools_markdup.smk"
-include: "../rule/samtools_view.smk"
-include: "../rule/samtools_stats.smk"
-include: "../rule/picard_CollectAlignmentSummaryMetrics.smk"
-include: "../rule/picard_CollectInsertSizerMetrics.smk"
-include: "../rule/tn5_shift.smk"
-include: "../rule/bedtools_genomecov.smk"
-
+include: "../rules/bowtie2.smk"
+include: "../rules/samtools_sort.smk"
+include: "../rules/samtools_index.smk"
+include: "../rules/samtools_markdup.smk"
+include: "../rules/samtools_view.smk"
+include: "../rules/samtools_stats.smk"
+include: "../rules/picard_CollectAlignmentSummaryMetrics.smk"
+include: "../rules/picard_CollectInsertSizerMetrics.smk"
+include: "../rules/tn5_shift.smk"
+include: "../rules/samtools_markdup.smk"
+include: "../rules/samtools_index_post_markdup.smk"
+include: "../rules/bedtools_genomecov.smk"
+include: "../rules/sorted_bedgraph.smk"
 
 
 rule all:
@@ -52,8 +54,14 @@ rule all:
         
         #samtools_markdup
         expand("results/samtools_markdup/{sample}.dedup.bam", sample=SAMPLES), 
+        
+        #samtools_index_post_markdup
+        expand("results/samtools_index/post_markdup/{sample}dedup.bam.index", sample=SAMPLES), 
                 
         #bedtools_genomecov
         expand("results/bedtools_genomecov/{sample}.bedgraph", sample=SAMPLES), 
+        
+        #sorted bedgraph
+        expand("results/sorted_bedgraph/{sample}.sorted.bedGraph", sample=SAMPLES),
         
          
