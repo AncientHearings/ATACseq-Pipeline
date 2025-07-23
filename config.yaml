@@ -161,7 +161,7 @@ bedtools_genomecov:
   output: 
         bedgraph: "results/bedtools_genomecov"
   params:
-    genome: "data/bedtools/reference/genome.chrom.sizes"
+    genome: "data/reference/genome.chrom.sizes"
     threads:
       default: 2
     extra: "-bg"
@@ -180,4 +180,19 @@ sorted_bedgraph:
         memory_mb: 2G
 #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-        
+#Notes:
+#“The configuration file is an arbitrary YAML or JSON file #that provides a dictionary for global variables.”       
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#bedgraph to bigwig conversion 
+bigwig: 
+    input:
+        sorted_bedgraph: "results/sorted_bedgraph_file"
+    output:
+        bigwig: "results/bigwig"
+    params:
+        threads:
+            default: 2
+        genome: ""data/reference/genome.chrom.sizes"
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>s
