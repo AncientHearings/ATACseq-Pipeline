@@ -19,7 +19,7 @@ include: "../rules/samtools_markdup.smk"
 include: "../rules/samtools_index_post_markdup.smk"
 include: "../rules/bedtools_genomecov.smk"
 include: "../rules/sorted_bedgraph.smk"
-
+include: "../rules/
 
 rule all:
     input:
@@ -62,6 +62,10 @@ rule all:
         expand("results/bedtools_genomecov/{sample}.bedgraph", sample=SAMPLES), 
         
         #sorted bedgraph
-        expand("results/sorted_bedgraph/{sample}.sorted.bedGraph", sample=SAMPLES),
+        expand("results/sorted_bedgraph_file/{sample}.sorted.bedGraph", sample=SAMPLES),
         
-         
+        #bigwig conversion
+        expand("results/bigwig/{sample}.bw", sample=SAMPLES), 
+        
+        
+
