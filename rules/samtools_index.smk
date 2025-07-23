@@ -1,6 +1,6 @@
 rule samtools_index:
     input:
-        sorted_bam=lambda wildcards: config['samtools_index']['input']['sorted'] + "/{wildcards.sample}.sorted.bam"
+        sorted_bam=lambda wildcards: f"config['samtools_index']['input']['sorted']/{wildcards.sample}.sorted.bam"
         
     output:
         indexed_bam=config['samtools_index']['output']['index'] + "/{wildcards.sample}.sorted.bam.bai"
@@ -9,8 +9,7 @@ rule samtools_index:
         "benchmarks/samtools_index/{sample}.txt"
         
     log:
-        stdout="logs/samtools_index/stdout/{sample}.out"
-        stderr="logs/samtools_index/stderr/{sample}.err"
+        "logs/samtools_index/{sample}.err"
         
     conda:
         "envs/02_alignment/post_alignment/samtools/samtools.yaml"
@@ -26,7 +25,6 @@ rule samtools_index:
         samtools \
         -@ {threads} \
         {input.sorted_bam}\
-        > {log.stdout} \
         2> {log.stderr}
         """
          
