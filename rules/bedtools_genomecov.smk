@@ -1,6 +1,6 @@
 rule bedtools_genomecov:
     input:
-        sorted_bam=lambda wildcards: f"{config['bedtool_genomecov']['input']['sorted_bam']}+"/{wildcards.sample}.sorted.bam"
+        sorted_bam=lambda wildcards: f"{config['bedtool_genomecov']['input']['dedup_bam']}/{wildcards.sample}.dedup.bam"
         
     output:
         bedgraph=config['bedtools_genomecov']['output']['bedgraph']+"/{sample}.bedgraph"
