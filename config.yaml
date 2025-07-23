@@ -172,7 +172,7 @@ bedtools_genomecov:
 sorted_bedgraph:
     input: 
         bedgraph: "results/bedtools_genomecov"
-    output:s
+    output:
         sorted_bedgraph: "results/sorted_bedgraph_file"
     params:
         threads: 
