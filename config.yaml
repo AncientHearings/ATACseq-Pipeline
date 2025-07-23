@@ -166,4 +166,18 @@ bedtools_genomecov:
       default: 2
     extra: "-bg"
 #output filtered peaks                
-    
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#sorted bedgraph files
+sorted_bedgraph:
+    input: 
+        bedgraph: "results/bedtools_genomecov"
+    output:s
+        sorted_bedgraph: "results/sorted_bedgraph_file"
+    params:
+        threads: 
+            default: 2
+        memory_mb: 2G
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+        
