@@ -1,6 +1,6 @@
 rule samtools_markdup:
     input:
-        sorted_bam=lambda wildcards: config['samtools_index']['input']['sorted'] + "/{wildcards.sample}.sorted.bam"
+        shifted_bam=lambda wildcards: config['tn5_shift']['output']['shifted_bam'] + "/{wildcards.sample}.shifted.bam"
         
     output:
         deduplicated_bam=config['samtools_markdup']['output']['markdup_bam'] + "/{wildcards.sample}.dedup.bam"
@@ -12,8 +12,7 @@ rule samtools_markdup:
         "benchmarks/samtools_markdup/{sample}.txt"
         
     log:
-        stdout="logs/samtools_markdup/stdout/{sample}.out"
-        stderr="logs/samtools_markdup/stderr/{sample}.err"
+        "logs/samtools_markdup/stderr/{sample}.err"
         
     conda:
         "envs/02_alignment/post_alignment/samtools/samtools.yaml"
@@ -31,6 +30,5 @@ rule samtools_markdup:
         -@ {threads} \
         {input.sorted_bam} \
         {output.deduplicated_bam} \
-        > {log.stdout} \
         2> {log.stderr}
         """
