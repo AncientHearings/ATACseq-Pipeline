@@ -1,6 +1,6 @@
 rule samtools_markdup:
     input:
-        shifted_bam=lambda wildcards: config['tn5_shift']['output']['shifted_bam'] + "/{wildcards.sample}.shifted.bam"
+        shifted_bam=lambda wildcards: f"config['tn5_shift']['output']['shifted_bam']/{wildcards.sample}.shifted.bam"
         
     output:
         deduplicated_bam=config['samtools_markdup']['output']['markdup_bam'] + "/{wildcards.sample}.dedup.bam"
