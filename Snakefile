@@ -33,9 +33,6 @@ rule all:
         #samtools_index
         expand("results/samtools_index/{sample}.sorted.bam.bai", sample=SAMPLES), 
         
-        #samtools_markdup
-        expand("results/samtools_markdup/{sample}.dedup.bam", sample=SAMPLES), 
-        
         #samtools_view
         expand("results/samtools_view/{sample}.filtered.bam", sample=SAMPLES), 
         
@@ -53,6 +50,9 @@ rule all:
         expand("results/tn5_shift/{sample}.shifted.bam", sample=SAMPLES), 
         expand("results/tn5_shift/{sample}.shifted.bam.bai", sample=SAMPLES),
         
+        #samtools_markdup
+        expand("results/samtools_markdup/{sample}.dedup.bam", sample=SAMPLES), 
+                
         #bedtools_genomecov
         expand("results/bedtools_genomecov/{sample}.bedgraph", sample=SAMPLES), 
         
