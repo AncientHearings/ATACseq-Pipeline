@@ -67,16 +67,6 @@ samtools_index:
         threads:
             default: 2 
 #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-#samtools markdup                 
-samtools_markdup:
-  input:
-    sorted_bam: "results/samtools_sort"
-  output:
-    markdup_bam: "results/samtools_markdup"
-  params:
-    threads:
-      default: 2
-      remove_duplicates: "r"
 #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #samtools view
 samtools_view:
@@ -141,10 +131,33 @@ tn5_shift:
             default: 2
 #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>                            
+               
+samtools_markdup:
+  input:
+    sorted_bam: "results/tn5_shift"
+  output:
+    markdup_bam: "results/samtools_markdup"
+  params:
+    threads:
+      default: 2
+      remove_duplicates: "r"
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>            
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>         
+samtools_index_post_markdup: 
+    input:
+        markdup: "results/samtools_markdup"
+    output:
+        index: "results/samtools_index"
+    params:
+        threads:
+            default: 2 
+            #samtools markdup  
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #bedtools genomecove 
 bedtools_genomecov:
   input:
-        sorted_bam: "results/samtools_sort" 
+        dedup_bam: "results/samtools_index" 
   output: 
         bedgraph: "results/bedtools_genomecov"
   params:
