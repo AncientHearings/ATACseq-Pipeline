@@ -1,40 +1,36 @@
 rule bowtie2_align: 
     input:
-        R1_fastp=lambda wildcards: "config['bowtie2']['input']["R1"]" + "{wildcards.sample}_R1.fastq.gz", 
-        R2_fastp=lambda wildcards: "config['bowtie2']['input']["R2"]" + "{wildcards.sample}_R2.fastq.gz"
+        R1_fastp=lambda wildcards: f"{config['bowtie2']['input']}/{wildcards.sample}_R1_trimmed.fastq.gz", 
+        R2_fastp=lambda wildcards: f"{config['bowtie2']['input']}/{wildcards.sample}_R2_trimmed.fastq.gz"
         
     output:
-        BAM="config['bowtie2']['output']" + "{sample}.bam"
+        BAM=config['bowtie2']['output'] + "/{sample}.bam"
         
     params:
         index = config['bowtie2']['params']['index']        
     
     benchmark: 
-        "benchmarks/bowtie2/{sample}.txt"
+        "../benchmarks/bowtie2/{sample}.txt"
         
     log: 
-        stdout="log/bowtie2/stdout/{sample}.out", 
-        stderr="log/bowtie2/stderr/{sample}.err"
+        "../log/bowtie2/{sample}.err"
         
     conda: 
-        "envs/02_alignment/bowtie2.yaml"
+        "../envs/02_alignment/bowtie2.yaml"
         
-    threads:
-        config['bowtie2']['params']['threads']
+    threads: config['bowtie2']['params']['threads']
         
-     message:
-        "Aligning reads..."
+    message:
+        "Aligning reads on {wildcards.sample}..."
          
-     shell:
-        """
+    shell:
+        r"""
         bowtie2 -x {params.index} \
         -1 {input.R1_fastp} \
         -2 {input.R2_fastp} \
-        --threads {threads} \        
-        2> {log.stderr} | \
+        --threads {threads} 2> {log.stderr} | \
         samtools view -Sb - > {output.BAM} \
-        2> {log.stderr} \
-        > {log.stdout}
+        2>> {log} \
         """
          
          
