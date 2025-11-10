@@ -1,0 +1,8 @@
+#/home/himanshu/ATACseq_Pipeline/envs/02_alignment/post_alignment
+name: tobigwig_env
+channels:
+    - bioconda
+    - conda-forge
+    - defaults
+dependencies:
+    - ucsc-bedgraphtobigwig

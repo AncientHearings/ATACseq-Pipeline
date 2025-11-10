@@ -1,0 +1,8 @@
+#/home/himanshu/ATACseq_Pipeline/envs/PeakCallingAndAnalysis/05_analysis
+name: ChIPsekeer.yaml 
+channels: 
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies: 
+  - bioconductor-chipseeker = 1.42.0

@@ -1,0 +1,9 @@
+#/home/himanshu/ATACseq_Pipeline/envs/06_visualization
+name: deeptools_env 
+channels: 
+  - bioconda 
+  - conda-forge 
+  - defaults
+dependencies: 
+  - deeptools
+  - samtools

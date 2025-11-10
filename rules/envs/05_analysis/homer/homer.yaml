@@ -1,0 +1,8 @@
+#/home/himanshu/ATACseq_Pipeline/envs/PeakCallingAndAnalysis/05_analysis
+name: HOMER_env 
+channels: 
+  - bioconda 
+  - conda-forge 
+  - defaults
+dependencies:
+  - homer

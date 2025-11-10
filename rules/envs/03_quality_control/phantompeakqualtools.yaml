@@ -1,0 +1,8 @@
+#/home/himanshu/ATACseq_Pipeline/envs/03_quality_control
+name: phantompeakqualtools_env 
+channels: 
+  - conda-forge 
+  - bioconda
+  - defaults
+dependencies: 
+  - phantompeakqualtools

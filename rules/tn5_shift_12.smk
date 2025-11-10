@@ -1,0 +1,37 @@
+rule tn5_shift:
+    input:
+        filtered_bam=lambda wildcards: f"{config['tn5_shift']['input']['filtered_bam']}/{wildcards.sample}.filtered.bam", 
+        filtered_bam_index=lambda wildcards: f"{config['samtools_index_post_filter']['output']['filtered_bam_indexed']}/{wildcards.sample}.filtered.bam.bai"
+                
+    output:
+        shifted_filtered_bam=f"{config['tn5_shift']['output']['shifted_bam']}/{{sample}}.filtered.shifted.bam",
+        shifted_filtered_bam_index=f"{config['tn5_shift']['output']['shifted_bam_index']}/{{sample}}.filtered.shifted.bam.bai"
+        
+    resources:
+        mem_mb=config['tn5_shift']['resources']['mem_mb'], 
+        time=config['tn5_shift']['resources']['time']
+
+    benchmark:
+        "benchmarks/tn5_shift/{sample}.txt"
+        
+    log:
+        "logs/tn5_shift/{sample}.err"
+        
+    conda:
+        "envs/06_visualization/deeptools.yaml"
+        
+    threads:
+        config['tn5_shift']['threads']
+        
+    message:
+        "[TN5 SHIFT: Adjusting ATAC-seq read positions by +4-5 bp to reflect true Tn5 cut sites] SAMPLE:  {wildcards.sample}| INPUT: {input.filtered_bam} {input.filtered_bam_index} | OUTPUT: {output.shifted_filtered_bam} {output.shifted_filtered_bam_index}"
+        
+    shell:
+        """
+        alignmentSieve --ATACshift \
+           -b {input.filtered_bam} \
+           -o {output.shifted_filtered_bam}.unsorted \
+           -p {threads} \
+           2> {log}  && \
+        samtools sort -o {output.shifted_filtered_bam} {output.shifted_filtered_bam}.unsorted && rm -rf {output.shifted_filtered_bam}.unsorted && samtools index {output.shifted_filtered_bam} 
+        """

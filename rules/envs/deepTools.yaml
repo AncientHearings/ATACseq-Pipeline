@@ -1,0 +1,10 @@
+#/home/himanshu/ATACseq_Pipeline/envs/deepTools.yaml 
+name: deeptools_env
+channels: 
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - deeptools
+   
+
