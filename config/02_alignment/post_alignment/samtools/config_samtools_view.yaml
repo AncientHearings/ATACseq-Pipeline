@@ -1,9 +1,0 @@
-samtools_view:
-  input:
-    sam_dir: "data/02_alignment/bwa/output/"
-  output:
-    bam_dir: "data/02_alignment/post_alignment/samtools/view/"
-  params:
-    threads: 
-      default: 2
-    
