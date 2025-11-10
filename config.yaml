@@ -1,0 +1,539 @@
+samples: 
+    - sample1
+    - sample2
+    - sample3
+    - sample4
+    - sample5
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#01
+#fastp_01
+fastp:
+  input:
+    sample1:
+      R1: "data/fastp/input/sample1_R1.fastq.gz"
+      R2: "data/fastp/input/sample1_R2.fastq.gz"
+    sample2:
+      R1: "data/fastp/input/sample2_R1.fastq.gz" 
+      R2: "data/fastp/input/sample2_R2.fastq.gz"
+    sample3:
+      R1: "data/fastp/input/sample3_R1.fastq.gz"
+      R2: "data/fastp/input/sample3_R2.fastq.gz"
+    sample4:
+      R1: "data/fastp/input/sample4_R1.fastq.gz"
+      R2: "data/fastp/input/sample4_R2.fastq.gz"
+    sample5:
+      R1: "data/fastp/input/sample5_R1.fastq.gz"
+      R2: "data/fastp/input/sample5_R2.fastq.gz"
+  output:
+    dir: "results/fastp"
+  params:
+    trim_front1: 5
+    trim_front2: 5
+    length_required: 30 
+  threads: 4
+  resources:
+    mem_mb: 8000
+    time: "02:00:00"
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>       
+#02
+#fastqc_02
+fastqc:
+  input:
+    R1: "results/fastp"
+    R2: "results/fastp"
+  output: "results/fastqc"
+  threads: 4
+  resources:
+    mem_mb: 2000
+    time: "00:30:00"
+
+    # Assuming the user has atleast dual-core CPU 
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+# 02:ALIGNMENT 
+#03
+# bowtie2_03
+bowtie2:
+  input: "results/fastp"
+  output: "results/bowtie2"
+  params:
+    index: "data/02_alignment/bowtie2/index/genome"
+  threads: 4
+  sensitive: "--very-sensitive"
+  resources:
+    mem_mb: 8000
+    time: "02:00:00"
+    
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+# Post alignment
+# Samtools
+#04
+# samtools sort_04
+samtools_sort:
+  input:
+    unsorted_bam: "results/bowtie2"
+  output:
+    sorted_bam: "results/samtools_sort"   
+  threads: 4
+  resources:
+    mem_mb: 8000
+    time: "02:00:00"
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   
+#Calculate_mito_reads_05
+mitoATAC_calculate:
+  input: 
+    sorted_bam: "results/samtools_sort"
+  output: 
+    mito_stats: "results/mito-ATAC"
+  params: 
+    mito_chr: "MT" 
+  threads: 2
+  resources:
+    mem_mb: 2000
+    time: "00:30:00"
+
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   
+#06
+remove_mito_reads:
+  input:
+    sorted_bam: "results/samtools_sort"
+  output: 
+    noMT_sorted_bam: "results/remove_mito_reads"
+  threads: 2
+  resources:
+    mem_mb: 2000
+    time: "00:30:00"
+  params: 
+    mito_chr: "MT"
+
+    
+#Note: Mitochondrial genes are labelled differently across different genome assemblies.   
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+# samtools index 07
+samtools_index: 
+  input:
+    sorted_bam_noMT: "results/remove_mito_reads"
+  output:
+    index: "results/samtools_index"
+  threads: 2
+  resources:
+    mem_mb: 2000
+    time: "00:30:00"
+
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+# Pre Markdup (08)
+samtools_fixmate:
+    input:
+        sorted_bam_noMT: "results/remove_mito_reads"
+    output:
+        sorted_bam_noMT_fixmate: "results/samtools_fixmate"
+    threads: 2 
+    resources:
+        mem_mb: 2000
+        time: "00:30:00"
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#08
+samtools_markdup:
+  input:
+    sorted_bam_noMT_fixmate: "results/samtools_fixmate"
+  output:
+    markdup_bam: "results/samtools_markdup"
+  params:
+    remove_duplicates: "r"
+  threads: 4
+  resources:
+    mem_mb: 8000
+    time: "02:00:00"
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#09
+samtools_index_post_markdup: 
+  input:
+    markdup_bam: "results/samtools_markdup"
+  output:
+    index: "results/samtools_index/post_markdup"
+  threads: 2
+  resources:
+    mem_mb: 2000
+    time: "00:30:00"
+
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#10
+#samtools view
+samtools_view:
+  input:
+    markdup_bam: "results/samtools_markdup"
+  output:
+    filtered_bam: "results/samtools_view"
+  params:
+    MAPQ: 30
+    flags:  3844
+  threads: 2
+  resources:
+    mem_mb: 2000
+    time: "00:30:00"
+
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#11
+samtools_index_post_filter:
+  input: 
+    filtered_bam: "results/samtools_view"
+  output:
+    filtered_bam_indexed: "results/samtools_view"
+  threads: 2
+  resources:
+    mem_mb: 2000
+    time: "00:30:00"
+
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#12
+# tn5 shift 
+tn5_shift:
+  input:
+    filtered_bam: "results/samtools_view"
+  output:
+    shifted_bam: "results/tn5_shift"
+    shifted_bam_index: "results/tn5_shift"
+  threads: 4
+  resources:
+    mem_mb: 4000
+    time: "00:30:00"
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#13
+# samtools statistics
+samtools_stats:
+  input:
+    filtered_bam: "results/samtools_view"
+  output:
+    stats: "results/samtools_stats"
+  threads: 2
+  resources:
+    mem_mb: 2000
+    time: "00:30:00"
+
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#14
+fragment_size_analysis: 
+  input: 
+    metrics: "results/picard/CollectInsertSizeMetrics"
+  output: "results/fragment_size_analysis" 
+  threads: 4
+  params:
+    min_length: 30
+    max_length: 1000
+    max_fragment: 1000
+  resources:
+    mem_mb: 4000
+    time: "01:00:00"  
+
+
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#15
+# Picard 
+# Picard Collect Alignment Summary Metrics 
+picard_collect_alignment_summary_metrics:
+  input:
+    markdup_bam: "results/samtools_markdup"
+  output:
+    alignment_metrics: "results/picard/CollectAlignmentSummaryMetrics"
+  params:
+    reference_genome: "data/reference/genome.fa"
+    validation_stringency: "LENIENT"
+  threads: 4
+  resources:
+    mem_mb: 4000
+    time: "01:00:00"
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#16
+# picard 
+# Picard Collect Insert Size Metrics         
+picard_collect_insert_size_metrics:
+  input:
+    markdup_bam: "results/samtools_markdup"
+  output:
+    metrics: "results/picard/CollectInsertSizeMetrics"
+    histogram: "results/picard/CollectInsertSizeMetrics"
+  params:
+    M: 0.05
+    validation_stringency: "LENIENT"
+  threads: 4
+  resources:
+    mem_mb: 4000
+    time: "01:00:00"
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#17
+tss_enrichment:
+  input: 
+    shifted_bam: "results/tn5_shift"
+    shifted_bam_index: "results/tn5_shift"
+  output: "results/tss_enrichment"
+  script: "scripts/tss_enrichment.R"
+  threads: 4
+  params:
+    txdb: "TxDb.Hsapiens.UCSC.hg38.knownGene"
+    upstream: 2000
+    downstream: 2000
+  resources:
+    mem_mb: 4000
+    time: "01:00:00"
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#18
+# bedtools genomecov 
+bedtools_genomecov:
+  input:
+    shifted_bam: "results/tn5_shift" 
+  output: 
+    bedgraph: "results/bedtools_genomecov"
+  params:
+    #genome: "data/reference/genome.chrom.sizes"
+    extra: "-bg"
+  threads: 4
+  resources:
+    mem_mb: 4000
+    time: "01:00:00"
+
+# output filtered peaks                
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#19
+# sorted bedgraph files
+sorted_bedgraph:
+  input: 
+    bedgraph: "results/bedtools_genomecov"
+  output:
+    sorted_bedgraph: "results/sorted_bedgraph_file"
+  params:
+    mem_mb: "2G"
+  threads: 4
+  resources:
+    mem_mb: 4000
+    time: "01:00:00"
+
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+# Notes:
+# "The configuration file is an arbitrary YAML or JSON file that provides a dictionary for global variables."       
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#20
+# bedgraph to bigwig conversion 
+bigwig: 
+  input:
+    sorted_bedgraph: "results/sorted_bedgraph_file"
+  output:
+    bigwig: "results/bigwig"
+  params:
+    genome: "data/reference/genome.chrom.sizes"
+  threads: 4
+  resources:
+    mem_mb: 4000
+    time: "01:00:00"
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#21
+correlation_analysis:
+  input: 
+    bigwig: "results/bigwig"
+  output: "results/correlation_analysis"
+  params: 
+    bin_size: 1000
+  threads: 4
+  resources:
+    mem_mb: 8000
+    time: "02:00:00"
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#22
+normalized_coverage:
+  input:
+    shifted_bam: "results/tn5_shift"
+  output:
+    normalized_coverage: "results/normalized_coverage"
+  params:
+    method: "CPM"
+  threads: 4
+  resources:
+    mem_mb: 8000
+    time: "02:00:00"
+
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#23
+macs_peakcall:
+  input:
+    shifted_bam: "results/tn5_shift"
+  output: 
+    peaks: "results/macs2_peakcall"
+  params:
+    genome_size: "hs"
+    qvalue: 0.01
+    nomodel: "--nomodel"  # Skip MACS2's model-based fragment length estimation 
+    format: "BAMPE"
+  threads: 8
+  resources:
+    mem_mb: 16000
+    time: "04:00:00"
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#24
+blacklist_region_filter:
+  input:
+    peaks: "results/macs2_peakcall"
+  output:
+    filtered_peaks: "results/filtered_peaks"
+  params:
+    blacklist: "data/reference/ENCODE_blacklist.bed"
+  threads: 4
+  resources:
+    mem_mb: 8000
+    time: "02:00:00"
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#25
+heatmap:
+  input:
+    filtered_peaks: "results/filtered_peaks"
+    bigwig: "results/bigwig" 
+  output:
+    plot: "results/heatmap/plot"
+    matrix: "results/heatmap/matrix"
+    regions: "results/heatmap"
+    color: "coolwarm"
+  threads: 8
+  resources:
+    mem_mb: 16000
+    time: "04:00:00"
+  params: 
+    upstream: 3000
+    downstream: 3000
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#26
+frip_calculation:
+  input:
+    filtered_peaks: "results/filtered_peaks"
+    shifted_bam: "results/tn5_shift"
+  output: "results/frip_calculation"
+  threads: 4
+  resources:
+    mem_mb: 2000
+    time: "00:15:00"
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#27
+peak_annotation:
+  input:
+    filtered_peaks: "results/filtered_peaks"
+  output: "results/peak_annotation" 
+  params:
+    gff: "data/reference/annotation.gtf"
+    genome: "data/reference/genome.fa"
+    feature_types: "gene, exon, CDS"
+  threads: 8
+  resources:
+    mem_mb: 16000
+    time: "04:00:00"
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#28
+motif_analysis:
+  input:
+    filtered_peaks: "results/filtered_peaks"
+    genome: "data/reference/genome.fa"
+  output: "results"
+  threads: 8
+  resources:
+    mem_mb: 16000
+    time: "04:00:00"
+  params:
+    motif_db: "data/motifs/jaspar_vertebrates.meme"
+
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#29
+# phantompeakqualtools
+#phantompeakqualtools:
+#  input:
+#    indexed_dedup: "results/samtools_index/post_markdup"
+#    dedup_bam: "results/samtools_markdup"
+#  output:
+#    qc_metrics: "results/phantompeakqualtools"
+#  threads: 8
+#  resources:
+#    mem_mb: 16000
+#    time: "04:00:00"
+
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#30
+# preseq
+preseq:
+  input: 
+    markdup_bam: "results/samtools_markdup"
+    markdup_bam_index: "results/samtools_index/post_markdup"
+  output:
+    predicted_complexity: "results/preseq"
+  resources:
+    mem_mb: 4000
+    time: "01:00:00"  
+
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+  
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>    
+             
+  
+#31
+qualimap_bamqc:
+  input:
+    markdup_bam: "results/samtools_markdup"
+  output:
+    qc_dir: "results/qualimap"
+  threads: 4
+  resources:
+    mem_mb: 4000
+    time: "01:00:00"
+
+         
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>    
+           
+
+    
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#32
+# multiqc
+multiqc:
+  input:
+    reports_dir: "results/"
+  output:
+    report: "results/multiqc"
+  threads: 2
+  resources:
+    mem_mb: 2000
+    time: "00:30:00"
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
