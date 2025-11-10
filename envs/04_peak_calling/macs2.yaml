@@ -1,9 +1,0 @@
-#/home/himanshu/ATACseq_Pipeline/envs/04_peak_calling
-name: macs2_peakcall_env 
-channels: 
-  - bioconda
-  - conda-forge 
-  - defaults
-dependencies: 
-  - macs2 = 2.2.9.1
-  
