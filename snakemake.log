@@ -1,0 +1,2857 @@
+nohup: ignoring input
+Assuming unrestricted shared filesystem usage.
+host: mangala-OptiPlex-Tower-7010
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 32
+Rules claiming more threads will be scaled down.
+Job stats:
+job                                      count
+-------------------------------------  -------
+all                                          1
+bedtools_genomecov                           5
+bigwig_conversion                            5
+blacklist_region_filter                      5
+calculate_mito_reads                         4
+correlation_analysis                         1
+fragment_size_analysis                       5
+frip_calculation                             5
+heatmap                                      5
+macs2_peak_calling                           5
+motif_analysis                               1
+multiqc                                      1
+normalize_coverage                           5
+peak_annotation                              5
+picard_CollectAlignmentSummaryMetrics        5
+picard_CollectInsertSizeMetrics              5
+preseq                                       5
+qualimap_bamqc                               4
+remove_mito_reads                            4
+samtools_fixmate                             4
+samtools_index                               4
+samtools_index_post_filter                   5
+samtools_index_postmarkdup                   5
+samtools_markdup                             4
+samtools_sort                                4
+samtools_stats                               5
+samtools_view                                5
+sorted_bedgraph                              5
+tn5_shift                                    5
+tss_enrichment                               5
+total                                      127
+
+Select jobs to execute...
+Execute 8 jobs...
+
+[Mon Oct 27 13:50:44 2025]
+Job 19: [SAMTOOLS SORT] SAMPLE: sample4| INPUT: results/bowtie2/sample4.bam| OUTPUT: results/samtools_sort/sample4.sorted.bam
+Reason: Missing output files: results/samtools_sort/sample4.sorted.bam; Updated input files: results/bowtie2/sample4.bam
+Shell command: 
+        samtools sort         -@ 4         -O BAM         -o results/samtools_sort/sample4.sorted.bam         results/bowtie2/sample4.bam
+        2> logs/samtools_sort/sample4.err 
+        
+
+[Mon Oct 27 13:50:44 2025]
+Job 16: [SAMTOOLS SORT] SAMPLE: sample1| INPUT: results/bowtie2/sample1.bam| OUTPUT: results/samtools_sort/sample1.sorted.bam
+Reason: Missing output files: results/samtools_sort/sample1.sorted.bam; Updated input files: results/bowtie2/sample1.bam
+Shell command: 
+        samtools sort         -@ 4         -O BAM         -o results/samtools_sort/sample1.sorted.bam         results/bowtie2/sample1.bam
+        2> logs/samtools_sort/sample1.err 
+        
+Activating conda environment: .snakemake/conda/f643f69ae64517e5ef0de044b5130840_
+Activating conda environment: .snakemake/conda/f643f69ae64517e5ef0de044b5130840_
+
+[Mon Oct 27 13:50:44 2025]
+Job 20: [SAMTOOLS SORT] SAMPLE: sample5| INPUT: results/bowtie2/sample5.bam| OUTPUT: results/samtools_sort/sample5.sorted.bam
+Reason: Missing output files: results/samtools_sort/sample5.sorted.bam; Updated input files: results/bowtie2/sample5.bam
+Shell command: 
+        samtools sort         -@ 4         -O BAM         -o results/samtools_sort/sample5.sorted.bam         results/bowtie2/sample5.bam
+        2> logs/samtools_sort/sample5.err 
+        
+Activating conda environment: .snakemake/conda/f643f69ae64517e5ef0de044b5130840_
+
+[Mon Oct 27 13:50:44 2025]
+Job 48: [SAMTOOLS INDEX POST MARKDUP] SAMPLE: sample3| INPUT: results/samtools_markdup/sample3_noMT.sorted.dedup.bam| OUTPUT: results/samtools_index/post_markdup/sample3_noMT.sorted.dedup.bam.bai
+Reason: Missing output files: results/samtools_index/post_markdup/sample3_noMT.sorted.dedup.bam.bai; Updated input files: results/samtools_markdup/sample3_noMT.sorted.dedup.bam
+Shell command: 
+        samtools index         -@ 2         results/samtools_markdup/sample3_noMT.sorted.dedup.bam        results/samtools_index/post_markdup/sample3_noMT.sorted.dedup.bam.bai         2> logs/samtools_index/post_markdup/sample3.err
+        
+Activating conda environment: .snakemake/conda/f643f69ae64517e5ef0de044b5130840_
+
+[Mon Oct 27 13:50:45 2025]
+Job 53: [SAMTOOLS VIEW] SAMPLE: sample3 | INPUT: results/samtools_markdup/sample3_noMT.sorted.dedup.bam | OUTPUT: results/samtools_view/sample3.filtered.bam| MINIMUM MAPQ: 30 | FILTER FLAGS: 3844
+Reason: Missing output files: results/samtools_view/sample3.filtered.bam; Updated input files: results/samtools_markdup/sample3_noMT.sorted.dedup.bam
+Shell command: 
+        samtools view         -@ 2         -b         -q 30         -F 3844         -f 2         results/samtools_markdup/sample3_noMT.sorted.dedup.bam         -o results/samtools_view/sample3.filtered.bam         2> logs/samtools_view/sample3.out
+        
+Activating conda environment: .snakemake/conda/f643f69ae64517e5ef0de044b5130840_
+
+[Mon Oct 27 13:50:45 2025]
+Job 76: [PICARD COLLECTINSERTSIZEMETRICS] SAMPLES: sample3| INPUT: results/samtools_markdup/sample3_noMT.sorted.dedup.bam| OUTPUT: results/picard/CollectInsertSizeMetrics/sample3.insert_metrics.txt results/picard/CollectInsertSizeMetrics/sample3.insert_histogram.pdf|m: 0.05| VALIDATION STRINGENCY: LENIENT
+Reason: Missing output files: results/picard/CollectInsertSizeMetrics/sample3.insert_histogram.pdf, results/picard/CollectInsertSizeMetrics/sample3.insert_metrics.txt; Updated input files: results/samtools_markdup/sample3_noMT.sorted.dedup.bam
+Shell command: 
+        VERSION=$(picard --help  2>&1 | head -n 1 || echo "Picard Version Unknown")
+        echo "PICARD VERSION: ${VERSION}" >> logs/picard/CollectInsertSizeMetrics/sample3.err
+        
+        set -e
+        
+        picard CollectInsertSizeMetrics         --INPUT results/samtools_markdup/sample3_noMT.sorted.dedup.bam         --OUTPUT results/picard/CollectInsertSizeMetrics/sample3.insert_metrics.txt         --Histogram_FILE results/picard/CollectInsertSizeMetrics/sample3.insert_histogram.pdf         --M 0.05         --VALIDATION_STRINGENCY LENIENT         2>> logs/picard/CollectInsertSizeMetrics/sample3.err
+
+        EXIT_STATUS=$?
+        if [ ${EXIT_STATUS} -eq 0 ]; then
+           echo "SUCCESSFUL; EXIST STATUS: ${EXIT_STATUS}"
+        else 
+           echo "UNSUCCESSFUL; EXIT_STATUS: ${EXIT_STATUS}"
+        fi  
+
+        
+Activating conda environment: .snakemake/conda/9405cd868047d2fe8f3f1111d9c470e3_
+
+[Mon Oct 27 13:50:45 2025]
+Job 83: [PICARD COLLECTALIGNMENTSUMMARYMETRICS] SAMPLE: sample3| INPUT: results/samtools_markdup/sample3_noMT.sorted.dedup.bam| OUTPUT: results/picard/CollectAlignmentSummaryMetrics/sample3.alignment_metrics.txt| REFERENCE GENOME: data/reference/genome.fa| VALIDATION STRINGENCY: LENIENT.
+Reason: Missing output files: results/picard/CollectAlignmentSummaryMetrics/sample3.alignment_metrics.txt; Updated input files: results/samtools_markdup/sample3_noMT.sorted.dedup.bam
+Shell command: 
+        PICARD_VERSION=$(picard --help 2>&1 | head -n 1 || echo "Picard Version Unknown" )
+        echo "PICARD VERSION: ${PICARD_VERSION}" >> logs/picard/CollectAlignmentSummaryMetrics/sample3.err
+        
+        set -e 
+        
+        picard CollectAlignmentSummaryMetrics         --INPUT results/samtools_markdup/sample3_noMT.sorted.dedup.bam         --OUTPUT results/picard/CollectAlignmentSummaryMetrics/sample3.alignment_metrics.txt         --REFERENCE_SEQUENCE data/reference/genome.fa         --VALIDATION_STRINGENCY LENIENT         2>> logs/picard/CollectAlignmentSummaryMetrics/sample3.err 
+
+        EXIT_STATUS=$?
+        if [ "${EXIT_STATUS}" -eq 0 ]; then 
+           echo "SUCCESSFULL; EXIT STATUS: ${EXIT_STATUS}" >> logs/picard/CollectAlignmentSummaryMetrics/sample3.err
+        else 
+           echo "UNSUCCESSFULL; EXIT STATUS:  ${EXIT_STATUS}" >> logs/picard/CollectAlignmentSummaryMetrics/sample3.err
+        fi  
+        
+Activating conda environment: .snakemake/conda/9405cd868047d2fe8f3f1111d9c470e3_
+
+[Mon Oct 27 13:50:45 2025]
+Job 17: [SAMTOOLS SORT] SAMPLE: sample2| INPUT: results/bowtie2/sample2.bam| OUTPUT: results/samtools_sort/sample2.sorted.bam
+Reason: Missing output files: results/samtools_sort/sample2.sorted.bam; Updated input files: results/bowtie2/sample2.bam
+Shell command: 
+        samtools sort         -@ 4         -O BAM         -o results/samtools_sort/sample2.sorted.bam         results/bowtie2/sample2.bam
+        2> logs/samtools_sort/sample2.err 
+        
+Activating conda environment: .snakemake/conda/f643f69ae64517e5ef0de044b5130840_
+[Mon Oct 27 13:50:46 2025]
+Finished jobid: 48 (Rule: samtools_index_postmarkdup)
+1 of 127 steps (1%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Oct 27 13:50:46 2025]
+Job 140: [Preseq Sample: sample3 | Markedup Bam Index: results/samtools_index/post_markdup/sample3_noMT.sorted.dedup.bam.bai , Markedup Bam: results/samtools_markdup/sample3_noMT.sorted.dedup.bam | Complexity: results/preseq/sample3.ccurve.txt | Extra: lc_extrap ]
+Reason: Missing output files: results/preseq/sample3.ccurve.txt; Input files updated by another job: results/samtools_index/post_markdup/sample3_noMT.sorted.dedup.bam.bai
+Shell command: 
+        preseq lc_extrap             -B results/samtools_markdup/sample3_noMT.sorted.dedup.bam             -o results/preseq/sample3.ccurve.txt             2> logs/preseq/sample3.err || (echo "Preseq failed on sample3." >> logs/preseq/sample3.err; true)
+        
+Activating conda environment: .snakemake/conda/5edd171b66acd7342610fe482ab097b8_
+[bam_sort_core] merging from 0 files and 4 in-memory blocks...
+[Mon Oct 27 13:50:51 2025]
+Finished jobid: 53 (Rule: samtools_view)
+2 of 127 steps (2%) done
+Select jobs to execute...
+Execute 2 jobs...
+
+[Mon Oct 27 13:50:51 2025]
+Job 58: [SAMTOOLS INDEX POST FILTER] SAMPLE: sample3| INPUT: results/samtools_view/sample3.filtered.bam| OUTPUT: results/samtools_view/sample3.filtered.bam.bai
+Reason: Missing output files: results/samtools_view/sample3.filtered.bam.bai; Input files updated by another job: results/samtools_view/sample3.filtered.bam
+Shell command: 
+        samtools index         -@ 2         results/samtools_view/sample3.filtered.bam         results/samtools_view/sample3.filtered.bam.bai         2> logs/samtools_index_post_filter/sample3.out
+        
+Activating conda environment: .snakemake/conda/f643f69ae64517e5ef0de044b5130840_
+
+[Mon Oct 27 13:50:51 2025]
+Job 68: [SAMTOOLS STATISTICS] SAMPLE: sample3| INPUT: results/samtools_view/sample3.filtered.bam| OUTPUT: results/samtools_stats/sample3_postFiltering.stats.txt
+Reason: Missing output files: results/samtools_stats/sample3_postFiltering.stats.txt; Input files updated by another job: results/samtools_view/sample3.filtered.bam
+Shell command: 
+        samtools stats         -@ 2         results/samtools_view/sample3.filtered.bam         > results/samtools_stats/sample3_postFiltering.stats.txt         2> logs/samtools_stats/sample3.err 
+        
+Activating conda environment: .snakemake/conda/f643f69ae64517e5ef0de044b5130840_
+[Mon Oct 27 13:50:53 2025]
+Finished jobid: 58 (Rule: samtools_index_post_filter)
+3 of 127 steps (2%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Oct 27 13:50:53 2025]
+Job 63: [TN5 SHIFT: Adjusting ATAC-seq read positions by +4-5 bp to reflect true Tn5 cut sites] SAMPLE:  sample3| INPUT: results/samtools_view/sample3.filtered.bam results/samtools_view/sample3.filtered.bam.bai | OUTPUT: results/tn5_shift/sample3.filtered.shifted.bam results/tn5_shift/sample3.filtered.shifted.bam.bai
+Reason: Missing output files: results/tn5_shift/sample3.filtered.shifted.bam, results/tn5_shift/sample3.filtered.shifted.bam.bai; Input files updated by another job: results/samtools_view/sample3.filtered.bam.bai, results/samtools_view/sample3.filtered.bam
+Shell command: 
+        alignmentSieve --ATACshift            -b results/samtools_view/sample3.filtered.bam            -o results/tn5_shift/sample3.filtered.shifted.bam.unsorted            -p 4            2> logs/tn5_shift/sample3.err  &&         samtools sort -o results/tn5_shift/sample3.filtered.shifted.bam results/tn5_shift/sample3.filtered.shifted.bam.unsorted && rm -rf results/tn5_shift/sample3.filtered.shifted.bam.unsorted && samtools index results/tn5_shift/sample3.filtered.shifted.bam 
+        
+Activating conda environment: .snakemake/conda/ec40e494b5a7b344ab1489fc1aae2631_
+SUCCESSFUL; EXIST STATUS: 0
+[Mon Oct 27 13:50:54 2025]
+Finished jobid: 76 (Rule: picard_CollectInsertSizeMetrics)
+4 of 127 steps (3%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Oct 27 13:50:54 2025]
+Job 75: [FRAGMENT SIZE ANALYSIS] SAMPLES: sample3| INPUT: results/picard/CollectInsertSizeMetrics/sample3.insert_metrics.txt| OUTPUT: results/fragment_size_analysis/sample3_fragment_sizes.txt results/fragment_size_analysis/sample3_fragment.png results/fragment_size_analysis/sample3_fragment_stats.txt|MIN LENGTH: 30| MAX LENGTH: 1000| MAX FRAGMENT: 1000 
+Reason: Missing output files: results/fragment_size_analysis/sample3_fragment_sizes.txt, results/fragment_size_analysis/sample3_fragment_stats.txt, results/fragment_size_analysis/sample3_fragment.png; Input files updated by another job: results/picard/CollectInsertSizeMetrics/sample3.insert_metrics.txt
+Shell command: 
+        echo '
+        # Read Picard insert size metrics
+        data <- read.table("results/picard/CollectInsertSizeMetrics/sample3.insert_metrics.txt", header=TRUE, skip=10)
+        fragments <- data$insert_size
+    
+        # Write fragment sizes
+        write.table(fragments, "results/fragment_size_analysis/sample3_fragment_sizes.txt", row.names=FALSE, col.names=FALSE, quote=FALSE)
+    
+        # Generate histogram
+        png("results/fragment_size_analysis/sample3_fragment.png")
+        hist(fragments, main="Fragment Size Distribution", xlab="Fragment Size (bp)", col="skyblue", breaks=50)
+        dev.off()
+    
+        # Generate statistics
+        stats_summary <- c(
+              paste("Total_fragments:", length(fragments)),
+              paste("Mean_size:", round(mean(fragments), 2)),
+              paste("Min_size:", min(fragments)),
+              paste("Max_size:", max(fragments))
+        )
+        writeLines(stats_summary, "results/fragment_size_analysis/sample3_fragment_stats.txt")
+        ' | Rscript - 2> logs/fragment_size_analysis/sample3.err
+        
+Activating conda environment: .snakemake/conda/f643f69ae64517e5ef0de044b5130840_
+null device 
+          1 
+[Mon Oct 27 13:50:59 2025]
+Finished jobid: 68 (Rule: samtools_stats)
+5 of 127 steps (4%) done
+[Mon Oct 27 13:51:00 2025]
+Finished jobid: 75 (Rule: fragment_size_analysis)
+6 of 127 steps (5%) done
+[Mon Oct 27 13:51:04 2025]
+Finished jobid: 140 (Rule: preseq)
+7 of 127 steps (6%) done
+[Mon Oct 27 13:51:42 2025]
+Finished jobid: 19 (Rule: samtools_sort)
+8 of 127 steps (6%) done
+Select jobs to execute...
+Execute 2 jobs...
+
+[Mon Oct 27 13:51:42 2025]
+Job 24: [MITOCHONDRIAL READS] SAMPLES: sample4|INPUT: results/samtools_sort/sample4.sorted.bam|OUTPUT: results/mito-ATAC/sample4_mito_stats.txt|PATTERN: MT
+Reason: Missing output files: results/mito-ATAC/sample4_mito_stats.txt; Input files updated by another job: results/samtools_sort/sample4.sorted.bam
+Shell command: 
+        #Index BAM if not already indexed
+            if [ ! -f results/samtools_sort/sample4.sorted.bam.bai ]; then
+                samtools index results/samtools_sort/sample4.sorted.bam
+            fi
+        
+            # Total mapped reads (excluding unmapped)
+            total=$(samtools view -c -F 4 results/samtools_sort/sample4.sorted.bam)
+        
+            # Mitochondrial reads
+            mito=0
+            if [ "${total}" -ne 0 ]; then
+                mito=$(samtools view -c results/samtools_sort/sample4.sorted.bam MT)
+            fi
+        
+            # Calculate fraction
+            fraction=0
+            if [ "${total}" -gt 0 ]; then
+                fraction=$(echo "scale=6; ${mito} / ${total}" | bc -l)
+            fi
+        
+            echo "Total Reads: ${total}" > results/mito-ATAC/sample4_mito_stats.txt
+            echo "Mito Reads: ${mito}" >> results/mito-ATAC/sample4_mito_stats.txt
+            echo "Mito Fraction: ${fraction}" >> results/mito-ATAC/sample4_mito_stats.txt
+
+          
+Activating conda environment: .snakemake/conda/f643f69ae64517e5ef0de044b5130840_
+
+[Mon Oct 27 13:51:42 2025]
+Job 29: [REMOVE MITOCHONDRIAL READS] SAMPLE: sample4| INPUT: results/samtools_sort/sample4.sorted.bam|OUTPUT: results/remove_mito_reads/sample4_noMT.sorted.bam| PATTERN: MT|
+Reason: Missing output files: results/remove_mito_reads/sample4_noMT.sorted.bam; Input files updated by another job: results/samtools_sort/sample4.sorted.bam
+Shell command: 
+        samtools view -h results/samtools_sort/sample4.sorted.bam |         awk -v mito_chr="MT" 'BEGIN {OFS="\t"} /^@/ || $3 !~ mito_chr {print $0}' |         samtools sort -@ 2 -o results/remove_mito_reads/sample4_noMT.sorted.bam -
+        
+        echo "Complete mitochondrial removal for sample4" &>> logs/remove_mito_reads/sample4_noMT_sorted_bam.err
+        
+Activating conda environment: .snakemake/conda/f643f69ae64517e5ef0de044b5130840_
+[Mon Oct 27 13:52:04 2025]
+Finished jobid: 24 (Rule: calculate_mito_reads)
+9 of 127 steps (7%) done
+[bam_sort_core] merging from 8 files and 4 in-memory blocks...
+[bam_sort_core] merging from 8 files and 4 in-memory blocks...
+[Mon Oct 27 13:52:29 2025]
+Finished jobid: 83 (Rule: picard_CollectAlignmentSummaryMetrics)
+10 of 127 steps (8%) done
+[bam_sort_core] merging from 2 files and 2 in-memory blocks...
+[Mon Oct 27 13:53:41 2025]
+Finished jobid: 63 (Rule: tn5_shift)
+11 of 127 steps (9%) done
+Select jobs to execute...
+Execute 3 jobs...
+
+[Mon Oct 27 13:53:42 2025]
+Job 108: [Normalize Coverage] Sample: sample3 | Shifted Bam: results/tn5_shift/sample3.filtered.shifted.bam | NormalizedCoverage: results/normalized_coverage/sample3_CPM.bw |Method: CPM]...
+Reason: Missing output files: results/normalized_coverage/sample3_CPM.bw; Input files updated by another job: results/tn5_shift/sample3.filtered.shifted.bam
+Shell command: 
+         bamCoverage              -b results/tn5_shift/sample3.filtered.shifted.bam              -o results/normalized_coverage/sample3_CPM.bw              --normalizeUsing CPM              --numberOfProcessors 4              2> logs/normalized_coverage/sample3.err
+         
+Activating conda environment: .snakemake/conda/f7b3b8b13f4f1fe77b942c40f0294d92_
+
+[Mon Oct 27 13:53:42 2025]
+Job 114: [MACS2 PEAKCALLING] SAMPLE:  sample3 | Markdup_Bam: results/tn5_shift/sample3.filtered.shifted.bam | Peaks: results/macs2_peakcall/sample3_peaks.narrowPeak | Genome Size: hs | QVal: 0.01 | Nomodel: --nomodel | Model: BAMPE]
+Reason: Missing output files: results/macs2_peakcall/sample3_peaks.narrowPeak; Input files updated by another job: results/tn5_shift/sample3.filtered.shifted.bam
+Shell command: 
+        macs2 callpeak             -t results/tn5_shift/sample3.filtered.shifted.bam             -f BAMPE             -g hs             -n sample3             --outdir results/macs2_peakcall             --nomodel             -q 0.01             2> logs/macs2/sample3.err
+                
+         
+Activating conda environment: .snakemake/conda/c9cbbff4550f687a57c0c3cc891bb015_
+
+[Mon Oct 27 13:53:42 2025]
+Job 88: [TSS ENRICHMENT] SAMPLE: sample3| INPUT: results/tn5_shift/sample3.filtered.shifted.bam results/tn5_shift/sample3.filtered.shifted.bam.bai | OUTPUT: results/tss_enrichment/sample3_tss_enrichment.txt results/tss_enrichment/sample3_tss_enrichment.pdf| T XDB: TxDb.Hsapiens.UCSC.hg38.knownGene| UPSTREAM: 2000| DOWNSTREAM: 2000  
+Reason: Missing output files: results/tss_enrichment/sample3_tss_enrichment.txt, results/tss_enrichment/sample3_tss_enrichment.pdf; Input files updated by another job: results/tn5_shift/sample3.filtered.shifted.bam.bai, results/tn5_shift/sample3.filtered.shifted.bam
+Shell command: 
+        Rscript -e '
+        suppressPackageStartupMessages({
+            library(ATACseqQC)
+            library(GenomicFeatures)
+            library(GenomicAlignments)
+            library(Rsamtools)
+            library(TxDb.Hsapiens.UCSC.hg38.knownGene)
+        })
+    
+        bamfile <- "results/tn5_shift/sample3.filtered.shifted.bam"
+        out_text <- "results/tss_enrichment/sample3_tss_enrichment.txt"
+        out_pdf <- "results/tss_enrichment/sample3_tss_enrichment.pdf"
+    
+        cat("Starting TSS enrichment analysis...\n")
+    
+        # Define standard chromosomes WITHOUT chr prefix
+        standard_chroms <- c(1:22, "X", "Y", "MT")
+    
+        # Load transcript database and create TSS regions
+        cat("Loading transcript database...\n")
+        txdb <- TxDb.Hsapiens.UCSC.hg38.knownGene
+        txs <- transcripts(txdb)
+        tss_regions <- promoters(txs, upstream=2000, downstream=2000)
+    
+        # Convert TSS regions to NCBI style (no chr prefix) to match BAM
+        cat("Converting chromosome names to match BAM...\n")
+        seqlevelsStyle(tss_regions) <- "NCBI"
+    
+        # Filter to standard chromosomes
+        tss_regions <- keepSeqlevels(tss_regions, standard_chroms, pruning.mode="coarse")
+    
+        cat("TSS regions prepared:", length(tss_regions), "regions\n")
+    
+        # Read ONLY TSS regions, not entire chromosomes!
+        cat("Reading BAM file (TSS regions only)...\n")
+        param <- ScanBamParam(which=tss_regions)  # KEY FIX!
+        bam <- readGAlignments(bamfile, param=param)
+    
+        cat("Loaded", length(bam), "alignments near TSS regions\n")
+    
+        if (length(bam) == 0) {
+            stop("No alignments loaded from BAM file near TSS regions")
+        }
+    
+        # Clean up seqlevels
+        seqlevels(bam, pruning.mode="coarse") <- standard_chroms
+    
+        # Calculate TSS enrichment score and create plot
+        cat("Calculating TSS enrichment score...\n")
+        
+        tsse_result <- TSSEscore(bam, txs=tss_regions)
+        
+        # Extract the score
+        if (is.list(tsse_result)) {
+            tsse_score <- tsse_result$TSSEscore
+        } else {
+            tsse_score <- tsse_result
+        }
+        
+        cat("TSS Enrichment Score:", tsse_score, "\n")
+    
+        # Generate plot
+        pdf(out_pdf, width=10, height=6)
+        tryCatch({
+            plot_result <- TSSEscoreplot(bam, txs=tss_regions)
+            title(main=paste0("sample3 - TSS Score: ", round(tsse_score, 3)))
+        }, error=function(e) {
+            plot(1, type="n", xlab="", ylab="", axes=FALSE)
+            text(1, 1, paste0("TSS Score: ", round(tsse_score, 3)), cex=2)
+        })
+        dev.off()
+    
+        # Save results
+        result_df <- data.frame(
+            Sample="sample3", 
+            TSS_Enrichment=tsse_score,
+            Total_Alignments=length(bam)
+        )
+        
+        write.table(result_df, file=out_text, sep="\t", quote=FALSE, row.names=FALSE)
+    
+        cat("Analysis complete!\n")
+        ' 2>&1 | tee logs/tss_enrichment/sample3.err
+        
+Activating conda environment: .snakemake/conda/b880f52961a4dffddafca22da9c98fef_
+Select jobs to execute...
+There were 16 warnings (use warnings() to see them)
+Starting TSS enrichment analysis...
+Loading transcript database...
+[bam_sort_core] merging from 28 files and 4 in-memory blocks...
+Warning message:
+In valid.GenomicRanges.seqinfo(x, suggest.trim = TRUE) :
+  GRanges object contains 272 out-of-bound ranges located on sequences
+  chr1_GL383518v1_alt, chr1_KI270762v1_alt, chr2_GL383522v1_alt,
+  chr2_KI270774v1_alt, chr3_KI270777v1_alt, chr3_KI270781v1_alt,
+  chr4_GL000257v2_alt, chr4_KI270788v1_alt, chr5_GL339449v2_alt,
+  chr5_KI270795v1_alt, chr5_KI270898v1_alt, chr6_GL000250v2_alt,
+  chr6_GL000254v2_alt, chr6_GL000255v2_alt, chr6_KI270797v1_alt,
+  chr6_KI270798v1_alt, chr6_KI270801v1_alt, chr7_GL383534v2_alt,
+  chr7_KI270803v1_alt, chr7_KI270806v1_alt, chr7_KI270809v1_alt,
+  chr8_KI270815v1_alt, chr9_GL383540v1_alt, chr9_GL383541v1_alt,
+  chr9_GL383542v1_alt, chr9_KI270823v1_alt, chr10_GL383546v1_alt,
+  chr11_JH159136v1_alt, chr11_KI270831v1_alt, chr11_KI270902v1_alt,
+  chr12_GL383551v1_alt, chr12_GL383553v2_alt, chr12_GL877876v1_alt,
+  chr12_KI270834v1_alt, chr12_KI270904v1_alt, chr13_KI270838v1_alt,
+  chr14_KI270847v1_alt, chr15_GL383555v2_alt, chr15_KI270848v1_alt,
+  chr15_KI270850v1_alt, chr15_KI270851v1_alt, chr15_KI270906v1_alt,
+  chr [... truncated]
+Converting chromosome names to match BAM...
+[Mon Oct 27 13:54:10 2025]
+Finished jobid: 114 (Rule: macs2_peak_calling)
+12 of 127 steps (9%) done
+Execute 2 jobs...
+
+[Mon Oct 27 13:54:10 2025]
+Job 119: [Bedtools intersect] Sample: sample3 | Peaks: results/macs2_peakcall/sample3_peaks.narrowPeak | Filtered Peaks: results/filtered_peaks/sample3_filtered_peaks.bed | Blacklist: data/reference/ENCODE_blacklist.bed
+Reason: Missing output files: results/filtered_peaks/sample3_filtered_peaks.bed; Input files updated by another job: results/macs2_peakcall/sample3_peaks.narrowPeak
+Shell command: 
+        awk 'BEGIN {OFS="\t"} {if ($1 ~ /^[0-9]+$/ || $1 == "X" || $1 == "Y" || $1 == "MT") $1="chr"$1; print}' results/macs2_peakcall/sample3_peaks.narrowPeak > results/macs2_peakcall/sample3_peaks.narrowPeak.tmp &&         bedtools intersect -v             -a results/macs2_peakcall/sample3_peaks.narrowPeak.tmp              -b data/reference/ENCODE_blacklist.bed         > results/filtered_peaks/sample3_filtered_peaks.bed 
+        2> logs/blacklist_region_filter/sample3.err 
+         
+        rm -rf results/macs2_peakcall/sample3_peaks.narrowPeak.tmp
+        
+
+[Mon Oct 27 13:54:10 2025]
+Job 93: [bedtools genomecov] sample: sample3 | BAM : results/tn5_shift/sample3.filtered.shifted.bam| Output: results/bedtools_genomecov/sample3.bedGraph...
+Reason: Missing output files: results/bedtools_genomecov/sample3.bedGraph; Input files updated by another job: results/tn5_shift/sample3.filtered.shifted.bam
+Shell command: 
+        bedtools genomecov           -ibam results/tn5_shift/sample3.filtered.shifted.bam           -bg           > results/bedtools_genomecov/sample3.bedGraph           2> logs/bedtools_genomecov/sample3.err
+        
+Activating conda environment: .snakemake/conda/56cef8899ac977f0ac1fc76bacccdfab_
+Activating conda environment: .snakemake/conda/56cef8899ac977f0ac1fc76bacccdfab_
+***** WARNING: File results/macs2_peakcall/sample3_peaks.narrowPeak.tmp has inconsistent naming convention for record:
+GL000216.2	165567	165792	sample3_peak_5824	21	.	3.616	5.31262	2.15182	112
+
+***** WARNING: File results/macs2_peakcall/sample3_peaks.narrowPeak.tmp has inconsistent naming convention for record:
+GL000216.2	165567	165792	sample3_peak_5824	21	.	3.616	5.31262	2.15182	112
+
+[Mon Oct 27 13:54:11 2025]
+Finished jobid: 119 (Rule: blacklist_region_filter)
+13 of 127 steps (10%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Oct 27 13:54:11 2025]
+Job 129: [FRiP calculation] Sample: sample3 | Peaks: results/filtered_peaks/sample3_filtered_peaks.bed | BAM: results/tn5_shift/sample3.filtered.shifted.bam | Output: results/frip_calculation/sample3_frip.txt
+Reason: Missing output files: results/frip_calculation/sample3_frip.txt; Input files updated by another job: results/filtered_peaks/sample3_filtered_peaks.bed, results/tn5_shift/sample3.filtered.shifted.bam
+Shell command: 
+        (
+        sed 's/^chr//g' results/filtered_peaks/sample3_filtered_peaks.bed > results/filtered_peaks/sample3_filtered_peaks.bed.nochr
+        total_fragments=$(samtools view -c -f 64 results/tn5_shift/sample3.filtered.shifted.bam)
+        fragments_in_peaks=$(bedtools coverage -a results/filtered_peaks/sample3_filtered_peaks.bed.nochr -b results/tn5_shift/sample3.filtered.shifted.bam | awk '{sum += $11} END {print sum+0}')
+        frip=$(echo "scale=6; ${fragments_in_peaks} / ${total_fragments}" | bc)
+        echo -e "FRiP	$frip"  > results/frip_calculation/sample3_frip.txt
+        echo -e "..................................................................." >> results/frip_calculation/sample3_frip.txt
+        echo -e "Sample\tTotal_Reads\tReads_in_Peaks\tFRiP_Score" >> results/frip_calculation/sample3_frip.txt
+        echo -e "sample3\t$total_fragments\t$fragments_in_peaks\t$frip" >> results/frip_calculation/sample3_frip.txt
+        ) 2> logs/frip/sample3.err        
+        
+Activating conda environment: .snakemake/conda/56cef8899ac977f0ac1fc76bacccdfab_
+Select jobs to execute...
+[Mon Oct 27 13:54:11 2025]
+Finished jobid: 29 (Rule: remove_mito_reads)
+14 of 127 steps (11%) done
+Execute 2 jobs...
+
+[Mon Oct 27 13:54:11 2025]
+Job 34: [SAMTOOLS INDEX] SAMPLE: sample4| INPUT: results/remove_mito_reads/sample4_noMT.sorted.bam| OUTPUT: results/samtools_index/sample4_noMT.sorted.bam.bai
+Reason: Missing output files: results/samtools_index/sample4_noMT.sorted.bam.bai; Input files updated by another job: results/remove_mito_reads/sample4_noMT.sorted.bam
+Shell command: 
+        samtools index         -@ 2         results/remove_mito_reads/sample4_noMT.sorted.bam        results/samtools_index/sample4_noMT.sorted.bam.bai         2> logs/samtools_index/sample4.err
+        
+Activating conda environment: .snakemake/conda/f643f69ae64517e5ef0de044b5130840_
+
+[Mon Oct 27 13:54:11 2025]
+Job 39: [SAMTOOLS FIXMATE] SAMPLE: sample4| INPUT: results/remove_mito_reads/sample4_noMT.sorted.bam| OUTPUT: results/samtools_fixmate/sample4_noMT.sorted.fixmate.bam
+Reason: Missing output files: results/samtools_fixmate/sample4_noMT.sorted.fixmate.bam; Input files updated by another job: results/remove_mito_reads/sample4_noMT.sorted.bam
+Shell command: 
+        samtools sort -n -@ 2 results/remove_mito_reads/sample4_noMT.sorted.bam |  samtools fixmate -m -@ 2 - - | samtools sort -@ 2 -o results/samtools_fixmate/sample4_noMT.sorted.fixmate.bam - 2> logs/samtools_fixmate/sample4_noMT.sorted.fixmate.bam.log
+       
+Activating conda environment: .snakemake/conda/f643f69ae64517e5ef0de044b5130840_
+Select jobs to execute...
+[Mon Oct 27 13:54:14 2025]
+Finished jobid: 34 (Rule: samtools_index)
+15 of 127 steps (12%) done
+[Mon Oct 27 13:54:15 2025]
+Finished jobid: 129 (Rule: frip_calculation)
+16 of 127 steps (13%) done
+TSS regions prepared: 252835 regions
+Reading BAM file (TSS regions only)...
+[Mon Oct 27 13:54:32 2025]
+Finished jobid: 93 (Rule: bedtools_genomecov)
+17 of 127 steps (13%) done
+Execute 1 jobs...
+
+[Mon Oct 27 13:54:32 2025]
+Job 134: [Peak annotation] Sample: sample3 | Peaks: results/filtered_peaks/sample3_filtered_peaks.bed | Output: results/peak_annotation/sample3_peak_annotation.txt
+Reason: Missing output files: results/peak_annotation/sample3_peak_annotation.txt; Input files updated by another job: results/filtered_peaks/sample3_filtered_peaks.bed
+Shell command: 
+        Rscript -e '         library(ChIPseeker);         library(GenomicFeatures);        
+        peakfile <- "results/filtered_peaks/sample3_filtered_peaks.bed";         
+        txdb <- makeTxDbFromGFF("data/reference/annotation.gtf", format="gtf");         peakAnno <- annotatePeak(peakfile, TxDb=txdb, tssRegion=c(-3000, 3000), verbose=FALSE);         
+        #Save detailed annotation
+        write.table(as.data.frame(peakAnno), "results/peak_annotation/sample3_peak_annotation.txt", sep="	", row.names=FALSE, quote=FALSE);         
+        #Save summary counts per feature
+        feature_summary <- as.data.frame(table(peakAnno@anno$annotation));         write.table(feature_summary, "results/peak_annotation/sample3_peak_annotation_summary.txt", sep="	", row.names=FALSE, quote=FALSE)'         2> logs/peak_annotation/sample3.err
+        
+Activating conda environment: .snakemake/conda/0a04d299429a5699ca68f9d27418dc4b_
+Select jobs to execute...
+[Mon Oct 27 13:54:37 2025]
+Finished jobid: 108 (Rule: normalize_coverage)
+18 of 127 steps (14%) done
+Execute 1 jobs...
+
+[Mon Oct 27 13:54:37 2025]
+Job 98: [sort]  Sample:  sample3 | BedGraph: results/bedtools_genomecov/sample3.bedGraph | Sorted BedGraph: results/sorted_bedgraph_file/sample3.sorted.bedGraph | Resources: 4000...  
+Reason: Missing output files: results/sorted_bedgraph_file/sample3.sorted.bedGraph; Input files updated by another job: results/bedtools_genomecov/sample3.bedGraph
+Shell command: 
+        sort         -k1,1 -k2,2n         --parallel 4         -S 4000M         results/bedtools_genomecov/sample3.bedGraph         > results/sorted_bedgraph_file/sample3.sorted.bedGraph         2> logs/sorted_bedgraph/sample3.err
+        
+[Mon Oct 27 13:54:39 2025]
+Finished jobid: 98 (Rule: sorted_bedgraph)
+19 of 127 steps (15%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Oct 27 13:54:39 2025]
+Job 103: [bedGraphToBigWig] Sample: sample3 | Sorted BedGraph: results/sorted_bedgraph_file/sample3.sorted.bedGraph | BigWig: results/bigwig/sample3.bw | Genome: data/reference/genome.chrom.sizes... 
+Reason: Missing output files: results/bigwig/sample3.bw; Input files updated by another job: results/sorted_bedgraph_file/sample3.sorted.bedGraph
+Shell command: 
+        bedGraphToBigWig         results/sorted_bedgraph_file/sample3.sorted.bedGraph         data/reference/genome.chrom.sizes         results/bigwig/sample3.bw         2> logs/bigwig/sample3.err 
+        
+Activating conda environment: .snakemake/conda/a4101fbb1927eb6333a7d2f5e4906ded_
+[Mon Oct 27 13:54:44 2025]
+Finished jobid: 103 (Rule: bigwig_conversion)
+20 of 127 steps (16%) done
+Select jobs to execute...
+[Mon Oct 27 13:54:51 2025]
+Finished jobid: 20 (Rule: samtools_sort)
+21 of 127 steps (17%) done
+Execute 2 jobs...
+
+[Mon Oct 27 13:54:51 2025]
+Job 30: [REMOVE MITOCHONDRIAL READS] SAMPLE: sample5| INPUT: results/samtools_sort/sample5.sorted.bam|OUTPUT: results/remove_mito_reads/sample5_noMT.sorted.bam| PATTERN: MT|
+Reason: Missing output files: results/remove_mito_reads/sample5_noMT.sorted.bam; Input files updated by another job: results/samtools_sort/sample5.sorted.bam
+Shell command: 
+        samtools view -h results/samtools_sort/sample5.sorted.bam |         awk -v mito_chr="MT" 'BEGIN {OFS="\t"} /^@/ || $3 !~ mito_chr {print $0}' |         samtools sort -@ 2 -o results/remove_mito_reads/sample5_noMT.sorted.bam -
+        
+        echo "Complete mitochondrial removal for sample5" &>> logs/remove_mito_reads/sample5_noMT_sorted_bam.err
+        
+Activating conda environment: .snakemake/conda/f643f69ae64517e5ef0de044b5130840_
+
+[Mon Oct 27 13:54:51 2025]
+Job 124: [deepTools heatmap] Sample: sample3 | BigWig: results/bigwig/sample3.bw | Peaks: results/filtered_peaks/sample3_filtered_peaks.bed | Output: results/heatmap/plot/sample3_tss_heatmap.pdf
+Reason: Missing output files: results/heatmap/matrix/sample3_matrix.gz, results/heatmap/plot/sample3_tss_heatmap.pdf, results/heatmap/sample3_regions.bed; Input files updated by another job: results/filtered_peaks/sample3_filtered_peaks.bed, results/bigwig/sample3.bw
+Shell command: 
+        computeMatrix reference-point             --referencePoint TSS             -b 3000 -a 3000             -R results/filtered_peaks/sample3_filtered_peaks.bed             -S results/bigwig/sample3.bw             --skipZeros             --missingDataAsZero             --numberOfProcessors 8             -out results/heatmap/matrix/sample3_matrix.gz             --outFileSortedRegions results/heatmap/sample3_regions.bed             2> logs/heatmap/matrix/sample3.err
+
+        plotHeatmap             -m results/heatmap/matrix/sample3_matrix.gz             -out results/heatmap/plot/sample3_tss_heatmap.pdf             --colorMap coolwarm             --regionsLabel "TSS"             --samplesLabel sample3             --heatmapHeight 12 --heatmapWidth 6             2>> logs/heatmap/plot/sample3.err
+        
+Activating conda environment: .snakemake/conda/ec40e494b5a7b344ab1489fc1aae2631_
+Select jobs to execute...
+[Mon Oct 27 13:54:56 2025]
+Finished jobid: 17 (Rule: samtools_sort)
+22 of 127 steps (17%) done
+Execute 2 jobs...
+
+[Mon Oct 27 13:54:56 2025]
+Job 22: [MITOCHONDRIAL READS] SAMPLES: sample2|INPUT: results/samtools_sort/sample2.sorted.bam|OUTPUT: results/mito-ATAC/sample2_mito_stats.txt|PATTERN: MT
+Reason: Missing output files: results/mito-ATAC/sample2_mito_stats.txt; Input files updated by another job: results/samtools_sort/sample2.sorted.bam
+Shell command: 
+        #Index BAM if not already indexed
+            if [ ! -f results/samtools_sort/sample2.sorted.bam.bai ]; then
+                samtools index results/samtools_sort/sample2.sorted.bam
+            fi
+        
+            # Total mapped reads (excluding unmapped)
+            total=$(samtools view -c -F 4 results/samtools_sort/sample2.sorted.bam)
+        
+            # Mitochondrial reads
+            mito=0
+            if [ "${total}" -ne 0 ]; then
+                mito=$(samtools view -c results/samtools_sort/sample2.sorted.bam MT)
+            fi
+        
+            # Calculate fraction
+            fraction=0
+            if [ "${total}" -gt 0 ]; then
+                fraction=$(echo "scale=6; ${mito} / ${total}" | bc -l)
+            fi
+        
+            echo "Total Reads: ${total}" > results/mito-ATAC/sample2_mito_stats.txt
+            echo "Mito Reads: ${mito}" >> results/mito-ATAC/sample2_mito_stats.txt
+            echo "Mito Fraction: ${fraction}" >> results/mito-ATAC/sample2_mito_stats.txt
+
+          
+
+[Mon Oct 27 13:54:56 2025]
+Job 27: [REMOVE MITOCHONDRIAL READS] SAMPLE: sample2| INPUT: results/samtools_sort/sample2.sorted.bam|OUTPUT: results/remove_mito_reads/sample2_noMT.sorted.bam| PATTERN: MT|
+Reason: Missing output files: results/remove_mito_reads/sample2_noMT.sorted.bam; Input files updated by another job: results/samtools_sort/sample2.sorted.bam
+Shell command: 
+        samtools view -h results/samtools_sort/sample2.sorted.bam |         awk -v mito_chr="MT" 'BEGIN {OFS="\t"} /^@/ || $3 !~ mito_chr {print $0}' |         samtools sort -@ 2 -o results/remove_mito_reads/sample2_noMT.sorted.bam -
+        
+        echo "Complete mitochondrial removal for sample2" &>> logs/remove_mito_reads/sample2_noMT_sorted_bam.err
+        
+Activating conda environment: .snakemake/conda/f643f69ae64517e5ef0de044b5130840_
+Activating conda environment: .snakemake/conda/f643f69ae64517e5ef0de044b5130840_
+Select jobs to execute...
+[bam_sort_core] merging from 2 files and 2 in-memory blocks...
+[Mon Oct 27 13:55:15 2025]
+Finished jobid: 124 (Rule: heatmap)
+23 of 127 steps (18%) done
+Execute 1 jobs...
+
+[Mon Oct 27 13:55:15 2025]
+Job 25: [MITOCHONDRIAL READS] SAMPLES: sample5|INPUT: results/samtools_sort/sample5.sorted.bam|OUTPUT: results/mito-ATAC/sample5_mito_stats.txt|PATTERN: MT
+Reason: Missing output files: results/mito-ATAC/sample5_mito_stats.txt; Input files updated by another job: results/samtools_sort/sample5.sorted.bam
+Shell command: 
+        #Index BAM if not already indexed
+            if [ ! -f results/samtools_sort/sample5.sorted.bam.bai ]; then
+                samtools index results/samtools_sort/sample5.sorted.bam
+            fi
+        
+            # Total mapped reads (excluding unmapped)
+            total=$(samtools view -c -F 4 results/samtools_sort/sample5.sorted.bam)
+        
+            # Mitochondrial reads
+            mito=0
+            if [ "${total}" -ne 0 ]; then
+                mito=$(samtools view -c results/samtools_sort/sample5.sorted.bam MT)
+            fi
+        
+            # Calculate fraction
+            fraction=0
+            if [ "${total}" -gt 0 ]; then
+                fraction=$(echo "scale=6; ${mito} / ${total}" | bc -l)
+            fi
+        
+            echo "Total Reads: ${total}" > results/mito-ATAC/sample5_mito_stats.txt
+            echo "Mito Reads: ${mito}" >> results/mito-ATAC/sample5_mito_stats.txt
+            echo "Mito Fraction: ${fraction}" >> results/mito-ATAC/sample5_mito_stats.txt
+
+          
+Activating conda environment: .snakemake/conda/f643f69ae64517e5ef0de044b5130840_
+[Mon Oct 27 13:55:29 2025]
+Finished jobid: 22 (Rule: calculate_mito_reads)
+24 of 127 steps (19%) done
+[Mon Oct 27 13:55:42 2025]
+Finished jobid: 25 (Rule: calculate_mito_reads)
+25 of 127 steps (20%) done
+[Mon Oct 27 13:55:59 2025]
+Finished jobid: 134 (Rule: peak_annotation)
+26 of 127 steps (20%) done
+Loaded 4541822 alignments near TSS regions
+Calculating TSS enrichment score...
+TSS Enrichment Score: 1.816401 
+null device 
+          1 
+Analysis complete!
+[Mon Oct 27 13:56:31 2025]
+Finished jobid: 88 (Rule: tss_enrichment)
+27 of 127 steps (21%) done
+[Mon Oct 27 13:56:50 2025]
+Finished jobid: 39 (Rule: samtools_fixmate)
+28 of 127 steps (22%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Oct 27 13:56:50 2025]
+Job 44: [SAMTOOLS MARKDUP] SAMPLE: sample4| INPUT: results/samtools_fixmate/sample4_noMT.sorted.fixmate.bam| OUTPUT: results/samtools_markdup/sample4_noMT.sorted.dedup.bam
+Reason: Missing output files: results/samtools_markdup/sample4_noMT.sorted.dedup.bam; Input files updated by another job: results/samtools_fixmate/sample4_noMT.sorted.fixmate.bam
+Shell command: 
+        samtools markdup         -r         -@ 4         results/samtools_fixmate/sample4_noMT.sorted.fixmate.bam         results/samtools_markdup/sample4_noMT.sorted.dedup.bam         2> logs/samtools_markdup/sample4.err
+        
+Activating conda environment: .snakemake/conda/f643f69ae64517e5ef0de044b5130840_
+[bam_sort_core] merging from 6 files and 2 in-memory blocks...
+[Mon Oct 27 13:57:36 2025]
+Finished jobid: 44 (Rule: samtools_markdup)
+29 of 127 steps (23%) done
+Select jobs to execute...
+Execute 5 jobs...
+
+[Mon Oct 27 13:57:36 2025]
+Job 146: [qualimap] Sample: sample4 | Markdup Bam: results/samtools_markdup/sample4_noMT.sorted.dedup.bam | Reports: results/qualimap/sample4_qualimap_report | Extra: bamqc...
+Reason: Missing output files: results/qualimap/sample4_qualimap_report; Input files updated by another job: results/samtools_markdup/sample4_noMT.sorted.dedup.bam
+Shell command: 
+        qualimap bamqc             -bam results/samtools_markdup/sample4_noMT.sorted.dedup.bam             -outdir results/qualimap/sample4_qualimap_report             -nt 4             2> logs/qualimap/sample4.err
+        
+Activating conda environment: .snakemake/conda/3e6432c337bcbef5571846e900db0e4e_
+
+[Mon Oct 27 13:57:36 2025]
+Job 84: [PICARD COLLECTALIGNMENTSUMMARYMETRICS] SAMPLE: sample4| INPUT: results/samtools_markdup/sample4_noMT.sorted.dedup.bam| OUTPUT: results/picard/CollectAlignmentSummaryMetrics/sample4.alignment_metrics.txt| REFERENCE GENOME: data/reference/genome.fa| VALIDATION STRINGENCY: LENIENT.
+Reason: Missing output files: results/picard/CollectAlignmentSummaryMetrics/sample4.alignment_metrics.txt; Input files updated by another job: results/samtools_markdup/sample4_noMT.sorted.dedup.bam
+Shell command: 
+        PICARD_VERSION=$(picard --help 2>&1 | head -n 1 || echo "Picard Version Unknown" )
+        echo "PICARD VERSION: ${PICARD_VERSION}" >> logs/picard/CollectAlignmentSummaryMetrics/sample4.err
+        
+        set -e 
+        
+        picard CollectAlignmentSummaryMetrics         --INPUT results/samtools_markdup/sample4_noMT.sorted.dedup.bam         --OUTPUT results/picard/CollectAlignmentSummaryMetrics/sample4.alignment_metrics.txt         --REFERENCE_SEQUENCE data/reference/genome.fa         --VALIDATION_STRINGENCY LENIENT         2>> logs/picard/CollectAlignmentSummaryMetrics/sample4.err 
+
+        EXIT_STATUS=$?
+        if [ "${EXIT_STATUS}" -eq 0 ]; then 
+           echo "SUCCESSFULL; EXIT STATUS: ${EXIT_STATUS}" >> logs/picard/CollectAlignmentSummaryMetrics/sample4.err
+        else 
+           echo "UNSUCCESSFULL; EXIT STATUS:  ${EXIT_STATUS}" >> logs/picard/CollectAlignmentSummaryMetrics/sample4.err
+        fi  
+        
+Activating conda environment: .snakemake/conda/9405cd868047d2fe8f3f1111d9c470e3_
+
+[Mon Oct 27 13:57:36 2025]
+Job 54: [SAMTOOLS VIEW] SAMPLE: sample4 | INPUT: results/samtools_markdup/sample4_noMT.sorted.dedup.bam | OUTPUT: results/samtools_view/sample4.filtered.bam| MINIMUM MAPQ: 30 | FILTER FLAGS: 3844
+Reason: Missing output files: results/samtools_view/sample4.filtered.bam; Input files updated by another job: results/samtools_markdup/sample4_noMT.sorted.dedup.bam
+Shell command: 
+        samtools view         -@ 2         -b         -q 30         -F 3844         -f 2         results/samtools_markdup/sample4_noMT.sorted.dedup.bam         -o results/samtools_view/sample4.filtered.bam         2> logs/samtools_view/sample4.out
+        
+Activating conda environment: .snakemake/conda/f643f69ae64517e5ef0de044b5130840_
+
+[Mon Oct 27 13:57:36 2025]
+Job 78: [PICARD COLLECTINSERTSIZEMETRICS] SAMPLES: sample4| INPUT: results/samtools_markdup/sample4_noMT.sorted.dedup.bam| OUTPUT: results/picard/CollectInsertSizeMetrics/sample4.insert_metrics.txt results/picard/CollectInsertSizeMetrics/sample4.insert_histogram.pdf|m: 0.05| VALIDATION STRINGENCY: LENIENT
+Reason: Missing output files: results/picard/CollectInsertSizeMetrics/sample4.insert_histogram.pdf, results/picard/CollectInsertSizeMetrics/sample4.insert_metrics.txt; Input files updated by another job: results/samtools_markdup/sample4_noMT.sorted.dedup.bam
+Shell command: 
+        VERSION=$(picard --help  2>&1 | head -n 1 || echo "Picard Version Unknown")
+        echo "PICARD VERSION: ${VERSION}" >> logs/picard/CollectInsertSizeMetrics/sample4.err
+        
+        set -e
+        
+        picard CollectInsertSizeMetrics         --INPUT results/samtools_markdup/sample4_noMT.sorted.dedup.bam         --OUTPUT results/picard/CollectInsertSizeMetrics/sample4.insert_metrics.txt         --Histogram_FILE results/picard/CollectInsertSizeMetrics/sample4.insert_histogram.pdf         --M 0.05         --VALIDATION_STRINGENCY LENIENT         2>> logs/picard/CollectInsertSizeMetrics/sample4.err
+
+        EXIT_STATUS=$?
+        if [ ${EXIT_STATUS} -eq 0 ]; then
+           echo "SUCCESSFUL; EXIST STATUS: ${EXIT_STATUS}"
+        else 
+           echo "UNSUCCESSFUL; EXIT_STATUS: ${EXIT_STATUS}"
+        fi  
+
+        
+Activating conda environment: .snakemake/conda/9405cd868047d2fe8f3f1111d9c470e3_
+
+[Mon Oct 27 13:57:36 2025]
+Job 49: [SAMTOOLS INDEX POST MARKDUP] SAMPLE: sample4| INPUT: results/samtools_markdup/sample4_noMT.sorted.dedup.bam| OUTPUT: results/samtools_index/post_markdup/sample4_noMT.sorted.dedup.bam.bai
+Reason: Missing output files: results/samtools_index/post_markdup/sample4_noMT.sorted.dedup.bam.bai; Input files updated by another job: results/samtools_markdup/sample4_noMT.sorted.dedup.bam
+Shell command: 
+        samtools index         -@ 2         results/samtools_markdup/sample4_noMT.sorted.dedup.bam        results/samtools_index/post_markdup/sample4_noMT.sorted.dedup.bam.bai         2> logs/samtools_index/post_markdup/sample4.err
+        
+Activating conda environment: .snakemake/conda/f643f69ae64517e5ef0de044b5130840_
+Java memory size is set to 1200M
+Launching application...
+
+QualiMap v.2.3
+Built on 2023-05-19 16:57
+
+Selected tool: bamqc
+Available memory (Mb): 33
+Max memory (Mb): 1258
+Starting bam qc....
+Loading sam header...
+Loading locator...
+Loading reference...
+Number of windows: 400, effective number of windows: 593
+Chunk of reads size: 1000
+Number of threads: 4
+[Mon Oct 27 13:57:39 2025]
+Finished jobid: 49 (Rule: samtools_index_postmarkdup)
+30 of 127 steps (24%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Oct 27 13:57:39 2025]
+Job 141: [Preseq Sample: sample4 | Markedup Bam Index: results/samtools_index/post_markdup/sample4_noMT.sorted.dedup.bam.bai , Markedup Bam: results/samtools_markdup/sample4_noMT.sorted.dedup.bam | Complexity: results/preseq/sample4.ccurve.txt | Extra: lc_extrap ]
+Reason: Missing output files: results/preseq/sample4.ccurve.txt; Input files updated by another job: results/samtools_markdup/sample4_noMT.sorted.dedup.bam, results/samtools_index/post_markdup/sample4_noMT.sorted.dedup.bam.bai
+Shell command: 
+        preseq lc_extrap             -B results/samtools_markdup/sample4_noMT.sorted.dedup.bam             -o results/preseq/sample4.ccurve.txt             2> logs/preseq/sample4.err || (echo "Preseq failed on sample4." >> logs/preseq/sample4.err; true)
+        
+Activating conda environment: .snakemake/conda/5edd171b66acd7342610fe482ab097b8_
+Processed 59 out of 593 windows...
+[bam_sort_core] merging from 6 files and 2 in-memory blocks...
+Processed 118 out of 593 windows...
+SUCCESSFUL; EXIST STATUS: 0
+[Mon Oct 27 13:57:50 2025]
+Finished jobid: 78 (Rule: picard_CollectInsertSizeMetrics)
+31 of 127 steps (24%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Oct 27 13:57:50 2025]
+Job 77: [FRAGMENT SIZE ANALYSIS] SAMPLES: sample4| INPUT: results/picard/CollectInsertSizeMetrics/sample4.insert_metrics.txt| OUTPUT: results/fragment_size_analysis/sample4_fragment_sizes.txt results/fragment_size_analysis/sample4_fragment.png results/fragment_size_analysis/sample4_fragment_stats.txt|MIN LENGTH: 30| MAX LENGTH: 1000| MAX FRAGMENT: 1000 
+Reason: Missing output files: results/fragment_size_analysis/sample4_fragment.png, results/fragment_size_analysis/sample4_fragment_sizes.txt, results/fragment_size_analysis/sample4_fragment_stats.txt; Input files updated by another job: results/picard/CollectInsertSizeMetrics/sample4.insert_metrics.txt
+Shell command: 
+        echo '
+        # Read Picard insert size metrics
+        data <- read.table("results/picard/CollectInsertSizeMetrics/sample4.insert_metrics.txt", header=TRUE, skip=10)
+        fragments <- data$insert_size
+    
+        # Write fragment sizes
+        write.table(fragments, "results/fragment_size_analysis/sample4_fragment_sizes.txt", row.names=FALSE, col.names=FALSE, quote=FALSE)
+    
+        # Generate histogram
+        png("results/fragment_size_analysis/sample4_fragment.png")
+        hist(fragments, main="Fragment Size Distribution", xlab="Fragment Size (bp)", col="skyblue", breaks=50)
+        dev.off()
+    
+        # Generate statistics
+        stats_summary <- c(
+              paste("Total_fragments:", length(fragments)),
+              paste("Mean_size:", round(mean(fragments), 2)),
+              paste("Min_size:", min(fragments)),
+              paste("Max_size:", max(fragments))
+        )
+        writeLines(stats_summary, "results/fragment_size_analysis/sample4_fragment_stats.txt")
+        ' | Rscript - 2> logs/fragment_size_analysis/sample4.err
+        
+Activating conda environment: .snakemake/conda/f643f69ae64517e5ef0de044b5130840_
+null device 
+          1 
+[Mon Oct 27 13:57:52 2025]
+Finished jobid: 77 (Rule: fragment_size_analysis)
+32 of 127 steps (25%) done
+Processed 177 out of 593 windows...
+Processed 236 out of 593 windows...
+[Mon Oct 27 13:57:58 2025]
+Finished jobid: 54 (Rule: samtools_view)
+33 of 127 steps (26%) done
+Select jobs to execute...
+Execute 2 jobs...
+
+[Mon Oct 27 13:57:58 2025]
+Job 69: [SAMTOOLS STATISTICS] SAMPLE: sample4| INPUT: results/samtools_view/sample4.filtered.bam| OUTPUT: results/samtools_stats/sample4_postFiltering.stats.txt
+Reason: Missing output files: results/samtools_stats/sample4_postFiltering.stats.txt; Input files updated by another job: results/samtools_view/sample4.filtered.bam
+Shell command: 
+        samtools stats         -@ 2         results/samtools_view/sample4.filtered.bam         > results/samtools_stats/sample4_postFiltering.stats.txt         2> logs/samtools_stats/sample4.err 
+        
+Activating conda environment: .snakemake/conda/f643f69ae64517e5ef0de044b5130840_
+
+[Mon Oct 27 13:57:58 2025]
+Job 59: [SAMTOOLS INDEX POST FILTER] SAMPLE: sample4| INPUT: results/samtools_view/sample4.filtered.bam| OUTPUT: results/samtools_view/sample4.filtered.bam.bai
+Reason: Missing output files: results/samtools_view/sample4.filtered.bam.bai; Input files updated by another job: results/samtools_view/sample4.filtered.bam
+Shell command: 
+        samtools index         -@ 2         results/samtools_view/sample4.filtered.bam         results/samtools_view/sample4.filtered.bam.bai         2> logs/samtools_index_post_filter/sample4.out
+        
+Activating conda environment: .snakemake/conda/f643f69ae64517e5ef0de044b5130840_
+[Mon Oct 27 13:58:01 2025]
+Finished jobid: 59 (Rule: samtools_index_post_filter)
+34 of 127 steps (27%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Oct 27 13:58:01 2025]
+Job 64: [TN5 SHIFT: Adjusting ATAC-seq read positions by +4-5 bp to reflect true Tn5 cut sites] SAMPLE:  sample4| INPUT: results/samtools_view/sample4.filtered.bam results/samtools_view/sample4.filtered.bam.bai | OUTPUT: results/tn5_shift/sample4.filtered.shifted.bam results/tn5_shift/sample4.filtered.shifted.bam.bai
+Reason: Missing output files: results/tn5_shift/sample4.filtered.shifted.bam.bai, results/tn5_shift/sample4.filtered.shifted.bam; Input files updated by another job: results/samtools_view/sample4.filtered.bam, results/samtools_view/sample4.filtered.bam.bai
+Shell command: 
+        alignmentSieve --ATACshift            -b results/samtools_view/sample4.filtered.bam            -o results/tn5_shift/sample4.filtered.shifted.bam.unsorted            -p 4            2> logs/tn5_shift/sample4.err  &&         samtools sort -o results/tn5_shift/sample4.filtered.shifted.bam results/tn5_shift/sample4.filtered.shifted.bam.unsorted && rm -rf results/tn5_shift/sample4.filtered.shifted.bam.unsorted && samtools index results/tn5_shift/sample4.filtered.shifted.bam 
+        
+Activating conda environment: .snakemake/conda/ec40e494b5a7b344ab1489fc1aae2631_
+Processed 295 out of 593 windows...
+[Mon Oct 27 13:58:06 2025]
+Finished jobid: 69 (Rule: samtools_stats)
+35 of 127 steps (28%) done
+Processed 354 out of 593 windows...
+[Mon Oct 27 13:58:09 2025]
+Finished jobid: 84 (Rule: picard_CollectAlignmentSummaryMetrics)
+36 of 127 steps (28%) done
+Processed 413 out of 593 windows...
+Processed 472 out of 593 windows...
+[Mon Oct 27 13:58:12 2025]
+Finished jobid: 141 (Rule: preseq)
+37 of 127 steps (29%) done
+Processed 531 out of 593 windows...
+Processed 590 out of 593 windows...
+Total processed windows:593
+Number of reads: 9681930
+Number of valid reads: 9681930
+Number of correct strand reads:0
+
+Inside of regions...
+Num mapped reads: 9681930
+Num mapped first of pair: 4840965
+Num mapped second of pair: 4840965
+Num singletons: 0
+Time taken to analyze reads: 35
+Computing descriptors...
+numberOfMappedBases: 434636196
+referenceSize: 3099750718
+numberOfSequencedBases: 434564894
+numberOfAs: 121568712
+Computing per chromosome statistics...
+Computing histograms...
+Overall analysis time: 36
+end of bam qc
+Computing report...
+Writing HTML report...
+HTML report created successfully
+
+Finished
+[Mon Oct 27 13:58:20 2025]
+Finished jobid: 146 (Rule: qualimap_bamqc)
+38 of 127 steps (30%) done
+[Mon Oct 27 13:58:39 2025]
+Finished jobid: 16 (Rule: samtools_sort)
+39 of 127 steps (31%) done
+Select jobs to execute...
+Execute 2 jobs...
+
+[Mon Oct 27 13:58:39 2025]
+Job 26: [REMOVE MITOCHONDRIAL READS] SAMPLE: sample1| INPUT: results/samtools_sort/sample1.sorted.bam|OUTPUT: results/remove_mito_reads/sample1_noMT.sorted.bam| PATTERN: MT|
+Reason: Missing output files: results/remove_mito_reads/sample1_noMT.sorted.bam; Input files updated by another job: results/samtools_sort/sample1.sorted.bam
+Shell command: 
+        samtools view -h results/samtools_sort/sample1.sorted.bam |         awk -v mito_chr="MT" 'BEGIN {OFS="\t"} /^@/ || $3 !~ mito_chr {print $0}' |         samtools sort -@ 2 -o results/remove_mito_reads/sample1_noMT.sorted.bam -
+        
+        echo "Complete mitochondrial removal for sample1" &>> logs/remove_mito_reads/sample1_noMT_sorted_bam.err
+        
+Activating conda environment: .snakemake/conda/f643f69ae64517e5ef0de044b5130840_
+
+[Mon Oct 27 13:58:39 2025]
+Job 21: [MITOCHONDRIAL READS] SAMPLES: sample1|INPUT: results/samtools_sort/sample1.sorted.bam|OUTPUT: results/mito-ATAC/sample1_mito_stats.txt|PATTERN: MT
+Reason: Missing output files: results/mito-ATAC/sample1_mito_stats.txt; Input files updated by another job: results/samtools_sort/sample1.sorted.bam
+Shell command: 
+        #Index BAM if not already indexed
+            if [ ! -f results/samtools_sort/sample1.sorted.bam.bai ]; then
+                samtools index results/samtools_sort/sample1.sorted.bam
+            fi
+        
+            # Total mapped reads (excluding unmapped)
+            total=$(samtools view -c -F 4 results/samtools_sort/sample1.sorted.bam)
+        
+            # Mitochondrial reads
+            mito=0
+            if [ "${total}" -ne 0 ]; then
+                mito=$(samtools view -c results/samtools_sort/sample1.sorted.bam MT)
+            fi
+        
+            # Calculate fraction
+            fraction=0
+            if [ "${total}" -gt 0 ]; then
+                fraction=$(echo "scale=6; ${mito} / ${total}" | bc -l)
+            fi
+        
+            echo "Total Reads: ${total}" > results/mito-ATAC/sample1_mito_stats.txt
+            echo "Mito Reads: ${mito}" >> results/mito-ATAC/sample1_mito_stats.txt
+            echo "Mito Fraction: ${fraction}" >> results/mito-ATAC/sample1_mito_stats.txt
+
+          
+Activating conda environment: .snakemake/conda/f643f69ae64517e5ef0de044b5130840_
+[Mon Oct 27 13:59:17 2025]
+Finished jobid: 30 (Rule: remove_mito_reads)
+40 of 127 steps (31%) done
+Select jobs to execute...
+Execute 2 jobs...
+
+[Mon Oct 27 13:59:17 2025]
+Job 40: [SAMTOOLS FIXMATE] SAMPLE: sample5| INPUT: results/remove_mito_reads/sample5_noMT.sorted.bam| OUTPUT: results/samtools_fixmate/sample5_noMT.sorted.fixmate.bam
+Reason: Missing output files: results/samtools_fixmate/sample5_noMT.sorted.fixmate.bam; Input files updated by another job: results/remove_mito_reads/sample5_noMT.sorted.bam
+Shell command: 
+        samtools sort -n -@ 2 results/remove_mito_reads/sample5_noMT.sorted.bam |  samtools fixmate -m -@ 2 - - | samtools sort -@ 2 -o results/samtools_fixmate/sample5_noMT.sorted.fixmate.bam - 2> logs/samtools_fixmate/sample5_noMT.sorted.fixmate.bam.log
+       
+Activating conda environment: .snakemake/conda/f643f69ae64517e5ef0de044b5130840_
+
+[Mon Oct 27 13:59:17 2025]
+Job 35: [SAMTOOLS INDEX] SAMPLE: sample5| INPUT: results/remove_mito_reads/sample5_noMT.sorted.bam| OUTPUT: results/samtools_index/sample5_noMT.sorted.bam.bai
+Reason: Missing output files: results/samtools_index/sample5_noMT.sorted.bam.bai; Input files updated by another job: results/remove_mito_reads/sample5_noMT.sorted.bam
+Shell command: 
+        samtools index         -@ 2         results/remove_mito_reads/sample5_noMT.sorted.bam        results/samtools_index/sample5_noMT.sorted.bam.bai         2> logs/samtools_index/sample5.err
+        
+Activating conda environment: .snakemake/conda/f643f69ae64517e5ef0de044b5130840_
+[Mon Oct 27 13:59:21 2025]
+Finished jobid: 35 (Rule: samtools_index)
+41 of 127 steps (32%) done
+[Mon Oct 27 13:59:25 2025]
+Finished jobid: 27 (Rule: remove_mito_reads)
+42 of 127 steps (33%) done
+Select jobs to execute...
+Execute 2 jobs...
+
+[Mon Oct 27 13:59:25 2025]
+Job 32: [SAMTOOLS INDEX] SAMPLE: sample2| INPUT: results/remove_mito_reads/sample2_noMT.sorted.bam| OUTPUT: results/samtools_index/sample2_noMT.sorted.bam.bai
+Reason: Missing output files: results/samtools_index/sample2_noMT.sorted.bam.bai; Input files updated by another job: results/remove_mito_reads/sample2_noMT.sorted.bam
+Shell command: 
+        samtools index         -@ 2         results/remove_mito_reads/sample2_noMT.sorted.bam        results/samtools_index/sample2_noMT.sorted.bam.bai         2> logs/samtools_index/sample2.err
+        
+Activating conda environment: .snakemake/conda/f643f69ae64517e5ef0de044b5130840_
+
+[Mon Oct 27 13:59:25 2025]
+Job 37: [SAMTOOLS FIXMATE] SAMPLE: sample2| INPUT: results/remove_mito_reads/sample2_noMT.sorted.bam| OUTPUT: results/samtools_fixmate/sample2_noMT.sorted.fixmate.bam
+Reason: Missing output files: results/samtools_fixmate/sample2_noMT.sorted.fixmate.bam; Input files updated by another job: results/remove_mito_reads/sample2_noMT.sorted.bam
+Shell command: 
+        samtools sort -n -@ 2 results/remove_mito_reads/sample2_noMT.sorted.bam |  samtools fixmate -m -@ 2 - - | samtools sort -@ 2 -o results/samtools_fixmate/sample2_noMT.sorted.fixmate.bam - 2> logs/samtools_fixmate/sample2_noMT.sorted.fixmate.bam.log
+       
+Activating conda environment: .snakemake/conda/f643f69ae64517e5ef0de044b5130840_
+[Mon Oct 27 13:59:28 2025]
+Finished jobid: 32 (Rule: samtools_index)
+43 of 127 steps (34%) done
+[Mon Oct 27 13:59:34 2025]
+Finished jobid: 64 (Rule: tn5_shift)
+44 of 127 steps (35%) done
+Select jobs to execute...
+Execute 4 jobs...
+
+[Mon Oct 27 13:59:35 2025]
+Job 115: [MACS2 PEAKCALLING] SAMPLE:  sample4 | Markdup_Bam: results/tn5_shift/sample4.filtered.shifted.bam | Peaks: results/macs2_peakcall/sample4_peaks.narrowPeak | Genome Size: hs | QVal: 0.01 | Nomodel: --nomodel | Model: BAMPE]
+Reason: Missing output files: results/macs2_peakcall/sample4_peaks.narrowPeak; Input files updated by another job: results/tn5_shift/sample4.filtered.shifted.bam
+Shell command: 
+        macs2 callpeak             -t results/tn5_shift/sample4.filtered.shifted.bam             -f BAMPE             -g hs             -n sample4             --outdir results/macs2_peakcall             --nomodel             -q 0.01             2> logs/macs2/sample4.err
+                
+         
+Activating conda environment: .snakemake/conda/c9cbbff4550f687a57c0c3cc891bb015_
+
+[Mon Oct 27 13:59:35 2025]
+Job 89: [TSS ENRICHMENT] SAMPLE: sample4| INPUT: results/tn5_shift/sample4.filtered.shifted.bam results/tn5_shift/sample4.filtered.shifted.bam.bai | OUTPUT: results/tss_enrichment/sample4_tss_enrichment.txt results/tss_enrichment/sample4_tss_enrichment.pdf| T XDB: TxDb.Hsapiens.UCSC.hg38.knownGene| UPSTREAM: 2000| DOWNSTREAM: 2000  
+Reason: Missing output files: results/tss_enrichment/sample4_tss_enrichment.pdf, results/tss_enrichment/sample4_tss_enrichment.txt; Input files updated by another job: results/tn5_shift/sample4.filtered.shifted.bam.bai, results/tn5_shift/sample4.filtered.shifted.bam
+Shell command: 
+        Rscript -e '
+        suppressPackageStartupMessages({
+            library(ATACseqQC)
+            library(GenomicFeatures)
+            library(GenomicAlignments)
+            library(Rsamtools)
+            library(TxDb.Hsapiens.UCSC.hg38.knownGene)
+        })
+    
+        bamfile <- "results/tn5_shift/sample4.filtered.shifted.bam"
+        out_text <- "results/tss_enrichment/sample4_tss_enrichment.txt"
+        out_pdf <- "results/tss_enrichment/sample4_tss_enrichment.pdf"
+    
+        cat("Starting TSS enrichment analysis...\n")
+    
+        # Define standard chromosomes WITHOUT chr prefix
+        standard_chroms <- c(1:22, "X", "Y", "MT")
+    
+        # Load transcript database and create TSS regions
+        cat("Loading transcript database...\n")
+        txdb <- TxDb.Hsapiens.UCSC.hg38.knownGene
+        txs <- transcripts(txdb)
+        tss_regions <- promoters(txs, upstream=2000, downstream=2000)
+    
+        # Convert TSS regions to NCBI style (no chr prefix) to match BAM
+        cat("Converting chromosome names to match BAM...\n")
+        seqlevelsStyle(tss_regions) <- "NCBI"
+    
+        # Filter to standard chromosomes
+        tss_regions <- keepSeqlevels(tss_regions, standard_chroms, pruning.mode="coarse")
+    
+        cat("TSS regions prepared:", length(tss_regions), "regions\n")
+    
+        # Read ONLY TSS regions, not entire chromosomes!
+        cat("Reading BAM file (TSS regions only)...\n")
+        param <- ScanBamParam(which=tss_regions)  # KEY FIX!
+        bam <- readGAlignments(bamfile, param=param)
+    
+        cat("Loaded", length(bam), "alignments near TSS regions\n")
+    
+        if (length(bam) == 0) {
+            stop("No alignments loaded from BAM file near TSS regions")
+        }
+    
+        # Clean up seqlevels
+        seqlevels(bam, pruning.mode="coarse") <- standard_chroms
+    
+        # Calculate TSS enrichment score and create plot
+        cat("Calculating TSS enrichment score...\n")
+        
+        tsse_result <- TSSEscore(bam, txs=tss_regions)
+        
+        # Extract the score
+        if (is.list(tsse_result)) {
+            tsse_score <- tsse_result$TSSEscore
+        } else {
+            tsse_score <- tsse_result
+        }
+        
+        cat("TSS Enrichment Score:", tsse_score, "\n")
+    
+        # Generate plot
+        pdf(out_pdf, width=10, height=6)
+        tryCatch({
+            plot_result <- TSSEscoreplot(bam, txs=tss_regions)
+            title(main=paste0("sample4 - TSS Score: ", round(tsse_score, 3)))
+        }, error=function(e) {
+            plot(1, type="n", xlab="", ylab="", axes=FALSE)
+            text(1, 1, paste0("TSS Score: ", round(tsse_score, 3)), cex=2)
+        })
+        dev.off()
+    
+        # Save results
+        result_df <- data.frame(
+            Sample="sample4", 
+            TSS_Enrichment=tsse_score,
+            Total_Alignments=length(bam)
+        )
+        
+        write.table(result_df, file=out_text, sep="\t", quote=FALSE, row.names=FALSE)
+    
+        cat("Analysis complete!\n")
+        ' 2>&1 | tee logs/tss_enrichment/sample4.err
+        
+Activating conda environment: .snakemake/conda/b880f52961a4dffddafca22da9c98fef_
+
+[Mon Oct 27 13:59:35 2025]
+Job 109: [Normalize Coverage] Sample: sample4 | Shifted Bam: results/tn5_shift/sample4.filtered.shifted.bam | NormalizedCoverage: results/normalized_coverage/sample4_CPM.bw |Method: CPM]...
+Reason: Missing output files: results/normalized_coverage/sample4_CPM.bw; Input files updated by another job: results/tn5_shift/sample4.filtered.shifted.bam
+Shell command: 
+         bamCoverage              -b results/tn5_shift/sample4.filtered.shifted.bam              -o results/normalized_coverage/sample4_CPM.bw              --normalizeUsing CPM              --numberOfProcessors 4              2> logs/normalized_coverage/sample4.err
+         
+Activating conda environment: .snakemake/conda/f7b3b8b13f4f1fe77b942c40f0294d92_
+
+[Mon Oct 27 13:59:35 2025]
+Job 94: [bedtools genomecov] sample: sample4 | BAM : results/tn5_shift/sample4.filtered.shifted.bam| Output: results/bedtools_genomecov/sample4.bedGraph...
+Reason: Missing output files: results/bedtools_genomecov/sample4.bedGraph; Input files updated by another job: results/tn5_shift/sample4.filtered.shifted.bam
+Shell command: 
+        bedtools genomecov           -ibam results/tn5_shift/sample4.filtered.shifted.bam           -bg           > results/bedtools_genomecov/sample4.bedGraph           2> logs/bedtools_genomecov/sample4.err
+        
+Activating conda environment: .snakemake/conda/56cef8899ac977f0ac1fc76bacccdfab_
+There were 16 warnings (use warnings() to see them)
+Starting TSS enrichment analysis...
+Loading transcript database...
+Warning message:
+In valid.GenomicRanges.seqinfo(x, suggest.trim = TRUE) :
+  GRanges object contains 272 out-of-bound ranges located on sequences
+  chr1_GL383518v1_alt, chr1_KI270762v1_alt, chr2_GL383522v1_alt,
+  chr2_KI270774v1_alt, chr3_KI270777v1_alt, chr3_KI270781v1_alt,
+  chr4_GL000257v2_alt, chr4_KI270788v1_alt, chr5_GL339449v2_alt,
+  chr5_KI270795v1_alt, chr5_KI270898v1_alt, chr6_GL000250v2_alt,
+  chr6_GL000254v2_alt, chr6_GL000255v2_alt, chr6_KI270797v1_alt,
+  chr6_KI270798v1_alt, chr6_KI270801v1_alt, chr7_GL383534v2_alt,
+  chr7_KI270803v1_alt, chr7_KI270806v1_alt, chr7_KI270809v1_alt,
+  chr8_KI270815v1_alt, chr9_GL383540v1_alt, chr9_GL383541v1_alt,
+  chr9_GL383542v1_alt, chr9_KI270823v1_alt, chr10_GL383546v1_alt,
+  chr11_JH159136v1_alt, chr11_KI270831v1_alt, chr11_KI270902v1_alt,
+  chr12_GL383551v1_alt, chr12_GL383553v2_alt, chr12_GL877876v1_alt,
+  chr12_KI270834v1_alt, chr12_KI270904v1_alt, chr13_KI270838v1_alt,
+  chr14_KI270847v1_alt, chr15_GL383555v2_alt, chr15_KI270848v1_alt,
+  chr15_KI270850v1_alt, chr15_KI270851v1_alt, chr15_KI270906v1_alt,
+  chr [... truncated]
+Converting chromosome names to match BAM...
+TSS regions prepared: 252835 regions
+Reading BAM file (TSS regions only)...
+[Mon Oct 27 14:00:00 2025]
+Finished jobid: 94 (Rule: bedtools_genomecov)
+45 of 127 steps (35%) done
+[Mon Oct 27 14:00:01 2025]
+Finished jobid: 21 (Rule: calculate_mito_reads)
+46 of 127 steps (36%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Oct 27 14:00:01 2025]
+Job 99: [sort]  Sample:  sample4 | BedGraph: results/bedtools_genomecov/sample4.bedGraph | Sorted BedGraph: results/sorted_bedgraph_file/sample4.sorted.bedGraph | Resources: 4000...  
+Reason: Missing output files: results/sorted_bedgraph_file/sample4.sorted.bedGraph; Input files updated by another job: results/bedtools_genomecov/sample4.bedGraph
+Shell command: 
+        sort         -k1,1 -k2,2n         --parallel 4         -S 4000M         results/bedtools_genomecov/sample4.bedGraph         > results/sorted_bedgraph_file/sample4.sorted.bedGraph         2> logs/sorted_bedgraph/sample4.err
+        
+[Mon Oct 27 14:00:06 2025]
+Finished jobid: 99 (Rule: sorted_bedgraph)
+47 of 127 steps (37%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Oct 27 14:00:06 2025]
+Job 104: [bedGraphToBigWig] Sample: sample4 | Sorted BedGraph: results/sorted_bedgraph_file/sample4.sorted.bedGraph | BigWig: results/bigwig/sample4.bw | Genome: data/reference/genome.chrom.sizes... 
+Reason: Missing output files: results/bigwig/sample4.bw; Input files updated by another job: results/sorted_bedgraph_file/sample4.sorted.bedGraph
+Shell command: 
+        bedGraphToBigWig         results/sorted_bedgraph_file/sample4.sorted.bedGraph         data/reference/genome.chrom.sizes         results/bigwig/sample4.bw         2> logs/bigwig/sample4.err 
+        
+Activating conda environment: .snakemake/conda/a4101fbb1927eb6333a7d2f5e4906ded_
+[Mon Oct 27 14:00:17 2025]
+Finished jobid: 104 (Rule: bigwig_conversion)
+48 of 127 steps (38%) done
+[Mon Oct 27 14:00:23 2025]
+Finished jobid: 115 (Rule: macs2_peak_calling)
+49 of 127 steps (39%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Oct 27 14:00:23 2025]
+Job 120: [Bedtools intersect] Sample: sample4 | Peaks: results/macs2_peakcall/sample4_peaks.narrowPeak | Filtered Peaks: results/filtered_peaks/sample4_filtered_peaks.bed | Blacklist: data/reference/ENCODE_blacklist.bed
+Reason: Missing output files: results/filtered_peaks/sample4_filtered_peaks.bed; Input files updated by another job: results/macs2_peakcall/sample4_peaks.narrowPeak
+Shell command: 
+        awk 'BEGIN {OFS="\t"} {if ($1 ~ /^[0-9]+$/ || $1 == "X" || $1 == "Y" || $1 == "MT") $1="chr"$1; print}' results/macs2_peakcall/sample4_peaks.narrowPeak > results/macs2_peakcall/sample4_peaks.narrowPeak.tmp &&         bedtools intersect -v             -a results/macs2_peakcall/sample4_peaks.narrowPeak.tmp              -b data/reference/ENCODE_blacklist.bed         > results/filtered_peaks/sample4_filtered_peaks.bed 
+        2> logs/blacklist_region_filter/sample4.err 
+         
+        rm -rf results/macs2_peakcall/sample4_peaks.narrowPeak.tmp
+        
+Activating conda environment: .snakemake/conda/56cef8899ac977f0ac1fc76bacccdfab_
+***** WARNING: File results/macs2_peakcall/sample4_peaks.narrowPeak.tmp has inconsistent naming convention for record:
+GL000195.1	30782	30922	sample4_peak_9277	150	.	11.2386	19.4614	15.0727	38
+
+***** WARNING: File results/macs2_peakcall/sample4_peaks.narrowPeak.tmp has inconsistent naming convention for record:
+GL000195.1	30782	30922	sample4_peak_9277	150	.	11.2386	19.4614	15.0727	38
+
+[Mon Oct 27 14:00:24 2025]
+Finished jobid: 120 (Rule: blacklist_region_filter)
+50 of 127 steps (39%) done
+Select jobs to execute...
+Execute 2 jobs...
+
+[Mon Oct 27 14:00:24 2025]
+Job 135: [Peak annotation] Sample: sample4 | Peaks: results/filtered_peaks/sample4_filtered_peaks.bed | Output: results/peak_annotation/sample4_peak_annotation.txt
+Reason: Missing output files: results/peak_annotation/sample4_peak_annotation.txt; Input files updated by another job: results/filtered_peaks/sample4_filtered_peaks.bed
+Shell command: 
+        Rscript -e '         library(ChIPseeker);         library(GenomicFeatures);        
+        peakfile <- "results/filtered_peaks/sample4_filtered_peaks.bed";         
+        txdb <- makeTxDbFromGFF("data/reference/annotation.gtf", format="gtf");         peakAnno <- annotatePeak(peakfile, TxDb=txdb, tssRegion=c(-3000, 3000), verbose=FALSE);         
+        #Save detailed annotation
+        write.table(as.data.frame(peakAnno), "results/peak_annotation/sample4_peak_annotation.txt", sep="	", row.names=FALSE, quote=FALSE);         
+        #Save summary counts per feature
+        feature_summary <- as.data.frame(table(peakAnno@anno$annotation));         write.table(feature_summary, "results/peak_annotation/sample4_peak_annotation_summary.txt", sep="	", row.names=FALSE, quote=FALSE)'         2> logs/peak_annotation/sample4.err
+        
+Activating conda environment: .snakemake/conda/0a04d299429a5699ca68f9d27418dc4b_
+
+[Mon Oct 27 14:00:24 2025]
+Job 125: [deepTools heatmap] Sample: sample4 | BigWig: results/bigwig/sample4.bw | Peaks: results/filtered_peaks/sample4_filtered_peaks.bed | Output: results/heatmap/plot/sample4_tss_heatmap.pdf
+Reason: Missing output files: results/heatmap/matrix/sample4_matrix.gz, results/heatmap/sample4_regions.bed, results/heatmap/plot/sample4_tss_heatmap.pdf; Input files updated by another job: results/bigwig/sample4.bw, results/filtered_peaks/sample4_filtered_peaks.bed
+Shell command: 
+        computeMatrix reference-point             --referencePoint TSS             -b 3000 -a 3000             -R results/filtered_peaks/sample4_filtered_peaks.bed             -S results/bigwig/sample4.bw             --skipZeros             --missingDataAsZero             --numberOfProcessors 8             -out results/heatmap/matrix/sample4_matrix.gz             --outFileSortedRegions results/heatmap/sample4_regions.bed             2> logs/heatmap/matrix/sample4.err
+
+        plotHeatmap             -m results/heatmap/matrix/sample4_matrix.gz             -out results/heatmap/plot/sample4_tss_heatmap.pdf             --colorMap coolwarm             --regionsLabel "TSS"             --samplesLabel sample4             --heatmapHeight 12 --heatmapWidth 6             2>> logs/heatmap/plot/sample4.err
+        
+Activating conda environment: .snakemake/conda/ec40e494b5a7b344ab1489fc1aae2631_
+Select jobs to execute...
+[Mon Oct 27 14:00:59 2025]
+Finished jobid: 125 (Rule: heatmap)
+51 of 127 steps (40%) done
+Execute 1 jobs...
+
+[Mon Oct 27 14:00:59 2025]
+Job 130: [FRiP calculation] Sample: sample4 | Peaks: results/filtered_peaks/sample4_filtered_peaks.bed | BAM: results/tn5_shift/sample4.filtered.shifted.bam | Output: results/frip_calculation/sample4_frip.txt
+Reason: Missing output files: results/frip_calculation/sample4_frip.txt; Input files updated by another job: results/filtered_peaks/sample4_filtered_peaks.bed, results/tn5_shift/sample4.filtered.shifted.bam
+Shell command: 
+        (
+        sed 's/^chr//g' results/filtered_peaks/sample4_filtered_peaks.bed > results/filtered_peaks/sample4_filtered_peaks.bed.nochr
+        total_fragments=$(samtools view -c -f 64 results/tn5_shift/sample4.filtered.shifted.bam)
+        fragments_in_peaks=$(bedtools coverage -a results/filtered_peaks/sample4_filtered_peaks.bed.nochr -b results/tn5_shift/sample4.filtered.shifted.bam | awk '{sum += $11} END {print sum+0}')
+        frip=$(echo "scale=6; ${fragments_in_peaks} / ${total_fragments}" | bc)
+        echo -e "FRiP	$frip"  > results/frip_calculation/sample4_frip.txt
+        echo -e "..................................................................." >> results/frip_calculation/sample4_frip.txt
+        echo -e "Sample\tTotal_Reads\tReads_in_Peaks\tFRiP_Score" >> results/frip_calculation/sample4_frip.txt
+        echo -e "sample4\t$total_fragments\t$fragments_in_peaks\t$frip" >> results/frip_calculation/sample4_frip.txt
+        ) 2> logs/frip/sample4.err        
+        
+Activating conda environment: .snakemake/conda/56cef8899ac977f0ac1fc76bacccdfab_
+[bam_sort_core] merging from 6 files and 2 in-memory blocks...
+[Mon Oct 27 14:01:12 2025]
+Finished jobid: 130 (Rule: frip_calculation)
+52 of 127 steps (41%) done
+[bam_sort_core] merging from 6 files and 2 in-memory blocks...
+[Mon Oct 27 14:01:32 2025]
+Finished jobid: 109 (Rule: normalize_coverage)
+53 of 127 steps (42%) done
+[Mon Oct 27 14:01:56 2025]
+Finished jobid: 135 (Rule: peak_annotation)
+54 of 127 steps (43%) done
+[bam_sort_core] merging from 6 files and 2 in-memory blocks...
+Loaded 9223800 alignments near TSS regions
+Calculating TSS enrichment score...
+TSS Enrichment Score: 2.324702 
+null device 
+          1 
+Analysis complete!
+[Mon Oct 27 14:02:40 2025]
+Finished jobid: 89 (Rule: tss_enrichment)
+55 of 127 steps (43%) done
+[Mon Oct 27 14:04:00 2025]
+Finished jobid: 37 (Rule: samtools_fixmate)
+56 of 127 steps (44%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Oct 27 14:04:00 2025]
+Job 42: [SAMTOOLS MARKDUP] SAMPLE: sample2| INPUT: results/samtools_fixmate/sample2_noMT.sorted.fixmate.bam| OUTPUT: results/samtools_markdup/sample2_noMT.sorted.dedup.bam
+Reason: Missing output files: results/samtools_markdup/sample2_noMT.sorted.dedup.bam; Input files updated by another job: results/samtools_fixmate/sample2_noMT.sorted.fixmate.bam
+Shell command: 
+        samtools markdup         -r         -@ 4         results/samtools_fixmate/sample2_noMT.sorted.fixmate.bam         results/samtools_markdup/sample2_noMT.sorted.dedup.bam         2> logs/samtools_markdup/sample2.err
+        
+Activating conda environment: .snakemake/conda/f643f69ae64517e5ef0de044b5130840_
+[Mon Oct 27 14:04:02 2025]
+Finished jobid: 26 (Rule: remove_mito_reads)
+57 of 127 steps (45%) done
+Select jobs to execute...
+Execute 2 jobs...
+
+[Mon Oct 27 14:04:02 2025]
+Job 36: [SAMTOOLS FIXMATE] SAMPLE: sample1| INPUT: results/remove_mito_reads/sample1_noMT.sorted.bam| OUTPUT: results/samtools_fixmate/sample1_noMT.sorted.fixmate.bam
+Reason: Missing output files: results/samtools_fixmate/sample1_noMT.sorted.fixmate.bam; Input files updated by another job: results/remove_mito_reads/sample1_noMT.sorted.bam
+Shell command: 
+        samtools sort -n -@ 2 results/remove_mito_reads/sample1_noMT.sorted.bam |  samtools fixmate -m -@ 2 - - | samtools sort -@ 2 -o results/samtools_fixmate/sample1_noMT.sorted.fixmate.bam - 2> logs/samtools_fixmate/sample1_noMT.sorted.fixmate.bam.log
+       
+Activating conda environment: .snakemake/conda/f643f69ae64517e5ef0de044b5130840_
+
+[Mon Oct 27 14:04:02 2025]
+Job 31: [SAMTOOLS INDEX] SAMPLE: sample1| INPUT: results/remove_mito_reads/sample1_noMT.sorted.bam| OUTPUT: results/samtools_index/sample1_noMT.sorted.bam.bai
+Reason: Missing output files: results/samtools_index/sample1_noMT.sorted.bam.bai; Input files updated by another job: results/remove_mito_reads/sample1_noMT.sorted.bam
+Shell command: 
+        samtools index         -@ 2         results/remove_mito_reads/sample1_noMT.sorted.bam        results/samtools_index/sample1_noMT.sorted.bam.bai         2> logs/samtools_index/sample1.err
+        
+Activating conda environment: .snakemake/conda/f643f69ae64517e5ef0de044b5130840_
+[Mon Oct 27 14:04:04 2025]
+Finished jobid: 40 (Rule: samtools_fixmate)
+58 of 127 steps (46%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Oct 27 14:04:04 2025]
+Job 45: [SAMTOOLS MARKDUP] SAMPLE: sample5| INPUT: results/samtools_fixmate/sample5_noMT.sorted.fixmate.bam| OUTPUT: results/samtools_markdup/sample5_noMT.sorted.dedup.bam
+Reason: Missing output files: results/samtools_markdup/sample5_noMT.sorted.dedup.bam; Input files updated by another job: results/samtools_fixmate/sample5_noMT.sorted.fixmate.bam
+Shell command: 
+        samtools markdup         -r         -@ 4         results/samtools_fixmate/sample5_noMT.sorted.fixmate.bam         results/samtools_markdup/sample5_noMT.sorted.dedup.bam         2> logs/samtools_markdup/sample5.err
+        
+Activating conda environment: .snakemake/conda/f643f69ae64517e5ef0de044b5130840_
+[Mon Oct 27 14:04:06 2025]
+Finished jobid: 31 (Rule: samtools_index)
+59 of 127 steps (46%) done
+[Mon Oct 27 14:04:56 2025]
+Finished jobid: 42 (Rule: samtools_markdup)
+60 of 127 steps (47%) done
+Select jobs to execute...
+Execute 5 jobs...
+
+[Mon Oct 27 14:04:56 2025]
+Job 82: [PICARD COLLECTALIGNMENTSUMMARYMETRICS] SAMPLE: sample2| INPUT: results/samtools_markdup/sample2_noMT.sorted.dedup.bam| OUTPUT: results/picard/CollectAlignmentSummaryMetrics/sample2.alignment_metrics.txt| REFERENCE GENOME: data/reference/genome.fa| VALIDATION STRINGENCY: LENIENT.
+Reason: Missing output files: results/picard/CollectAlignmentSummaryMetrics/sample2.alignment_metrics.txt; Input files updated by another job: results/samtools_markdup/sample2_noMT.sorted.dedup.bam
+Shell command: 
+        PICARD_VERSION=$(picard --help 2>&1 | head -n 1 || echo "Picard Version Unknown" )
+        echo "PICARD VERSION: ${PICARD_VERSION}" >> logs/picard/CollectAlignmentSummaryMetrics/sample2.err
+        
+        set -e 
+        
+        picard CollectAlignmentSummaryMetrics         --INPUT results/samtools_markdup/sample2_noMT.sorted.dedup.bam         --OUTPUT results/picard/CollectAlignmentSummaryMetrics/sample2.alignment_metrics.txt         --REFERENCE_SEQUENCE data/reference/genome.fa         --VALIDATION_STRINGENCY LENIENT         2>> logs/picard/CollectAlignmentSummaryMetrics/sample2.err 
+
+        EXIT_STATUS=$?
+        if [ "${EXIT_STATUS}" -eq 0 ]; then 
+           echo "SUCCESSFULL; EXIT STATUS: ${EXIT_STATUS}" >> logs/picard/CollectAlignmentSummaryMetrics/sample2.err
+        else 
+           echo "UNSUCCESSFULL; EXIT STATUS:  ${EXIT_STATUS}" >> logs/picard/CollectAlignmentSummaryMetrics/sample2.err
+        fi  
+        
+Activating conda environment: .snakemake/conda/9405cd868047d2fe8f3f1111d9c470e3_
+
+[Mon Oct 27 14:04:56 2025]
+Job 47: [SAMTOOLS INDEX POST MARKDUP] SAMPLE: sample2| INPUT: results/samtools_markdup/sample2_noMT.sorted.dedup.bam| OUTPUT: results/samtools_index/post_markdup/sample2_noMT.sorted.dedup.bam.bai
+Reason: Missing output files: results/samtools_index/post_markdup/sample2_noMT.sorted.dedup.bam.bai; Input files updated by another job: results/samtools_markdup/sample2_noMT.sorted.dedup.bam
+Shell command: 
+        samtools index         -@ 2         results/samtools_markdup/sample2_noMT.sorted.dedup.bam        results/samtools_index/post_markdup/sample2_noMT.sorted.dedup.bam.bai         2> logs/samtools_index/post_markdup/sample2.err
+        
+Activating conda environment: .snakemake/conda/f643f69ae64517e5ef0de044b5130840_
+
+[Mon Oct 27 14:04:56 2025]
+Job 74: [PICARD COLLECTINSERTSIZEMETRICS] SAMPLES: sample2| INPUT: results/samtools_markdup/sample2_noMT.sorted.dedup.bam| OUTPUT: results/picard/CollectInsertSizeMetrics/sample2.insert_metrics.txt results/picard/CollectInsertSizeMetrics/sample2.insert_histogram.pdf|m: 0.05| VALIDATION STRINGENCY: LENIENT
+Reason: Missing output files: results/picard/CollectInsertSizeMetrics/sample2.insert_metrics.txt, results/picard/CollectInsertSizeMetrics/sample2.insert_histogram.pdf; Input files updated by another job: results/samtools_markdup/sample2_noMT.sorted.dedup.bam
+Shell command: 
+        VERSION=$(picard --help  2>&1 | head -n 1 || echo "Picard Version Unknown")
+        echo "PICARD VERSION: ${VERSION}" >> logs/picard/CollectInsertSizeMetrics/sample2.err
+        
+        set -e
+        
+        picard CollectInsertSizeMetrics         --INPUT results/samtools_markdup/sample2_noMT.sorted.dedup.bam         --OUTPUT results/picard/CollectInsertSizeMetrics/sample2.insert_metrics.txt         --Histogram_FILE results/picard/CollectInsertSizeMetrics/sample2.insert_histogram.pdf         --M 0.05         --VALIDATION_STRINGENCY LENIENT         2>> logs/picard/CollectInsertSizeMetrics/sample2.err
+
+        EXIT_STATUS=$?
+        if [ ${EXIT_STATUS} -eq 0 ]; then
+           echo "SUCCESSFUL; EXIST STATUS: ${EXIT_STATUS}"
+        else 
+           echo "UNSUCCESSFUL; EXIT_STATUS: ${EXIT_STATUS}"
+        fi  
+
+        
+Activating conda environment: .snakemake/conda/9405cd868047d2fe8f3f1111d9c470e3_
+
+[Mon Oct 27 14:04:56 2025]
+Job 52: [SAMTOOLS VIEW] SAMPLE: sample2 | INPUT: results/samtools_markdup/sample2_noMT.sorted.dedup.bam | OUTPUT: results/samtools_view/sample2.filtered.bam| MINIMUM MAPQ: 30 | FILTER FLAGS: 3844
+Reason: Missing output files: results/samtools_view/sample2.filtered.bam; Input files updated by another job: results/samtools_markdup/sample2_noMT.sorted.dedup.bam
+Shell command: 
+        samtools view         -@ 2         -b         -q 30         -F 3844         -f 2         results/samtools_markdup/sample2_noMT.sorted.dedup.bam         -o results/samtools_view/sample2.filtered.bam         2> logs/samtools_view/sample2.out
+        
+Activating conda environment: .snakemake/conda/f643f69ae64517e5ef0de044b5130840_
+
+[Mon Oct 27 14:04:56 2025]
+Job 144: [qualimap] Sample: sample2 | Markdup Bam: results/samtools_markdup/sample2_noMT.sorted.dedup.bam | Reports: results/qualimap/sample2_qualimap_report | Extra: bamqc...
+Reason: Missing output files: results/qualimap/sample2_qualimap_report; Input files updated by another job: results/samtools_markdup/sample2_noMT.sorted.dedup.bam
+Shell command: 
+        qualimap bamqc             -bam results/samtools_markdup/sample2_noMT.sorted.dedup.bam             -outdir results/qualimap/sample2_qualimap_report             -nt 4             2> logs/qualimap/sample2.err
+        
+Activating conda environment: .snakemake/conda/3e6432c337bcbef5571846e900db0e4e_
+Java memory size is set to 1200M
+Launching application...
+
+QualiMap v.2.3
+Built on 2023-05-19 16:57
+
+Selected tool: bamqc
+Available memory (Mb): 33
+Max memory (Mb): 1258
+Starting bam qc....
+Loading sam header...
+Loading locator...
+Loading reference...
+Number of windows: 400, effective number of windows: 593
+Chunk of reads size: 1000
+Number of threads: 4
+[Mon Oct 27 14:05:00 2025]
+Finished jobid: 47 (Rule: samtools_index_postmarkdup)
+61 of 127 steps (48%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Oct 27 14:05:00 2025]
+Job 139: [Preseq Sample: sample2 | Markedup Bam Index: results/samtools_index/post_markdup/sample2_noMT.sorted.dedup.bam.bai , Markedup Bam: results/samtools_markdup/sample2_noMT.sorted.dedup.bam | Complexity: results/preseq/sample2.ccurve.txt | Extra: lc_extrap ]
+Reason: Missing output files: results/preseq/sample2.ccurve.txt; Input files updated by another job: results/samtools_index/post_markdup/sample2_noMT.sorted.dedup.bam.bai, results/samtools_markdup/sample2_noMT.sorted.dedup.bam
+Shell command: 
+        preseq lc_extrap             -B results/samtools_markdup/sample2_noMT.sorted.dedup.bam             -o results/preseq/sample2.ccurve.txt             2> logs/preseq/sample2.err || (echo "Preseq failed on sample2." >> logs/preseq/sample2.err; true)
+        
+Activating conda environment: .snakemake/conda/5edd171b66acd7342610fe482ab097b8_
+Processed 59 out of 593 windows...
+Processed 118 out of 593 windows...
+Processed 177 out of 593 windows...
+SUCCESSFUL; EXIST STATUS: 0
+Processed 236 out of 593 windows...
+[Mon Oct 27 14:05:19 2025]
+Finished jobid: 74 (Rule: picard_CollectInsertSizeMetrics)
+62 of 127 steps (49%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Oct 27 14:05:19 2025]
+Job 73: [FRAGMENT SIZE ANALYSIS] SAMPLES: sample2| INPUT: results/picard/CollectInsertSizeMetrics/sample2.insert_metrics.txt| OUTPUT: results/fragment_size_analysis/sample2_fragment_sizes.txt results/fragment_size_analysis/sample2_fragment.png results/fragment_size_analysis/sample2_fragment_stats.txt|MIN LENGTH: 30| MAX LENGTH: 1000| MAX FRAGMENT: 1000 
+Reason: Missing output files: results/fragment_size_analysis/sample2_fragment.png, results/fragment_size_analysis/sample2_fragment_sizes.txt, results/fragment_size_analysis/sample2_fragment_stats.txt; Input files updated by another job: results/picard/CollectInsertSizeMetrics/sample2.insert_metrics.txt
+Shell command: 
+        echo '
+        # Read Picard insert size metrics
+        data <- read.table("results/picard/CollectInsertSizeMetrics/sample2.insert_metrics.txt", header=TRUE, skip=10)
+        fragments <- data$insert_size
+    
+        # Write fragment sizes
+        write.table(fragments, "results/fragment_size_analysis/sample2_fragment_sizes.txt", row.names=FALSE, col.names=FALSE, quote=FALSE)
+    
+        # Generate histogram
+        png("results/fragment_size_analysis/sample2_fragment.png")
+        hist(fragments, main="Fragment Size Distribution", xlab="Fragment Size (bp)", col="skyblue", breaks=50)
+        dev.off()
+    
+        # Generate statistics
+        stats_summary <- c(
+              paste("Total_fragments:", length(fragments)),
+              paste("Mean_size:", round(mean(fragments), 2)),
+              paste("Min_size:", min(fragments)),
+              paste("Max_size:", max(fragments))
+        )
+        writeLines(stats_summary, "results/fragment_size_analysis/sample2_fragment_stats.txt")
+        ' | Rscript - 2> logs/fragment_size_analysis/sample2.err
+        
+Activating conda environment: .snakemake/conda/f643f69ae64517e5ef0de044b5130840_
+null device 
+          1 
+[Mon Oct 27 14:05:21 2025]
+Finished jobid: 73 (Rule: fragment_size_analysis)
+63 of 127 steps (50%) done
+Processed 295 out of 593 windows...
+[bam_sort_core] merging from 6 files and 2 in-memory blocks...
+Processed 354 out of 593 windows...
+Processed 413 out of 593 windows...
+Processed 472 out of 593 windows...
+Processed 531 out of 593 windows...
+Processed 590 out of 593 windows...
+Total processed windows:593
+Number of reads: 18192686
+Number of valid reads: 18192686
+Number of correct strand reads:0
+
+Inside of regions...
+Num mapped reads: 18192686
+Num mapped first of pair: 9096343
+Num mapped second of pair: 9096343
+Num singletons: 0
+Time taken to analyze reads: 47
+Computing descriptors...
+numberOfMappedBases: 818158923
+referenceSize: 3099750718
+numberOfSequencedBases: 818065564
+numberOfAs: 229715453
+Computing per chromosome statistics...
+Computing histograms...
+[Mon Oct 27 14:05:44 2025]
+Finished jobid: 82 (Rule: picard_CollectAlignmentSummaryMetrics)
+64 of 127 steps (50%) done
+Overall analysis time: 49
+end of bam qc
+Computing report...
+Writing HTML report...
+HTML report created successfully
+
+Finished
+[Mon Oct 27 14:05:50 2025]
+Finished jobid: 144 (Rule: qualimap_bamqc)
+65 of 127 steps (51%) done
+[Mon Oct 27 14:05:58 2025]
+Finished jobid: 139 (Rule: preseq)
+66 of 127 steps (52%) done
+[Mon Oct 27 14:06:04 2025]
+Finished jobid: 45 (Rule: samtools_markdup)
+67 of 127 steps (53%) done
+Select jobs to execute...
+Execute 5 jobs...
+
+[Mon Oct 27 14:06:04 2025]
+Job 55: [SAMTOOLS VIEW] SAMPLE: sample5 | INPUT: results/samtools_markdup/sample5_noMT.sorted.dedup.bam | OUTPUT: results/samtools_view/sample5.filtered.bam| MINIMUM MAPQ: 30 | FILTER FLAGS: 3844
+Reason: Missing output files: results/samtools_view/sample5.filtered.bam; Input files updated by another job: results/samtools_markdup/sample5_noMT.sorted.dedup.bam
+Shell command: 
+        samtools view         -@ 2         -b         -q 30         -F 3844         -f 2         results/samtools_markdup/sample5_noMT.sorted.dedup.bam         -o results/samtools_view/sample5.filtered.bam         2> logs/samtools_view/sample5.out
+        
+Activating conda environment: .snakemake/conda/f643f69ae64517e5ef0de044b5130840_
+
+[Mon Oct 27 14:06:04 2025]
+Job 80: [PICARD COLLECTINSERTSIZEMETRICS] SAMPLES: sample5| INPUT: results/samtools_markdup/sample5_noMT.sorted.dedup.bam| OUTPUT: results/picard/CollectInsertSizeMetrics/sample5.insert_metrics.txt results/picard/CollectInsertSizeMetrics/sample5.insert_histogram.pdf|m: 0.05| VALIDATION STRINGENCY: LENIENT
+Reason: Missing output files: results/picard/CollectInsertSizeMetrics/sample5.insert_histogram.pdf, results/picard/CollectInsertSizeMetrics/sample5.insert_metrics.txt; Input files updated by another job: results/samtools_markdup/sample5_noMT.sorted.dedup.bam
+Shell command: 
+        VERSION=$(picard --help  2>&1 | head -n 1 || echo "Picard Version Unknown")
+        echo "PICARD VERSION: ${VERSION}" >> logs/picard/CollectInsertSizeMetrics/sample5.err
+        
+        set -e
+        
+        picard CollectInsertSizeMetrics         --INPUT results/samtools_markdup/sample5_noMT.sorted.dedup.bam         --OUTPUT results/picard/CollectInsertSizeMetrics/sample5.insert_metrics.txt         --Histogram_FILE results/picard/CollectInsertSizeMetrics/sample5.insert_histogram.pdf         --M 0.05         --VALIDATION_STRINGENCY LENIENT         2>> logs/picard/CollectInsertSizeMetrics/sample5.err
+
+        EXIT_STATUS=$?
+        if [ ${EXIT_STATUS} -eq 0 ]; then
+           echo "SUCCESSFUL; EXIST STATUS: ${EXIT_STATUS}"
+        else 
+           echo "UNSUCCESSFUL; EXIT_STATUS: ${EXIT_STATUS}"
+        fi  
+
+        
+Activating conda environment: .snakemake/conda/9405cd868047d2fe8f3f1111d9c470e3_
+
+[Mon Oct 27 14:06:04 2025]
+Job 50: [SAMTOOLS INDEX POST MARKDUP] SAMPLE: sample5| INPUT: results/samtools_markdup/sample5_noMT.sorted.dedup.bam| OUTPUT: results/samtools_index/post_markdup/sample5_noMT.sorted.dedup.bam.bai
+Reason: Missing output files: results/samtools_index/post_markdup/sample5_noMT.sorted.dedup.bam.bai; Input files updated by another job: results/samtools_markdup/sample5_noMT.sorted.dedup.bam
+Shell command: 
+        samtools index         -@ 2         results/samtools_markdup/sample5_noMT.sorted.dedup.bam        results/samtools_index/post_markdup/sample5_noMT.sorted.dedup.bam.bai         2> logs/samtools_index/post_markdup/sample5.err
+        
+Activating conda environment: .snakemake/conda/f643f69ae64517e5ef0de044b5130840_
+
+[Mon Oct 27 14:06:04 2025]
+Job 85: [PICARD COLLECTALIGNMENTSUMMARYMETRICS] SAMPLE: sample5| INPUT: results/samtools_markdup/sample5_noMT.sorted.dedup.bam| OUTPUT: results/picard/CollectAlignmentSummaryMetrics/sample5.alignment_metrics.txt| REFERENCE GENOME: data/reference/genome.fa| VALIDATION STRINGENCY: LENIENT.
+Reason: Missing output files: results/picard/CollectAlignmentSummaryMetrics/sample5.alignment_metrics.txt; Input files updated by another job: results/samtools_markdup/sample5_noMT.sorted.dedup.bam
+Shell command: 
+        PICARD_VERSION=$(picard --help 2>&1 | head -n 1 || echo "Picard Version Unknown" )
+        echo "PICARD VERSION: ${PICARD_VERSION}" >> logs/picard/CollectAlignmentSummaryMetrics/sample5.err
+        
+        set -e 
+        
+        picard CollectAlignmentSummaryMetrics         --INPUT results/samtools_markdup/sample5_noMT.sorted.dedup.bam         --OUTPUT results/picard/CollectAlignmentSummaryMetrics/sample5.alignment_metrics.txt         --REFERENCE_SEQUENCE data/reference/genome.fa         --VALIDATION_STRINGENCY LENIENT         2>> logs/picard/CollectAlignmentSummaryMetrics/sample5.err 
+
+        EXIT_STATUS=$?
+        if [ "${EXIT_STATUS}" -eq 0 ]; then 
+           echo "SUCCESSFULL; EXIT STATUS: ${EXIT_STATUS}" >> logs/picard/CollectAlignmentSummaryMetrics/sample5.err
+        else 
+           echo "UNSUCCESSFULL; EXIT STATUS:  ${EXIT_STATUS}" >> logs/picard/CollectAlignmentSummaryMetrics/sample5.err
+        fi  
+        
+Activating conda environment: .snakemake/conda/9405cd868047d2fe8f3f1111d9c470e3_
+
+[Mon Oct 27 14:06:04 2025]
+Job 147: [qualimap] Sample: sample5 | Markdup Bam: results/samtools_markdup/sample5_noMT.sorted.dedup.bam | Reports: results/qualimap/sample5_qualimap_report | Extra: bamqc...
+Reason: Missing output files: results/qualimap/sample5_qualimap_report; Input files updated by another job: results/samtools_markdup/sample5_noMT.sorted.dedup.bam
+Shell command: 
+        qualimap bamqc             -bam results/samtools_markdup/sample5_noMT.sorted.dedup.bam             -outdir results/qualimap/sample5_qualimap_report             -nt 4             2> logs/qualimap/sample5.err
+        
+Activating conda environment: .snakemake/conda/3e6432c337bcbef5571846e900db0e4e_
+Java memory size is set to 1200M
+Launching application...
+
+QualiMap v.2.3
+Built on 2023-05-19 16:57
+
+Selected tool: bamqc
+Available memory (Mb): 33
+Max memory (Mb): 1258
+Starting bam qc....
+Loading sam header...
+Loading locator...
+Loading reference...
+Number of windows: 400, effective number of windows: 593
+Chunk of reads size: 1000
+Number of threads: 4
+[Mon Oct 27 14:06:11 2025]
+Finished jobid: 50 (Rule: samtools_index_postmarkdup)
+68 of 127 steps (54%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Oct 27 14:06:11 2025]
+Job 142: [Preseq Sample: sample5 | Markedup Bam Index: results/samtools_index/post_markdup/sample5_noMT.sorted.dedup.bam.bai , Markedup Bam: results/samtools_markdup/sample5_noMT.sorted.dedup.bam | Complexity: results/preseq/sample5.ccurve.txt | Extra: lc_extrap ]
+Reason: Missing output files: results/preseq/sample5.ccurve.txt; Input files updated by another job: results/samtools_markdup/sample5_noMT.sorted.dedup.bam, results/samtools_index/post_markdup/sample5_noMT.sorted.dedup.bam.bai
+Shell command: 
+        preseq lc_extrap             -B results/samtools_markdup/sample5_noMT.sorted.dedup.bam             -o results/preseq/sample5.ccurve.txt             2> logs/preseq/sample5.err || (echo "Preseq failed on sample5." >> logs/preseq/sample5.err; true)
+        
+Activating conda environment: .snakemake/conda/5edd171b66acd7342610fe482ab097b8_
+Processed 59 out of 593 windows...
+[Mon Oct 27 14:06:18 2025]
+Finished jobid: 52 (Rule: samtools_view)
+69 of 127 steps (54%) done
+Select jobs to execute...
+Execute 2 jobs...
+
+[Mon Oct 27 14:06:18 2025]
+Job 67: [SAMTOOLS STATISTICS] SAMPLE: sample2| INPUT: results/samtools_view/sample2.filtered.bam| OUTPUT: results/samtools_stats/sample2_postFiltering.stats.txt
+Reason: Missing output files: results/samtools_stats/sample2_postFiltering.stats.txt; Input files updated by another job: results/samtools_view/sample2.filtered.bam
+Shell command: 
+        samtools stats         -@ 2         results/samtools_view/sample2.filtered.bam         > results/samtools_stats/sample2_postFiltering.stats.txt         2> logs/samtools_stats/sample2.err 
+        
+Activating conda environment: .snakemake/conda/f643f69ae64517e5ef0de044b5130840_
+
+[Mon Oct 27 14:06:18 2025]
+Job 57: [SAMTOOLS INDEX POST FILTER] SAMPLE: sample2| INPUT: results/samtools_view/sample2.filtered.bam| OUTPUT: results/samtools_view/sample2.filtered.bam.bai
+Reason: Missing output files: results/samtools_view/sample2.filtered.bam.bai; Input files updated by another job: results/samtools_view/sample2.filtered.bam
+Shell command: 
+        samtools index         -@ 2         results/samtools_view/sample2.filtered.bam         results/samtools_view/sample2.filtered.bam.bai         2> logs/samtools_index_post_filter/sample2.out
+        
+Activating conda environment: .snakemake/conda/f643f69ae64517e5ef0de044b5130840_
+[Mon Oct 27 14:06:25 2025]
+Finished jobid: 57 (Rule: samtools_index_post_filter)
+70 of 127 steps (55%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Oct 27 14:06:25 2025]
+Job 62: [TN5 SHIFT: Adjusting ATAC-seq read positions by +4-5 bp to reflect true Tn5 cut sites] SAMPLE:  sample2| INPUT: results/samtools_view/sample2.filtered.bam results/samtools_view/sample2.filtered.bam.bai | OUTPUT: results/tn5_shift/sample2.filtered.shifted.bam results/tn5_shift/sample2.filtered.shifted.bam.bai
+Reason: Missing output files: results/tn5_shift/sample2.filtered.shifted.bam, results/tn5_shift/sample2.filtered.shifted.bam.bai; Input files updated by another job: results/samtools_view/sample2.filtered.bam, results/samtools_view/sample2.filtered.bam.bai
+Shell command: 
+        alignmentSieve --ATACshift            -b results/samtools_view/sample2.filtered.bam            -o results/tn5_shift/sample2.filtered.shifted.bam.unsorted            -p 4            2> logs/tn5_shift/sample2.err  &&         samtools sort -o results/tn5_shift/sample2.filtered.shifted.bam results/tn5_shift/sample2.filtered.shifted.bam.unsorted && rm -rf results/tn5_shift/sample2.filtered.shifted.bam.unsorted && samtools index results/tn5_shift/sample2.filtered.shifted.bam 
+        
+Activating conda environment: .snakemake/conda/ec40e494b5a7b344ab1489fc1aae2631_
+Processed 118 out of 593 windows...
+[Mon Oct 27 14:06:33 2025]
+Finished jobid: 67 (Rule: samtools_stats)
+71 of 127 steps (56%) done
+Processed 177 out of 593 windows...
+SUCCESSFUL; EXIST STATUS: 0
+[Mon Oct 27 14:06:38 2025]
+Finished jobid: 80 (Rule: picard_CollectInsertSizeMetrics)
+72 of 127 steps (57%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Oct 27 14:06:38 2025]
+Job 79: [FRAGMENT SIZE ANALYSIS] SAMPLES: sample5| INPUT: results/picard/CollectInsertSizeMetrics/sample5.insert_metrics.txt| OUTPUT: results/fragment_size_analysis/sample5_fragment_sizes.txt results/fragment_size_analysis/sample5_fragment.png results/fragment_size_analysis/sample5_fragment_stats.txt|MIN LENGTH: 30| MAX LENGTH: 1000| MAX FRAGMENT: 1000 
+Reason: Missing output files: results/fragment_size_analysis/sample5_fragment.png, results/fragment_size_analysis/sample5_fragment_sizes.txt, results/fragment_size_analysis/sample5_fragment_stats.txt; Input files updated by another job: results/picard/CollectInsertSizeMetrics/sample5.insert_metrics.txt
+Shell command: 
+        echo '
+        # Read Picard insert size metrics
+        data <- read.table("results/picard/CollectInsertSizeMetrics/sample5.insert_metrics.txt", header=TRUE, skip=10)
+        fragments <- data$insert_size
+    
+        # Write fragment sizes
+        write.table(fragments, "results/fragment_size_analysis/sample5_fragment_sizes.txt", row.names=FALSE, col.names=FALSE, quote=FALSE)
+    
+        # Generate histogram
+        png("results/fragment_size_analysis/sample5_fragment.png")
+        hist(fragments, main="Fragment Size Distribution", xlab="Fragment Size (bp)", col="skyblue", breaks=50)
+        dev.off()
+    
+        # Generate statistics
+        stats_summary <- c(
+              paste("Total_fragments:", length(fragments)),
+              paste("Mean_size:", round(mean(fragments), 2)),
+              paste("Min_size:", min(fragments)),
+              paste("Max_size:", max(fragments))
+        )
+        writeLines(stats_summary, "results/fragment_size_analysis/sample5_fragment_stats.txt")
+        ' | Rscript - 2> logs/fragment_size_analysis/sample5.err
+        
+Activating conda environment: .snakemake/conda/f643f69ae64517e5ef0de044b5130840_
+null device 
+          1 
+[Mon Oct 27 14:06:39 2025]
+Finished jobid: 79 (Rule: fragment_size_analysis)
+73 of 127 steps (57%) done
+Processed 236 out of 593 windows...
+Processed 295 out of 593 windows...
+Processed 354 out of 593 windows...
+Processed 413 out of 593 windows...
+Processed 472 out of 593 windows...
+Processed 531 out of 593 windows...
+Processed 590 out of 593 windows...
+Total processed windows:593
+Number of reads: 30315144
+Number of valid reads: 30315144
+Number of correct strand reads:0
+
+Inside of regions...
+Num mapped reads: 30315144
+Num mapped first of pair: 15157572
+Num mapped second of pair: 15157572
+Num singletons: 0
+Time taken to analyze reads: 82
+Computing descriptors...
+numberOfMappedBases: 1361153729
+referenceSize: 3099750718
+numberOfSequencedBases: 1360968168
+numberOfAs: 378880070
+Computing per chromosome statistics...
+Computing histograms...
+[Mon Oct 27 14:07:27 2025]
+Finished jobid: 85 (Rule: picard_CollectAlignmentSummaryMetrics)
+74 of 127 steps (58%) done
+[Mon Oct 27 14:07:28 2025]
+Finished jobid: 55 (Rule: samtools_view)
+75 of 127 steps (59%) done
+Select jobs to execute...
+Execute 2 jobs...
+
+[Mon Oct 27 14:07:28 2025]
+Job 60: [SAMTOOLS INDEX POST FILTER] SAMPLE: sample5| INPUT: results/samtools_view/sample5.filtered.bam| OUTPUT: results/samtools_view/sample5.filtered.bam.bai
+Reason: Missing output files: results/samtools_view/sample5.filtered.bam.bai; Input files updated by another job: results/samtools_view/sample5.filtered.bam
+Shell command: 
+        samtools index         -@ 2         results/samtools_view/sample5.filtered.bam         results/samtools_view/sample5.filtered.bam.bai         2> logs/samtools_index_post_filter/sample5.out
+        
+Activating conda environment: .snakemake/conda/f643f69ae64517e5ef0de044b5130840_
+
+[Mon Oct 27 14:07:28 2025]
+Job 70: [SAMTOOLS STATISTICS] SAMPLE: sample5| INPUT: results/samtools_view/sample5.filtered.bam| OUTPUT: results/samtools_stats/sample5_postFiltering.stats.txt
+Reason: Missing output files: results/samtools_stats/sample5_postFiltering.stats.txt; Input files updated by another job: results/samtools_view/sample5.filtered.bam
+Shell command: 
+        samtools stats         -@ 2         results/samtools_view/sample5.filtered.bam         > results/samtools_stats/sample5_postFiltering.stats.txt         2> logs/samtools_stats/sample5.err 
+        
+Activating conda environment: .snakemake/conda/f643f69ae64517e5ef0de044b5130840_
+Overall analysis time: 85
+end of bam qc
+Computing report...
+Writing HTML report...
+HTML report created successfully
+
+Finished
+[Mon Oct 27 14:07:32 2025]
+Finished jobid: 147 (Rule: qualimap_bamqc)
+76 of 127 steps (60%) done
+[Mon Oct 27 14:07:33 2025]
+Finished jobid: 60 (Rule: samtools_index_post_filter)
+77 of 127 steps (61%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Oct 27 14:07:33 2025]
+Job 65: [TN5 SHIFT: Adjusting ATAC-seq read positions by +4-5 bp to reflect true Tn5 cut sites] SAMPLE:  sample5| INPUT: results/samtools_view/sample5.filtered.bam results/samtools_view/sample5.filtered.bam.bai | OUTPUT: results/tn5_shift/sample5.filtered.shifted.bam results/tn5_shift/sample5.filtered.shifted.bam.bai
+Reason: Missing output files: results/tn5_shift/sample5.filtered.shifted.bam.bai, results/tn5_shift/sample5.filtered.shifted.bam; Input files updated by another job: results/samtools_view/sample5.filtered.bam, results/samtools_view/sample5.filtered.bam.bai
+Shell command: 
+        alignmentSieve --ATACshift            -b results/samtools_view/sample5.filtered.bam            -o results/tn5_shift/sample5.filtered.shifted.bam.unsorted            -p 4            2> logs/tn5_shift/sample5.err  &&         samtools sort -o results/tn5_shift/sample5.filtered.shifted.bam results/tn5_shift/sample5.filtered.shifted.bam.unsorted && rm -rf results/tn5_shift/sample5.filtered.shifted.bam.unsorted && samtools index results/tn5_shift/sample5.filtered.shifted.bam 
+        
+Activating conda environment: .snakemake/conda/ec40e494b5a7b344ab1489fc1aae2631_
+[bam_sort_core] merging from 1 files and 1 in-memory blocks...
+[Mon Oct 27 14:07:48 2025]
+Finished jobid: 70 (Rule: samtools_stats)
+78 of 127 steps (61%) done
+[Mon Oct 27 14:08:00 2025]
+Finished jobid: 142 (Rule: preseq)
+79 of 127 steps (62%) done
+[Mon Oct 27 14:08:02 2025]
+Finished jobid: 62 (Rule: tn5_shift)
+80 of 127 steps (63%) done
+Select jobs to execute...
+Execute 4 jobs...
+
+[Mon Oct 27 14:08:02 2025]
+Job 107: [Normalize Coverage] Sample: sample2 | Shifted Bam: results/tn5_shift/sample2.filtered.shifted.bam | NormalizedCoverage: results/normalized_coverage/sample2_CPM.bw |Method: CPM]...
+Reason: Missing output files: results/normalized_coverage/sample2_CPM.bw; Input files updated by another job: results/tn5_shift/sample2.filtered.shifted.bam
+Shell command: 
+         bamCoverage              -b results/tn5_shift/sample2.filtered.shifted.bam              -o results/normalized_coverage/sample2_CPM.bw              --normalizeUsing CPM              --numberOfProcessors 4              2> logs/normalized_coverage/sample2.err
+         
+Activating conda environment: .snakemake/conda/f7b3b8b13f4f1fe77b942c40f0294d92_
+
+[Mon Oct 27 14:08:02 2025]
+Job 92: [bedtools genomecov] sample: sample2 | BAM : results/tn5_shift/sample2.filtered.shifted.bam| Output: results/bedtools_genomecov/sample2.bedGraph...
+Reason: Missing output files: results/bedtools_genomecov/sample2.bedGraph; Input files updated by another job: results/tn5_shift/sample2.filtered.shifted.bam
+Shell command: 
+        bedtools genomecov           -ibam results/tn5_shift/sample2.filtered.shifted.bam           -bg           > results/bedtools_genomecov/sample2.bedGraph           2> logs/bedtools_genomecov/sample2.err
+        
+Activating conda environment: .snakemake/conda/56cef8899ac977f0ac1fc76bacccdfab_
+
+[Mon Oct 27 14:08:02 2025]
+Job 87: [TSS ENRICHMENT] SAMPLE: sample2| INPUT: results/tn5_shift/sample2.filtered.shifted.bam results/tn5_shift/sample2.filtered.shifted.bam.bai | OUTPUT: results/tss_enrichment/sample2_tss_enrichment.txt results/tss_enrichment/sample2_tss_enrichment.pdf| T XDB: TxDb.Hsapiens.UCSC.hg38.knownGene| UPSTREAM: 2000| DOWNSTREAM: 2000  
+Reason: Missing output files: results/tss_enrichment/sample2_tss_enrichment.txt, results/tss_enrichment/sample2_tss_enrichment.pdf; Input files updated by another job: results/tn5_shift/sample2.filtered.shifted.bam, results/tn5_shift/sample2.filtered.shifted.bam.bai
+Shell command: 
+        Rscript -e '
+        suppressPackageStartupMessages({
+            library(ATACseqQC)
+            library(GenomicFeatures)
+            library(GenomicAlignments)
+            library(Rsamtools)
+            library(TxDb.Hsapiens.UCSC.hg38.knownGene)
+        })
+    
+        bamfile <- "results/tn5_shift/sample2.filtered.shifted.bam"
+        out_text <- "results/tss_enrichment/sample2_tss_enrichment.txt"
+        out_pdf <- "results/tss_enrichment/sample2_tss_enrichment.pdf"
+    
+        cat("Starting TSS enrichment analysis...\n")
+    
+        # Define standard chromosomes WITHOUT chr prefix
+        standard_chroms <- c(1:22, "X", "Y", "MT")
+    
+        # Load transcript database and create TSS regions
+        cat("Loading transcript database...\n")
+        txdb <- TxDb.Hsapiens.UCSC.hg38.knownGene
+        txs <- transcripts(txdb)
+        tss_regions <- promoters(txs, upstream=2000, downstream=2000)
+    
+        # Convert TSS regions to NCBI style (no chr prefix) to match BAM
+        cat("Converting chromosome names to match BAM...\n")
+        seqlevelsStyle(tss_regions) <- "NCBI"
+    
+        # Filter to standard chromosomes
+        tss_regions <- keepSeqlevels(tss_regions, standard_chroms, pruning.mode="coarse")
+    
+        cat("TSS regions prepared:", length(tss_regions), "regions\n")
+    
+        # Read ONLY TSS regions, not entire chromosomes!
+        cat("Reading BAM file (TSS regions only)...\n")
+        param <- ScanBamParam(which=tss_regions)  # KEY FIX!
+        bam <- readGAlignments(bamfile, param=param)
+    
+        cat("Loaded", length(bam), "alignments near TSS regions\n")
+    
+        if (length(bam) == 0) {
+            stop("No alignments loaded from BAM file near TSS regions")
+        }
+    
+        # Clean up seqlevels
+        seqlevels(bam, pruning.mode="coarse") <- standard_chroms
+    
+        # Calculate TSS enrichment score and create plot
+        cat("Calculating TSS enrichment score...\n")
+        
+        tsse_result <- TSSEscore(bam, txs=tss_regions)
+        
+        # Extract the score
+        if (is.list(tsse_result)) {
+            tsse_score <- tsse_result$TSSEscore
+        } else {
+            tsse_score <- tsse_result
+        }
+        
+        cat("TSS Enrichment Score:", tsse_score, "\n")
+    
+        # Generate plot
+        pdf(out_pdf, width=10, height=6)
+        tryCatch({
+            plot_result <- TSSEscoreplot(bam, txs=tss_regions)
+            title(main=paste0("sample2 - TSS Score: ", round(tsse_score, 3)))
+        }, error=function(e) {
+            plot(1, type="n", xlab="", ylab="", axes=FALSE)
+            text(1, 1, paste0("TSS Score: ", round(tsse_score, 3)), cex=2)
+        })
+        dev.off()
+    
+        # Save results
+        result_df <- data.frame(
+            Sample="sample2", 
+            TSS_Enrichment=tsse_score,
+            Total_Alignments=length(bam)
+        )
+        
+        write.table(result_df, file=out_text, sep="\t", quote=FALSE, row.names=FALSE)
+    
+        cat("Analysis complete!\n")
+        ' 2>&1 | tee logs/tss_enrichment/sample2.err
+        
+Activating conda environment: .snakemake/conda/b880f52961a4dffddafca22da9c98fef_
+
+[Mon Oct 27 14:08:02 2025]
+Job 113: [MACS2 PEAKCALLING] SAMPLE:  sample2 | Markdup_Bam: results/tn5_shift/sample2.filtered.shifted.bam | Peaks: results/macs2_peakcall/sample2_peaks.narrowPeak | Genome Size: hs | QVal: 0.01 | Nomodel: --nomodel | Model: BAMPE]
+Reason: Missing output files: results/macs2_peakcall/sample2_peaks.narrowPeak; Input files updated by another job: results/tn5_shift/sample2.filtered.shifted.bam
+Shell command: 
+        macs2 callpeak             -t results/tn5_shift/sample2.filtered.shifted.bam             -f BAMPE             -g hs             -n sample2             --outdir results/macs2_peakcall             --nomodel             -q 0.01             2> logs/macs2/sample2.err
+                
+         
+Activating conda environment: .snakemake/conda/c9cbbff4550f687a57c0c3cc891bb015_
+There were 16 warnings (use warnings() to see them)
+Starting TSS enrichment analysis...
+Loading transcript database...
+Warning message:
+In valid.GenomicRanges.seqinfo(x, suggest.trim = TRUE) :
+  GRanges object contains 272 out-of-bound ranges located on sequences
+  chr1_GL383518v1_alt, chr1_KI270762v1_alt, chr2_GL383522v1_alt,
+  chr2_KI270774v1_alt, chr3_KI270777v1_alt, chr3_KI270781v1_alt,
+  chr4_GL000257v2_alt, chr4_KI270788v1_alt, chr5_GL339449v2_alt,
+  chr5_KI270795v1_alt, chr5_KI270898v1_alt, chr6_GL000250v2_alt,
+  chr6_GL000254v2_alt, chr6_GL000255v2_alt, chr6_KI270797v1_alt,
+  chr6_KI270798v1_alt, chr6_KI270801v1_alt, chr7_GL383534v2_alt,
+  chr7_KI270803v1_alt, chr7_KI270806v1_alt, chr7_KI270809v1_alt,
+  chr8_KI270815v1_alt, chr9_GL383540v1_alt, chr9_GL383541v1_alt,
+  chr9_GL383542v1_alt, chr9_KI270823v1_alt, chr10_GL383546v1_alt,
+  chr11_JH159136v1_alt, chr11_KI270831v1_alt, chr11_KI270902v1_alt,
+  chr12_GL383551v1_alt, chr12_GL383553v2_alt, chr12_GL877876v1_alt,
+  chr12_KI270834v1_alt, chr12_KI270904v1_alt, chr13_KI270838v1_alt,
+  chr14_KI270847v1_alt, chr15_GL383555v2_alt, chr15_KI270848v1_alt,
+  chr15_KI270850v1_alt, chr15_KI270851v1_alt, chr15_KI270906v1_alt,
+  chr [... truncated]
+Converting chromosome names to match BAM...
+[Mon Oct 27 14:08:22 2025]
+Finished jobid: 36 (Rule: samtools_fixmate)
+81 of 127 steps (64%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Oct 27 14:08:22 2025]
+Job 41: [SAMTOOLS MARKDUP] SAMPLE: sample1| INPUT: results/samtools_fixmate/sample1_noMT.sorted.fixmate.bam| OUTPUT: results/samtools_markdup/sample1_noMT.sorted.dedup.bam
+Reason: Missing output files: results/samtools_markdup/sample1_noMT.sorted.dedup.bam; Input files updated by another job: results/samtools_fixmate/sample1_noMT.sorted.fixmate.bam
+Shell command: 
+        samtools markdup         -r         -@ 4         results/samtools_fixmate/sample1_noMT.sorted.fixmate.bam         results/samtools_markdup/sample1_noMT.sorted.dedup.bam         2> logs/samtools_markdup/sample1.err
+        
+Activating conda environment: .snakemake/conda/f643f69ae64517e5ef0de044b5130840_
+TSS regions prepared: 252835 regions
+Reading BAM file (TSS regions only)...
+[Mon Oct 27 14:08:42 2025]
+Finished jobid: 92 (Rule: bedtools_genomecov)
+82 of 127 steps (65%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Oct 27 14:08:42 2025]
+Job 97: [sort]  Sample:  sample2 | BedGraph: results/bedtools_genomecov/sample2.bedGraph | Sorted BedGraph: results/sorted_bedgraph_file/sample2.sorted.bedGraph | Resources: 4000...  
+Reason: Missing output files: results/sorted_bedgraph_file/sample2.sorted.bedGraph; Input files updated by another job: results/bedtools_genomecov/sample2.bedGraph
+Shell command: 
+        sort         -k1,1 -k2,2n         --parallel 4         -S 4000M         results/bedtools_genomecov/sample2.bedGraph         > results/sorted_bedgraph_file/sample2.sorted.bedGraph         2> logs/sorted_bedgraph/sample2.err
+        
+[Mon Oct 27 14:08:47 2025]
+Finished jobid: 97 (Rule: sorted_bedgraph)
+83 of 127 steps (65%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Oct 27 14:08:47 2025]
+Job 102: [bedGraphToBigWig] Sample: sample2 | Sorted BedGraph: results/sorted_bedgraph_file/sample2.sorted.bedGraph | BigWig: results/bigwig/sample2.bw | Genome: data/reference/genome.chrom.sizes... 
+Reason: Missing output files: results/bigwig/sample2.bw; Input files updated by another job: results/sorted_bedgraph_file/sample2.sorted.bedGraph
+Shell command: 
+        bedGraphToBigWig         results/sorted_bedgraph_file/sample2.sorted.bedGraph         data/reference/genome.chrom.sizes         results/bigwig/sample2.bw         2> logs/bigwig/sample2.err 
+        
+Activating conda environment: .snakemake/conda/a4101fbb1927eb6333a7d2f5e4906ded_
+[Mon Oct 27 14:09:16 2025]
+Finished jobid: 102 (Rule: bigwig_conversion)
+84 of 127 steps (66%) done
+[Mon Oct 27 14:09:25 2025]
+Finished jobid: 113 (Rule: macs2_peak_calling)
+85 of 127 steps (67%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Oct 27 14:09:25 2025]
+Job 118: [Bedtools intersect] Sample: sample2 | Peaks: results/macs2_peakcall/sample2_peaks.narrowPeak | Filtered Peaks: results/filtered_peaks/sample2_filtered_peaks.bed | Blacklist: data/reference/ENCODE_blacklist.bed
+Reason: Missing output files: results/filtered_peaks/sample2_filtered_peaks.bed; Input files updated by another job: results/macs2_peakcall/sample2_peaks.narrowPeak
+Shell command: 
+        awk 'BEGIN {OFS="\t"} {if ($1 ~ /^[0-9]+$/ || $1 == "X" || $1 == "Y" || $1 == "MT") $1="chr"$1; print}' results/macs2_peakcall/sample2_peaks.narrowPeak > results/macs2_peakcall/sample2_peaks.narrowPeak.tmp &&         bedtools intersect -v             -a results/macs2_peakcall/sample2_peaks.narrowPeak.tmp              -b data/reference/ENCODE_blacklist.bed         > results/filtered_peaks/sample2_filtered_peaks.bed 
+        2> logs/blacklist_region_filter/sample2.err 
+         
+        rm -rf results/macs2_peakcall/sample2_peaks.narrowPeak.tmp
+        
+Activating conda environment: .snakemake/conda/56cef8899ac977f0ac1fc76bacccdfab_
+***** WARNING: File results/macs2_peakcall/sample2_peaks.narrowPeak.tmp has inconsistent naming convention for record:
+GL000205.2	89008	89229	sample2_peak_808	54	.	6.7823	10.1175	5.42893	24
+
+***** WARNING: File results/macs2_peakcall/sample2_peaks.narrowPeak.tmp has inconsistent naming convention for record:
+GL000205.2	89008	89229	sample2_peak_808	54	.	6.7823	10.1175	5.42893	24
+
+[Mon Oct 27 14:09:26 2025]
+Finished jobid: 118 (Rule: blacklist_region_filter)
+86 of 127 steps (68%) done
+Select jobs to execute...
+Execute 2 jobs...
+
+[Mon Oct 27 14:09:26 2025]
+Job 123: [deepTools heatmap] Sample: sample2 | BigWig: results/bigwig/sample2.bw | Peaks: results/filtered_peaks/sample2_filtered_peaks.bed | Output: results/heatmap/plot/sample2_tss_heatmap.pdf
+Reason: Missing output files: results/heatmap/matrix/sample2_matrix.gz, results/heatmap/sample2_regions.bed, results/heatmap/plot/sample2_tss_heatmap.pdf; Input files updated by another job: results/bigwig/sample2.bw, results/filtered_peaks/sample2_filtered_peaks.bed
+Shell command: 
+        computeMatrix reference-point             --referencePoint TSS             -b 3000 -a 3000             -R results/filtered_peaks/sample2_filtered_peaks.bed             -S results/bigwig/sample2.bw             --skipZeros             --missingDataAsZero             --numberOfProcessors 8             -out results/heatmap/matrix/sample2_matrix.gz             --outFileSortedRegions results/heatmap/sample2_regions.bed             2> logs/heatmap/matrix/sample2.err
+
+        plotHeatmap             -m results/heatmap/matrix/sample2_matrix.gz             -out results/heatmap/plot/sample2_tss_heatmap.pdf             --colorMap coolwarm             --regionsLabel "TSS"             --samplesLabel sample2             --heatmapHeight 12 --heatmapWidth 6             2>> logs/heatmap/plot/sample2.err
+        
+Activating conda environment: .snakemake/conda/ec40e494b5a7b344ab1489fc1aae2631_
+
+[Mon Oct 27 14:09:26 2025]
+Job 133: [Peak annotation] Sample: sample2 | Peaks: results/filtered_peaks/sample2_filtered_peaks.bed | Output: results/peak_annotation/sample2_peak_annotation.txt
+Reason: Missing output files: results/peak_annotation/sample2_peak_annotation.txt; Input files updated by another job: results/filtered_peaks/sample2_filtered_peaks.bed
+Shell command: 
+        Rscript -e '         library(ChIPseeker);         library(GenomicFeatures);        
+        peakfile <- "results/filtered_peaks/sample2_filtered_peaks.bed";         
+        txdb <- makeTxDbFromGFF("data/reference/annotation.gtf", format="gtf");         peakAnno <- annotatePeak(peakfile, TxDb=txdb, tssRegion=c(-3000, 3000), verbose=FALSE);         
+        #Save detailed annotation
+        write.table(as.data.frame(peakAnno), "results/peak_annotation/sample2_peak_annotation.txt", sep="	", row.names=FALSE, quote=FALSE);         
+        #Save summary counts per feature
+        feature_summary <- as.data.frame(table(peakAnno@anno$annotation));         write.table(feature_summary, "results/peak_annotation/sample2_peak_annotation_summary.txt", sep="	", row.names=FALSE, quote=FALSE)'         2> logs/peak_annotation/sample2.err
+        
+Activating conda environment: .snakemake/conda/0a04d299429a5699ca68f9d27418dc4b_
+Select jobs to execute...
+[Mon Oct 27 14:09:33 2025]
+Finished jobid: 123 (Rule: heatmap)
+87 of 127 steps (69%) done
+Execute 1 jobs...
+
+[Mon Oct 27 14:09:33 2025]
+Job 128: [FRiP calculation] Sample: sample2 | Peaks: results/filtered_peaks/sample2_filtered_peaks.bed | BAM: results/tn5_shift/sample2.filtered.shifted.bam | Output: results/frip_calculation/sample2_frip.txt
+Reason: Missing output files: results/frip_calculation/sample2_frip.txt; Input files updated by another job: results/tn5_shift/sample2.filtered.shifted.bam, results/filtered_peaks/sample2_filtered_peaks.bed
+Shell command: 
+        (
+        sed 's/^chr//g' results/filtered_peaks/sample2_filtered_peaks.bed > results/filtered_peaks/sample2_filtered_peaks.bed.nochr
+        total_fragments=$(samtools view -c -f 64 results/tn5_shift/sample2.filtered.shifted.bam)
+        fragments_in_peaks=$(bedtools coverage -a results/filtered_peaks/sample2_filtered_peaks.bed.nochr -b results/tn5_shift/sample2.filtered.shifted.bam | awk '{sum += $11} END {print sum+0}')
+        frip=$(echo "scale=6; ${fragments_in_peaks} / ${total_fragments}" | bc)
+        echo -e "FRiP	$frip"  > results/frip_calculation/sample2_frip.txt
+        echo -e "..................................................................." >> results/frip_calculation/sample2_frip.txt
+        echo -e "Sample\tTotal_Reads\tReads_in_Peaks\tFRiP_Score" >> results/frip_calculation/sample2_frip.txt
+        echo -e "sample2\t$total_fragments\t$fragments_in_peaks\t$frip" >> results/frip_calculation/sample2_frip.txt
+        ) 2> logs/frip/sample2.err        
+        
+Activating conda environment: .snakemake/conda/56cef8899ac977f0ac1fc76bacccdfab_
+[bam_sort_core] merging from 2 files and 1 in-memory blocks...
+[Mon Oct 27 14:09:50 2025]
+Finished jobid: 128 (Rule: frip_calculation)
+88 of 127 steps (69%) done
+[Mon Oct 27 14:09:56 2025]
+Finished jobid: 107 (Rule: normalize_coverage)
+89 of 127 steps (70%) done
+[Mon Oct 27 14:09:57 2025]
+Finished jobid: 41 (Rule: samtools_markdup)
+90 of 127 steps (71%) done
+Select jobs to execute...
+Execute 5 jobs...
+
+[Mon Oct 27 14:09:57 2025]
+Job 72: [PICARD COLLECTINSERTSIZEMETRICS] SAMPLES: sample1| INPUT: results/samtools_markdup/sample1_noMT.sorted.dedup.bam| OUTPUT: results/picard/CollectInsertSizeMetrics/sample1.insert_metrics.txt results/picard/CollectInsertSizeMetrics/sample1.insert_histogram.pdf|m: 0.05| VALIDATION STRINGENCY: LENIENT
+Reason: Missing output files: results/picard/CollectInsertSizeMetrics/sample1.insert_histogram.pdf, results/picard/CollectInsertSizeMetrics/sample1.insert_metrics.txt; Input files updated by another job: results/samtools_markdup/sample1_noMT.sorted.dedup.bam
+Shell command: 
+        VERSION=$(picard --help  2>&1 | head -n 1 || echo "Picard Version Unknown")
+        echo "PICARD VERSION: ${VERSION}" >> logs/picard/CollectInsertSizeMetrics/sample1.err
+        
+        set -e
+        
+        picard CollectInsertSizeMetrics         --INPUT results/samtools_markdup/sample1_noMT.sorted.dedup.bam         --OUTPUT results/picard/CollectInsertSizeMetrics/sample1.insert_metrics.txt         --Histogram_FILE results/picard/CollectInsertSizeMetrics/sample1.insert_histogram.pdf         --M 0.05         --VALIDATION_STRINGENCY LENIENT         2>> logs/picard/CollectInsertSizeMetrics/sample1.err
+
+        EXIT_STATUS=$?
+        if [ ${EXIT_STATUS} -eq 0 ]; then
+           echo "SUCCESSFUL; EXIST STATUS: ${EXIT_STATUS}"
+        else 
+           echo "UNSUCCESSFUL; EXIT_STATUS: ${EXIT_STATUS}"
+        fi  
+
+        
+Activating conda environment: .snakemake/conda/9405cd868047d2fe8f3f1111d9c470e3_
+
+[Mon Oct 27 14:09:57 2025]
+Job 51: [SAMTOOLS VIEW] SAMPLE: sample1 | INPUT: results/samtools_markdup/sample1_noMT.sorted.dedup.bam | OUTPUT: results/samtools_view/sample1.filtered.bam| MINIMUM MAPQ: 30 | FILTER FLAGS: 3844
+Reason: Missing output files: results/samtools_view/sample1.filtered.bam; Input files updated by another job: results/samtools_markdup/sample1_noMT.sorted.dedup.bam
+Shell command: 
+        samtools view         -@ 2         -b         -q 30         -F 3844         -f 2         results/samtools_markdup/sample1_noMT.sorted.dedup.bam         -o results/samtools_view/sample1.filtered.bam         2> logs/samtools_view/sample1.out
+        
+Activating conda environment: .snakemake/conda/f643f69ae64517e5ef0de044b5130840_
+
+[Mon Oct 27 14:09:57 2025]
+Job 46: [SAMTOOLS INDEX POST MARKDUP] SAMPLE: sample1| INPUT: results/samtools_markdup/sample1_noMT.sorted.dedup.bam| OUTPUT: results/samtools_index/post_markdup/sample1_noMT.sorted.dedup.bam.bai
+Reason: Missing output files: results/samtools_index/post_markdup/sample1_noMT.sorted.dedup.bam.bai; Input files updated by another job: results/samtools_markdup/sample1_noMT.sorted.dedup.bam
+Shell command: 
+        samtools index         -@ 2         results/samtools_markdup/sample1_noMT.sorted.dedup.bam        results/samtools_index/post_markdup/sample1_noMT.sorted.dedup.bam.bai         2> logs/samtools_index/post_markdup/sample1.err
+        
+Activating conda environment: .snakemake/conda/f643f69ae64517e5ef0de044b5130840_
+
+[Mon Oct 27 14:09:57 2025]
+Job 81: [PICARD COLLECTALIGNMENTSUMMARYMETRICS] SAMPLE: sample1| INPUT: results/samtools_markdup/sample1_noMT.sorted.dedup.bam| OUTPUT: results/picard/CollectAlignmentSummaryMetrics/sample1.alignment_metrics.txt| REFERENCE GENOME: data/reference/genome.fa| VALIDATION STRINGENCY: LENIENT.
+Reason: Missing output files: results/picard/CollectAlignmentSummaryMetrics/sample1.alignment_metrics.txt; Input files updated by another job: results/samtools_markdup/sample1_noMT.sorted.dedup.bam
+Shell command: 
+        PICARD_VERSION=$(picard --help 2>&1 | head -n 1 || echo "Picard Version Unknown" )
+        echo "PICARD VERSION: ${PICARD_VERSION}" >> logs/picard/CollectAlignmentSummaryMetrics/sample1.err
+        
+        set -e 
+        
+        picard CollectAlignmentSummaryMetrics         --INPUT results/samtools_markdup/sample1_noMT.sorted.dedup.bam         --OUTPUT results/picard/CollectAlignmentSummaryMetrics/sample1.alignment_metrics.txt         --REFERENCE_SEQUENCE data/reference/genome.fa         --VALIDATION_STRINGENCY LENIENT         2>> logs/picard/CollectAlignmentSummaryMetrics/sample1.err 
+
+        EXIT_STATUS=$?
+        if [ "${EXIT_STATUS}" -eq 0 ]; then 
+           echo "SUCCESSFULL; EXIT STATUS: ${EXIT_STATUS}" >> logs/picard/CollectAlignmentSummaryMetrics/sample1.err
+        else 
+           echo "UNSUCCESSFULL; EXIT STATUS:  ${EXIT_STATUS}" >> logs/picard/CollectAlignmentSummaryMetrics/sample1.err
+        fi  
+        
+Activating conda environment: .snakemake/conda/9405cd868047d2fe8f3f1111d9c470e3_
+
+[Mon Oct 27 14:09:57 2025]
+Job 143: [qualimap] Sample: sample1 | Markdup Bam: results/samtools_markdup/sample1_noMT.sorted.dedup.bam | Reports: results/qualimap/sample1_qualimap_report | Extra: bamqc...
+Reason: Missing output files: results/qualimap/sample1_qualimap_report; Input files updated by another job: results/samtools_markdup/sample1_noMT.sorted.dedup.bam
+Shell command: 
+        qualimap bamqc             -bam results/samtools_markdup/sample1_noMT.sorted.dedup.bam             -outdir results/qualimap/sample1_qualimap_report             -nt 4             2> logs/qualimap/sample1.err
+        
+Activating conda environment: .snakemake/conda/3e6432c337bcbef5571846e900db0e4e_
+Java memory size is set to 1200M
+Launching application...
+
+QualiMap v.2.3
+Built on 2023-05-19 16:57
+
+Selected tool: bamqc
+Available memory (Mb): 33
+Max memory (Mb): 1258
+Starting bam qc....
+Loading sam header...
+Loading locator...
+Loading reference...
+Number of windows: 400, effective number of windows: 593
+Chunk of reads size: 1000
+Number of threads: 4
+[Mon Oct 27 14:10:02 2025]
+Finished jobid: 46 (Rule: samtools_index_postmarkdup)
+91 of 127 steps (72%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Oct 27 14:10:02 2025]
+Job 138: [Preseq Sample: sample1 | Markedup Bam Index: results/samtools_index/post_markdup/sample1_noMT.sorted.dedup.bam.bai , Markedup Bam: results/samtools_markdup/sample1_noMT.sorted.dedup.bam | Complexity: results/preseq/sample1.ccurve.txt | Extra: lc_extrap ]
+Reason: Missing output files: results/preseq/sample1.ccurve.txt; Input files updated by another job: results/samtools_markdup/sample1_noMT.sorted.dedup.bam, results/samtools_index/post_markdup/sample1_noMT.sorted.dedup.bam.bai
+Shell command: 
+        preseq lc_extrap             -B results/samtools_markdup/sample1_noMT.sorted.dedup.bam             -o results/preseq/sample1.ccurve.txt             2> logs/preseq/sample1.err || (echo "Preseq failed on sample1." >> logs/preseq/sample1.err; true)
+        
+Activating conda environment: .snakemake/conda/5edd171b66acd7342610fe482ab097b8_
+[Mon Oct 27 14:10:06 2025]
+Finished jobid: 65 (Rule: tn5_shift)
+92 of 127 steps (72%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Oct 27 14:10:06 2025]
+Job 110: [Normalize Coverage] Sample: sample5 | Shifted Bam: results/tn5_shift/sample5.filtered.shifted.bam | NormalizedCoverage: results/normalized_coverage/sample5_CPM.bw |Method: CPM]...
+Reason: Missing output files: results/normalized_coverage/sample5_CPM.bw; Input files updated by another job: results/tn5_shift/sample5.filtered.shifted.bam
+Shell command: 
+         bamCoverage              -b results/tn5_shift/sample5.filtered.shifted.bam              -o results/normalized_coverage/sample5_CPM.bw              --normalizeUsing CPM              --numberOfProcessors 4              2> logs/normalized_coverage/sample5.err
+         
+Activating conda environment: .snakemake/conda/f7b3b8b13f4f1fe77b942c40f0294d92_
+Select jobs to execute...
+Processed 59 out of 593 windows...
+Processed 118 out of 593 windows...
+SUCCESSFUL; EXIST STATUS: 0
+[Mon Oct 27 14:10:25 2025]
+Finished jobid: 72 (Rule: picard_CollectInsertSizeMetrics)
+93 of 127 steps (73%) done
+Execute 1 jobs...
+
+[Mon Oct 27 14:10:25 2025]
+Job 90: [TSS ENRICHMENT] SAMPLE: sample5| INPUT: results/tn5_shift/sample5.filtered.shifted.bam results/tn5_shift/sample5.filtered.shifted.bam.bai | OUTPUT: results/tss_enrichment/sample5_tss_enrichment.txt results/tss_enrichment/sample5_tss_enrichment.pdf| T XDB: TxDb.Hsapiens.UCSC.hg38.knownGene| UPSTREAM: 2000| DOWNSTREAM: 2000  
+Reason: Missing output files: results/tss_enrichment/sample5_tss_enrichment.pdf, results/tss_enrichment/sample5_tss_enrichment.txt; Input files updated by another job: results/tn5_shift/sample5.filtered.shifted.bam.bai, results/tn5_shift/sample5.filtered.shifted.bam
+Shell command: 
+        Rscript -e '
+        suppressPackageStartupMessages({
+            library(ATACseqQC)
+            library(GenomicFeatures)
+            library(GenomicAlignments)
+            library(Rsamtools)
+            library(TxDb.Hsapiens.UCSC.hg38.knownGene)
+        })
+    
+        bamfile <- "results/tn5_shift/sample5.filtered.shifted.bam"
+        out_text <- "results/tss_enrichment/sample5_tss_enrichment.txt"
+        out_pdf <- "results/tss_enrichment/sample5_tss_enrichment.pdf"
+    
+        cat("Starting TSS enrichment analysis...\n")
+    
+        # Define standard chromosomes WITHOUT chr prefix
+        standard_chroms <- c(1:22, "X", "Y", "MT")
+    
+        # Load transcript database and create TSS regions
+        cat("Loading transcript database...\n")
+        txdb <- TxDb.Hsapiens.UCSC.hg38.knownGene
+        txs <- transcripts(txdb)
+        tss_regions <- promoters(txs, upstream=2000, downstream=2000)
+    
+        # Convert TSS regions to NCBI style (no chr prefix) to match BAM
+        cat("Converting chromosome names to match BAM...\n")
+        seqlevelsStyle(tss_regions) <- "NCBI"
+    
+        # Filter to standard chromosomes
+        tss_regions <- keepSeqlevels(tss_regions, standard_chroms, pruning.mode="coarse")
+    
+        cat("TSS regions prepared:", length(tss_regions), "regions\n")
+    
+        # Read ONLY TSS regions, not entire chromosomes!
+        cat("Reading BAM file (TSS regions only)...\n")
+        param <- ScanBamParam(which=tss_regions)  # KEY FIX!
+        bam <- readGAlignments(bamfile, param=param)
+    
+        cat("Loaded", length(bam), "alignments near TSS regions\n")
+    
+        if (length(bam) == 0) {
+            stop("No alignments loaded from BAM file near TSS regions")
+        }
+    
+        # Clean up seqlevels
+        seqlevels(bam, pruning.mode="coarse") <- standard_chroms
+    
+        # Calculate TSS enrichment score and create plot
+        cat("Calculating TSS enrichment score...\n")
+        
+        tsse_result <- TSSEscore(bam, txs=tss_regions)
+        
+        # Extract the score
+        if (is.list(tsse_result)) {
+            tsse_score <- tsse_result$TSSEscore
+        } else {
+            tsse_score <- tsse_result
+        }
+        
+        cat("TSS Enrichment Score:", tsse_score, "\n")
+    
+        # Generate plot
+        pdf(out_pdf, width=10, height=6)
+        tryCatch({
+            plot_result <- TSSEscoreplot(bam, txs=tss_regions)
+            title(main=paste0("sample5 - TSS Score: ", round(tsse_score, 3)))
+        }, error=function(e) {
+            plot(1, type="n", xlab="", ylab="", axes=FALSE)
+            text(1, 1, paste0("TSS Score: ", round(tsse_score, 3)), cex=2)
+        })
+        dev.off()
+    
+        # Save results
+        result_df <- data.frame(
+            Sample="sample5", 
+            TSS_Enrichment=tsse_score,
+            Total_Alignments=length(bam)
+        )
+        
+        write.table(result_df, file=out_text, sep="\t", quote=FALSE, row.names=FALSE)
+    
+        cat("Analysis complete!\n")
+        ' 2>&1 | tee logs/tss_enrichment/sample5.err
+        
+Activating conda environment: .snakemake/conda/b880f52961a4dffddafca22da9c98fef_
+Select jobs to execute...
+Processed 177 out of 593 windows...
+Processed 236 out of 593 windows...
+There were 16 warnings (use warnings() to see them)
+Starting TSS enrichment analysis...
+Loading transcript database...
+Warning message:
+In valid.GenomicRanges.seqinfo(x, suggest.trim = TRUE) :
+  GRanges object contains 272 out-of-bound ranges located on sequences
+  chr1_GL383518v1_alt, chr1_KI270762v1_alt, chr2_GL383522v1_alt,
+  chr2_KI270774v1_alt, chr3_KI270777v1_alt, chr3_KI270781v1_alt,
+  chr4_GL000257v2_alt, chr4_KI270788v1_alt, chr5_GL339449v2_alt,
+  chr5_KI270795v1_alt, chr5_KI270898v1_alt, chr6_GL000250v2_alt,
+  chr6_GL000254v2_alt, chr6_GL000255v2_alt, chr6_KI270797v1_alt,
+  chr6_KI270798v1_alt, chr6_KI270801v1_alt, chr7_GL383534v2_alt,
+  chr7_KI270803v1_alt, chr7_KI270806v1_alt, chr7_KI270809v1_alt,
+  chr8_KI270815v1_alt, chr9_GL383540v1_alt, chr9_GL383541v1_alt,
+  chr9_GL383542v1_alt, chr9_KI270823v1_alt, chr10_GL383546v1_alt,
+  chr11_JH159136v1_alt, chr11_KI270831v1_alt, chr11_KI270902v1_alt,
+  chr12_GL383551v1_alt, chr12_GL383553v2_alt, chr12_GL877876v1_alt,
+  chr12_KI270834v1_alt, chr12_KI270904v1_alt, chr13_KI270838v1_alt,
+  chr14_KI270847v1_alt, chr15_GL383555v2_alt, chr15_KI270848v1_alt,
+  chr15_KI270850v1_alt, chr15_KI270851v1_alt, chr15_KI270906v1_alt,
+  chr [... truncated]
+Converting chromosome names to match BAM...
+[Mon Oct 27 14:10:40 2025]
+Finished jobid: 51 (Rule: samtools_view)
+94 of 127 steps (74%) done
+Execute 1 jobs...
+
+[Mon Oct 27 14:10:40 2025]
+Job 66: [SAMTOOLS STATISTICS] SAMPLE: sample1| INPUT: results/samtools_view/sample1.filtered.bam| OUTPUT: results/samtools_stats/sample1_postFiltering.stats.txt
+Reason: Missing output files: results/samtools_stats/sample1_postFiltering.stats.txt; Input files updated by another job: results/samtools_view/sample1.filtered.bam
+Shell command: 
+        samtools stats         -@ 2         results/samtools_view/sample1.filtered.bam         > results/samtools_stats/sample1_postFiltering.stats.txt         2> logs/samtools_stats/sample1.err 
+        
+Activating conda environment: .snakemake/conda/f643f69ae64517e5ef0de044b5130840_
+Select jobs to execute...
+Loaded 10640503 alignments near TSS regions
+Calculating TSS enrichment score...
+TSS regions prepared: 252835 regions
+Reading BAM file (TSS regions only)...
+Processed 295 out of 593 windows...
+TSS Enrichment Score: 2.224293 
+null device 
+          1 
+Analysis complete!
+[Mon Oct 27 14:10:58 2025]
+Finished jobid: 87 (Rule: tss_enrichment)
+95 of 127 steps (75%) done
+Execute 1 jobs...
+
+[Mon Oct 27 14:10:58 2025]
+Job 71: [FRAGMENT SIZE ANALYSIS] SAMPLES: sample1| INPUT: results/picard/CollectInsertSizeMetrics/sample1.insert_metrics.txt| OUTPUT: results/fragment_size_analysis/sample1_fragment_sizes.txt results/fragment_size_analysis/sample1_fragment.png results/fragment_size_analysis/sample1_fragment_stats.txt|MIN LENGTH: 30| MAX LENGTH: 1000| MAX FRAGMENT: 1000 
+Reason: Missing output files: results/fragment_size_analysis/sample1_fragment_stats.txt, results/fragment_size_analysis/sample1_fragment.png, results/fragment_size_analysis/sample1_fragment_sizes.txt; Input files updated by another job: results/picard/CollectInsertSizeMetrics/sample1.insert_metrics.txt
+Shell command: 
+        echo '
+        # Read Picard insert size metrics
+        data <- read.table("results/picard/CollectInsertSizeMetrics/sample1.insert_metrics.txt", header=TRUE, skip=10)
+        fragments <- data$insert_size
+    
+        # Write fragment sizes
+        write.table(fragments, "results/fragment_size_analysis/sample1_fragment_sizes.txt", row.names=FALSE, col.names=FALSE, quote=FALSE)
+    
+        # Generate histogram
+        png("results/fragment_size_analysis/sample1_fragment.png")
+        hist(fragments, main="Fragment Size Distribution", xlab="Fragment Size (bp)", col="skyblue", breaks=50)
+        dev.off()
+    
+        # Generate statistics
+        stats_summary <- c(
+              paste("Total_fragments:", length(fragments)),
+              paste("Mean_size:", round(mean(fragments), 2)),
+              paste("Min_size:", min(fragments)),
+              paste("Max_size:", max(fragments))
+        )
+        writeLines(stats_summary, "results/fragment_size_analysis/sample1_fragment_stats.txt")
+        ' | Rscript - 2> logs/fragment_size_analysis/sample1.err
+        
+Activating conda environment: .snakemake/conda/f643f69ae64517e5ef0de044b5130840_
+Select jobs to execute...
+null device 
+          1 
+[Mon Oct 27 14:10:59 2025]
+Finished jobid: 71 (Rule: fragment_size_analysis)
+96 of 127 steps (76%) done
+Execute 1 jobs...
+
+[Mon Oct 27 14:10:59 2025]
+Job 95: [bedtools genomecov] sample: sample5 | BAM : results/tn5_shift/sample5.filtered.shifted.bam| Output: results/bedtools_genomecov/sample5.bedGraph...
+Reason: Missing output files: results/bedtools_genomecov/sample5.bedGraph; Input files updated by another job: results/tn5_shift/sample5.filtered.shifted.bam
+Shell command: 
+        bedtools genomecov           -ibam results/tn5_shift/sample5.filtered.shifted.bam           -bg           > results/bedtools_genomecov/sample5.bedGraph           2> logs/bedtools_genomecov/sample5.err
+        
+Activating conda environment: .snakemake/conda/56cef8899ac977f0ac1fc76bacccdfab_
+Select jobs to execute...
+Processed 354 out of 593 windows...
+[Mon Oct 27 14:11:03 2025]
+Finished jobid: 66 (Rule: samtools_stats)
+97 of 127 steps (76%) done
+Execute 1 jobs...
+
+[Mon Oct 27 14:11:03 2025]
+Job 56: [SAMTOOLS INDEX POST FILTER] SAMPLE: sample1| INPUT: results/samtools_view/sample1.filtered.bam| OUTPUT: results/samtools_view/sample1.filtered.bam.bai
+Reason: Missing output files: results/samtools_view/sample1.filtered.bam.bai; Input files updated by another job: results/samtools_view/sample1.filtered.bam
+Shell command: 
+        samtools index         -@ 2         results/samtools_view/sample1.filtered.bam         results/samtools_view/sample1.filtered.bam.bai         2> logs/samtools_index_post_filter/sample1.out
+        
+Activating conda environment: .snakemake/conda/f643f69ae64517e5ef0de044b5130840_
+Select jobs to execute...
+[Mon Oct 27 14:11:03 2025]
+Finished jobid: 133 (Rule: peak_annotation)
+98 of 127 steps (77%) done
+Execute 1 jobs...
+
+[Mon Oct 27 14:11:03 2025]
+Job 116: [MACS2 PEAKCALLING] SAMPLE:  sample5 | Markdup_Bam: results/tn5_shift/sample5.filtered.shifted.bam | Peaks: results/macs2_peakcall/sample5_peaks.narrowPeak | Genome Size: hs | QVal: 0.01 | Nomodel: --nomodel | Model: BAMPE]
+Reason: Missing output files: results/macs2_peakcall/sample5_peaks.narrowPeak; Input files updated by another job: results/tn5_shift/sample5.filtered.shifted.bam
+Shell command: 
+        macs2 callpeak             -t results/tn5_shift/sample5.filtered.shifted.bam             -f BAMPE             -g hs             -n sample5             --outdir results/macs2_peakcall             --nomodel             -q 0.01             2> logs/macs2/sample5.err
+                
+         
+Activating conda environment: .snakemake/conda/c9cbbff4550f687a57c0c3cc891bb015_
+[Mon Oct 27 14:11:04 2025]
+Finished jobid: 81 (Rule: picard_CollectAlignmentSummaryMetrics)
+99 of 127 steps (78%) done
+[Mon Oct 27 14:11:07 2025]
+Finished jobid: 56 (Rule: samtools_index_post_filter)
+100 of 127 steps (79%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Oct 27 14:11:07 2025]
+Job 61: [TN5 SHIFT: Adjusting ATAC-seq read positions by +4-5 bp to reflect true Tn5 cut sites] SAMPLE:  sample1| INPUT: results/samtools_view/sample1.filtered.bam results/samtools_view/sample1.filtered.bam.bai | OUTPUT: results/tn5_shift/sample1.filtered.shifted.bam results/tn5_shift/sample1.filtered.shifted.bam.bai
+Reason: Missing output files: results/tn5_shift/sample1.filtered.shifted.bam.bai, results/tn5_shift/sample1.filtered.shifted.bam; Input files updated by another job: results/samtools_view/sample1.filtered.bam.bai, results/samtools_view/sample1.filtered.bam
+Shell command: 
+        alignmentSieve --ATACshift            -b results/samtools_view/sample1.filtered.bam            -o results/tn5_shift/sample1.filtered.shifted.bam.unsorted            -p 4            2> logs/tn5_shift/sample1.err  &&         samtools sort -o results/tn5_shift/sample1.filtered.shifted.bam results/tn5_shift/sample1.filtered.shifted.bam.unsorted && rm -rf results/tn5_shift/sample1.filtered.shifted.bam.unsorted && samtools index results/tn5_shift/sample1.filtered.shifted.bam 
+        
+Activating conda environment: .snakemake/conda/ec40e494b5a7b344ab1489fc1aae2631_
+Processed 413 out of 593 windows...
+Processed 472 out of 593 windows...
+Processed 531 out of 593 windows...
+Processed 590 out of 593 windows...
+Total processed windows:593
+Number of reads: 21230606
+Number of valid reads: 21230606
+Number of correct strand reads:0
+
+Inside of regions...
+Num mapped reads: 21230606
+Num mapped first of pair: 10615303
+Num mapped second of pair: 10615303
+Num singletons: 0
+Time taken to analyze reads: 75
+Computing descriptors...
+numberOfMappedBases: 954463149
+referenceSize: 3099750718
+numberOfSequencedBases: 954366014
+numberOfAs: 261256744
+Computing per chromosome statistics...
+Computing histograms...
+Overall analysis time: 78
+end of bam qc
+Computing report...
+Writing HTML report...
+HTML report created successfully
+
+Finished
+[Mon Oct 27 14:11:18 2025]
+Finished jobid: 143 (Rule: qualimap_bamqc)
+101 of 127 steps (80%) done
+[Mon Oct 27 14:11:36 2025]
+Finished jobid: 138 (Rule: preseq)
+102 of 127 steps (80%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Oct 27 14:11:36 2025]
+Job 148: Running MultiQC to aggregate all QC reports...
+Reason: Missing output files: results/multiqc; Input files updated by another job: results/samtools_stats/sample5_postFiltering.stats.txt, results/samtools_stats/sample3_postFiltering.stats.txt, results/picard/CollectInsertSizeMetrics/sample4.insert_histogram.pdf, results/picard/CollectInsertSizeMetrics/sample1.insert_histogram.pdf, results/qualimap/sample2_qualimap_report, results/picard/CollectInsertSizeMetrics/sample4.insert_metrics.txt, results/samtools_stats/sample4_postFiltering.stats.txt, results/qualimap/sample4_qualimap_report, results/samtools_stats/sample1_postFiltering.stats.txt, results/picard/CollectAlignmentSummaryMetrics/sample4.alignment_metrics.txt, results/preseq/sample2.ccurve.txt, results/preseq/sample3.ccurve.txt, results/picard/CollectAlignmentSummaryMetrics/sample1.alignment_metrics.txt, results/qualimap/sample5_qualimap_report, results/qualimap/sample1_qualimap_report, results/preseq/sample1.ccurve.txt, results/picard/CollectInsertSizeMetrics/sample1.insert_metrics.txt, results/preseq/sample4.ccurve.txt, results/picard/CollectAlignmentSummaryMetrics/sample2.alignment_metrics.txt, results/picard/CollectAlignmentSummaryMetrics/sample5.alignment_metrics.txt, results/picard/CollectInsertSizeMetrics/sample2.insert_metrics.txt, results/picard/CollectInsertSizeMetrics/sample2.insert_histogram.pdf, results/picard/CollectInsertSizeMetrics/sample3.insert_metrics.txt, results/picard/CollectAlignmentSummaryMetrics/sample3.alignment_metrics.txt, results/picard/CollectInsertSizeMetrics/sample5.insert_histogram.pdf, results/picard/CollectInsertSizeMetrics/sample5.insert_metrics.txt, results/picard/CollectInsertSizeMetrics/sample3.insert_histogram.pdf, results/samtools_stats/sample2_postFiltering.stats.txt, results/preseq/sample5.ccurve.txt
+Shell command: 
+        multiqc results/fastqc/sample1_R1_trimmed_fastqc.zip results/fastqc/sample2_R1_trimmed_fastqc.zip results/fastqc/sample3_R1_trimmed_fastqc.zip results/fastqc/sample4_R1_trimmed_fastqc.zip results/fastqc/sample5_R1_trimmed_fastqc.zip results/fastqc/sample1_R2_trimmed_fastqc.zip results/fastqc/sample2_R2_trimmed_fastqc.zip results/fastqc/sample3_R2_trimmed_fastqc.zip results/fastqc/sample4_R2_trimmed_fastqc.zip results/fastqc/sample5_R2_trimmed_fastqc.zip results/fastp/sample1.json results/fastp/sample2.json results/fastp/sample3.json results/fastp/sample4.json results/fastp/sample5.json results/samtools_stats/sample1_postFiltering.stats.txt results/samtools_stats/sample2_postFiltering.stats.txt results/samtools_stats/sample3_postFiltering.stats.txt results/samtools_stats/sample4_postFiltering.stats.txt results/samtools_stats/sample5_postFiltering.stats.txt results/picard/CollectAlignmentSummaryMetrics/sample1.alignment_metrics.txt results/picard/CollectAlignmentSummaryMetrics/sample2.alignment_metrics.txt results/picard/CollectAlignmentSummaryMetrics/sample3.alignment_metrics.txt results/picard/CollectAlignmentSummaryMetrics/sample4.alignment_metrics.txt results/picard/CollectAlignmentSummaryMetrics/sample5.alignment_metrics.txt results/picard/CollectInsertSizeMetrics/sample1.insert_metrics.txt results/picard/CollectInsertSizeMetrics/sample2.insert_metrics.txt results/picard/CollectInsertSizeMetrics/sample3.insert_metrics.txt results/picard/CollectInsertSizeMetrics/sample4.insert_metrics.txt results/picard/CollectInsertSizeMetrics/sample5.insert_metrics.txt results/picard/CollectInsertSizeMetrics/sample1.insert_histogram.pdf results/picard/CollectInsertSizeMetrics/sample2.insert_histogram.pdf results/picard/CollectInsertSizeMetrics/sample3.insert_histogram.pdf results/picard/CollectInsertSizeMetrics/sample4.insert_histogram.pdf results/picard/CollectInsertSizeMetrics/sample5.insert_histogram.pdf results/preseq/sample1.ccurve.txt results/preseq/sample2.ccurve.txt results/preseq/sample3.ccurve.txt results/preseq/sample4.ccurve.txt results/preseq/sample5.ccurve.txt results/qualimap/sample1_qualimap_report results/qualimap/sample2_qualimap_report results/qualimap/sample3_qualimap_report results/qualimap/sample4_qualimap_report results/qualimap/sample5_qualimap_report -o results/multiqc             --title "ATAC-seq Pipeline QC Report"             --comment "Comprehensive quality control metrics for ATAC-seq analysis"             2> logs/multiqc/multiqc.err
+        
+Activating conda environment: .snakemake/conda/a23aa4c0eb8d0d4e13bbc2d74a093fdf_
+[Mon Oct 27 14:11:41 2025]
+Finished jobid: 148 (Rule: multiqc)
+103 of 127 steps (81%) done
+[Mon Oct 27 14:12:11 2025]
+Finished jobid: 95 (Rule: bedtools_genomecov)
+104 of 127 steps (82%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Oct 27 14:12:11 2025]
+Job 100: [sort]  Sample:  sample5 | BedGraph: results/bedtools_genomecov/sample5.bedGraph | Sorted BedGraph: results/sorted_bedgraph_file/sample5.sorted.bedGraph | Resources: 4000...  
+Reason: Missing output files: results/sorted_bedgraph_file/sample5.sorted.bedGraph; Input files updated by another job: results/bedtools_genomecov/sample5.bedGraph
+Shell command: 
+        sort         -k1,1 -k2,2n         --parallel 4         -S 4000M         results/bedtools_genomecov/sample5.bedGraph         > results/sorted_bedgraph_file/sample5.sorted.bedGraph         2> logs/sorted_bedgraph/sample5.err
+        
+[Mon Oct 27 14:12:17 2025]
+Finished jobid: 110 (Rule: normalize_coverage)
+105 of 127 steps (83%) done
+[Mon Oct 27 14:12:22 2025]
+Finished jobid: 100 (Rule: sorted_bedgraph)
+106 of 127 steps (83%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Oct 27 14:12:22 2025]
+Job 105: [bedGraphToBigWig] Sample: sample5 | Sorted BedGraph: results/sorted_bedgraph_file/sample5.sorted.bedGraph | BigWig: results/bigwig/sample5.bw | Genome: data/reference/genome.chrom.sizes... 
+Reason: Missing output files: results/bigwig/sample5.bw; Input files updated by another job: results/sorted_bedgraph_file/sample5.sorted.bedGraph
+Shell command: 
+        bedGraphToBigWig         results/sorted_bedgraph_file/sample5.sorted.bedGraph         data/reference/genome.chrom.sizes         results/bigwig/sample5.bw         2> logs/bigwig/sample5.err 
+        
+Activating conda environment: .snakemake/conda/a4101fbb1927eb6333a7d2f5e4906ded_
+[bam_sort_core] merging from 2 files and 1 in-memory blocks...
+[Mon Oct 27 14:12:25 2025]
+Finished jobid: 116 (Rule: macs2_peak_calling)
+107 of 127 steps (84%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Oct 27 14:12:25 2025]
+Job 121: [Bedtools intersect] Sample: sample5 | Peaks: results/macs2_peakcall/sample5_peaks.narrowPeak | Filtered Peaks: results/filtered_peaks/sample5_filtered_peaks.bed | Blacklist: data/reference/ENCODE_blacklist.bed
+Reason: Missing output files: results/filtered_peaks/sample5_filtered_peaks.bed; Input files updated by another job: results/macs2_peakcall/sample5_peaks.narrowPeak
+Shell command: 
+        awk 'BEGIN {OFS="\t"} {if ($1 ~ /^[0-9]+$/ || $1 == "X" || $1 == "Y" || $1 == "MT") $1="chr"$1; print}' results/macs2_peakcall/sample5_peaks.narrowPeak > results/macs2_peakcall/sample5_peaks.narrowPeak.tmp &&         bedtools intersect -v             -a results/macs2_peakcall/sample5_peaks.narrowPeak.tmp              -b data/reference/ENCODE_blacklist.bed         > results/filtered_peaks/sample5_filtered_peaks.bed 
+        2> logs/blacklist_region_filter/sample5.err 
+         
+        rm -rf results/macs2_peakcall/sample5_peaks.narrowPeak.tmp
+        
+Activating conda environment: .snakemake/conda/56cef8899ac977f0ac1fc76bacccdfab_
+***** WARNING: File results/macs2_peakcall/sample5_peaks.narrowPeak.tmp has inconsistent naming convention for record:
+GL000216.2	165566	165797	sample5_peak_710	131	.	9.76652	18.4133	13.1469	156
+
+***** WARNING: File results/macs2_peakcall/sample5_peaks.narrowPeak.tmp has inconsistent naming convention for record:
+GL000216.2	165566	165797	sample5_peak_710	131	.	9.76652	18.4133	13.1469	156
+
+[Mon Oct 27 14:12:25 2025]
+Finished jobid: 121 (Rule: blacklist_region_filter)
+108 of 127 steps (85%) done
+Select jobs to execute...
+Execute 2 jobs...
+
+[Mon Oct 27 14:12:25 2025]
+Job 131: [FRiP calculation] Sample: sample5 | Peaks: results/filtered_peaks/sample5_filtered_peaks.bed | BAM: results/tn5_shift/sample5.filtered.shifted.bam | Output: results/frip_calculation/sample5_frip.txt
+Reason: Missing output files: results/frip_calculation/sample5_frip.txt; Input files updated by another job: results/filtered_peaks/sample5_filtered_peaks.bed, results/tn5_shift/sample5.filtered.shifted.bam
+Shell command: 
+        (
+        sed 's/^chr//g' results/filtered_peaks/sample5_filtered_peaks.bed > results/filtered_peaks/sample5_filtered_peaks.bed.nochr
+        total_fragments=$(samtools view -c -f 64 results/tn5_shift/sample5.filtered.shifted.bam)
+        fragments_in_peaks=$(bedtools coverage -a results/filtered_peaks/sample5_filtered_peaks.bed.nochr -b results/tn5_shift/sample5.filtered.shifted.bam | awk '{sum += $11} END {print sum+0}')
+        frip=$(echo "scale=6; ${fragments_in_peaks} / ${total_fragments}" | bc)
+        echo -e "FRiP	$frip"  > results/frip_calculation/sample5_frip.txt
+        echo -e "..................................................................." >> results/frip_calculation/sample5_frip.txt
+        echo -e "Sample\tTotal_Reads\tReads_in_Peaks\tFRiP_Score" >> results/frip_calculation/sample5_frip.txt
+        echo -e "sample5\t$total_fragments\t$fragments_in_peaks\t$frip" >> results/frip_calculation/sample5_frip.txt
+        ) 2> logs/frip/sample5.err        
+        
+Activating conda environment: .snakemake/conda/56cef8899ac977f0ac1fc76bacccdfab_
+
+[Mon Oct 27 14:12:25 2025]
+Job 136: [Peak annotation] Sample: sample5 | Peaks: results/filtered_peaks/sample5_filtered_peaks.bed | Output: results/peak_annotation/sample5_peak_annotation.txt
+Reason: Missing output files: results/peak_annotation/sample5_peak_annotation.txt; Input files updated by another job: results/filtered_peaks/sample5_filtered_peaks.bed
+Shell command: 
+        Rscript -e '         library(ChIPseeker);         library(GenomicFeatures);        
+        peakfile <- "results/filtered_peaks/sample5_filtered_peaks.bed";         
+        txdb <- makeTxDbFromGFF("data/reference/annotation.gtf", format="gtf");         peakAnno <- annotatePeak(peakfile, TxDb=txdb, tssRegion=c(-3000, 3000), verbose=FALSE);         
+        #Save detailed annotation
+        write.table(as.data.frame(peakAnno), "results/peak_annotation/sample5_peak_annotation.txt", sep="	", row.names=FALSE, quote=FALSE);         
+        #Save summary counts per feature
+        feature_summary <- as.data.frame(table(peakAnno@anno$annotation));         write.table(feature_summary, "results/peak_annotation/sample5_peak_annotation_summary.txt", sep="	", row.names=FALSE, quote=FALSE)'         2> logs/peak_annotation/sample5.err
+        
+Activating conda environment: .snakemake/conda/0a04d299429a5699ca68f9d27418dc4b_
+[Mon Oct 27 14:12:36 2025]
+Finished jobid: 61 (Rule: tn5_shift)
+109 of 127 steps (86%) done
+Select jobs to execute...
+Execute 3 jobs...
+
+[Mon Oct 27 14:12:36 2025]
+Job 91: [bedtools genomecov] sample: sample1 | BAM : results/tn5_shift/sample1.filtered.shifted.bam| Output: results/bedtools_genomecov/sample1.bedGraph...
+Reason: Missing output files: results/bedtools_genomecov/sample1.bedGraph; Input files updated by another job: results/tn5_shift/sample1.filtered.shifted.bam
+Shell command: 
+        bedtools genomecov           -ibam results/tn5_shift/sample1.filtered.shifted.bam           -bg           > results/bedtools_genomecov/sample1.bedGraph           2> logs/bedtools_genomecov/sample1.err
+        
+Activating conda environment: .snakemake/conda/56cef8899ac977f0ac1fc76bacccdfab_
+
+[Mon Oct 27 14:12:36 2025]
+Job 86: [TSS ENRICHMENT] SAMPLE: sample1| INPUT: results/tn5_shift/sample1.filtered.shifted.bam results/tn5_shift/sample1.filtered.shifted.bam.bai | OUTPUT: results/tss_enrichment/sample1_tss_enrichment.txt results/tss_enrichment/sample1_tss_enrichment.pdf| T XDB: TxDb.Hsapiens.UCSC.hg38.knownGene| UPSTREAM: 2000| DOWNSTREAM: 2000  
+Reason: Missing output files: results/tss_enrichment/sample1_tss_enrichment.txt, results/tss_enrichment/sample1_tss_enrichment.pdf; Input files updated by another job: results/tn5_shift/sample1.filtered.shifted.bam.bai, results/tn5_shift/sample1.filtered.shifted.bam
+Shell command: 
+        Rscript -e '
+        suppressPackageStartupMessages({
+            library(ATACseqQC)
+            library(GenomicFeatures)
+            library(GenomicAlignments)
+            library(Rsamtools)
+            library(TxDb.Hsapiens.UCSC.hg38.knownGene)
+        })
+    
+        bamfile <- "results/tn5_shift/sample1.filtered.shifted.bam"
+        out_text <- "results/tss_enrichment/sample1_tss_enrichment.txt"
+        out_pdf <- "results/tss_enrichment/sample1_tss_enrichment.pdf"
+    
+        cat("Starting TSS enrichment analysis...\n")
+    
+        # Define standard chromosomes WITHOUT chr prefix
+        standard_chroms <- c(1:22, "X", "Y", "MT")
+    
+        # Load transcript database and create TSS regions
+        cat("Loading transcript database...\n")
+        txdb <- TxDb.Hsapiens.UCSC.hg38.knownGene
+        txs <- transcripts(txdb)
+        tss_regions <- promoters(txs, upstream=2000, downstream=2000)
+    
+        # Convert TSS regions to NCBI style (no chr prefix) to match BAM
+        cat("Converting chromosome names to match BAM...\n")
+        seqlevelsStyle(tss_regions) <- "NCBI"
+    
+        # Filter to standard chromosomes
+        tss_regions <- keepSeqlevels(tss_regions, standard_chroms, pruning.mode="coarse")
+    
+        cat("TSS regions prepared:", length(tss_regions), "regions\n")
+    
+        # Read ONLY TSS regions, not entire chromosomes!
+        cat("Reading BAM file (TSS regions only)...\n")
+        param <- ScanBamParam(which=tss_regions)  # KEY FIX!
+        bam <- readGAlignments(bamfile, param=param)
+    
+        cat("Loaded", length(bam), "alignments near TSS regions\n")
+    
+        if (length(bam) == 0) {
+            stop("No alignments loaded from BAM file near TSS regions")
+        }
+    
+        # Clean up seqlevels
+        seqlevels(bam, pruning.mode="coarse") <- standard_chroms
+    
+        # Calculate TSS enrichment score and create plot
+        cat("Calculating TSS enrichment score...\n")
+        
+        tsse_result <- TSSEscore(bam, txs=tss_regions)
+        
+        # Extract the score
+        if (is.list(tsse_result)) {
+            tsse_score <- tsse_result$TSSEscore
+        } else {
+            tsse_score <- tsse_result
+        }
+        
+        cat("TSS Enrichment Score:", tsse_score, "\n")
+    
+        # Generate plot
+        pdf(out_pdf, width=10, height=6)
+        tryCatch({
+            plot_result <- TSSEscoreplot(bam, txs=tss_regions)
+            title(main=paste0("sample1 - TSS Score: ", round(tsse_score, 3)))
+        }, error=function(e) {
+            plot(1, type="n", xlab="", ylab="", axes=FALSE)
+            text(1, 1, paste0("TSS Score: ", round(tsse_score, 3)), cex=2)
+        })
+        dev.off()
+    
+        # Save results
+        result_df <- data.frame(
+            Sample="sample1", 
+            TSS_Enrichment=tsse_score,
+            Total_Alignments=length(bam)
+        )
+        
+        write.table(result_df, file=out_text, sep="\t", quote=FALSE, row.names=FALSE)
+    
+        cat("Analysis complete!\n")
+        ' 2>&1 | tee logs/tss_enrichment/sample1.err
+        
+Activating conda environment: .snakemake/conda/b880f52961a4dffddafca22da9c98fef_
+
+[Mon Oct 27 14:12:36 2025]
+Job 106: [Normalize Coverage] Sample: sample1 | Shifted Bam: results/tn5_shift/sample1.filtered.shifted.bam | NormalizedCoverage: results/normalized_coverage/sample1_CPM.bw |Method: CPM]...
+Reason: Missing output files: results/normalized_coverage/sample1_CPM.bw; Input files updated by another job: results/tn5_shift/sample1.filtered.shifted.bam
+Shell command: 
+         bamCoverage              -b results/tn5_shift/sample1.filtered.shifted.bam              -o results/normalized_coverage/sample1_CPM.bw              --normalizeUsing CPM              --numberOfProcessors 4              2> logs/normalized_coverage/sample1.err
+         
+Activating conda environment: .snakemake/conda/f7b3b8b13f4f1fe77b942c40f0294d92_
+Select jobs to execute...
+There were 16 warnings (use warnings() to see them)
+Starting TSS enrichment analysis...
+Loading transcript database...
+Warning message:
+In valid.GenomicRanges.seqinfo(x, suggest.trim = TRUE) :
+  GRanges object contains 272 out-of-bound ranges located on sequences
+  chr1_GL383518v1_alt, chr1_KI270762v1_alt, chr2_GL383522v1_alt,
+  chr2_KI270774v1_alt, chr3_KI270777v1_alt, chr3_KI270781v1_alt,
+  chr4_GL000257v2_alt, chr4_KI270788v1_alt, chr5_GL339449v2_alt,
+  chr5_KI270795v1_alt, chr5_KI270898v1_alt, chr6_GL000250v2_alt,
+  chr6_GL000254v2_alt, chr6_GL000255v2_alt, chr6_KI270797v1_alt,
+  chr6_KI270798v1_alt, chr6_KI270801v1_alt, chr7_GL383534v2_alt,
+  chr7_KI270803v1_alt, chr7_KI270806v1_alt, chr7_KI270809v1_alt,
+  chr8_KI270815v1_alt, chr9_GL383540v1_alt, chr9_GL383541v1_alt,
+  chr9_GL383542v1_alt, chr9_KI270823v1_alt, chr10_GL383546v1_alt,
+  chr11_JH159136v1_alt, chr11_KI270831v1_alt, chr11_KI270902v1_alt,
+  chr12_GL383551v1_alt, chr12_GL383553v2_alt, chr12_GL877876v1_alt,
+  chr12_KI270834v1_alt, chr12_KI270904v1_alt, chr13_KI270838v1_alt,
+  chr14_KI270847v1_alt, chr15_GL383555v2_alt, chr15_KI270848v1_alt,
+  chr15_KI270850v1_alt, chr15_KI270851v1_alt, chr15_KI270906v1_alt,
+  chr [... truncated]
+Converting chromosome names to match BAM...
+TSS regions prepared: 252835 regions
+Reading BAM file (TSS regions only)...
+[Mon Oct 27 14:13:01 2025]
+Finished jobid: 131 (Rule: frip_calculation)
+110 of 127 steps (87%) done
+[Mon Oct 27 14:13:02 2025]
+Finished jobid: 105 (Rule: bigwig_conversion)
+111 of 127 steps (87%) done
+Execute 1 jobs...
+
+[Mon Oct 27 14:13:04 2025]
+Job 112: [MACS2 PEAKCALLING] SAMPLE:  sample1 | Markdup_Bam: results/tn5_shift/sample1.filtered.shifted.bam | Peaks: results/macs2_peakcall/sample1_peaks.narrowPeak | Genome Size: hs | QVal: 0.01 | Nomodel: --nomodel | Model: BAMPE]
+Reason: Missing output files: results/macs2_peakcall/sample1_peaks.narrowPeak; Input files updated by another job: results/tn5_shift/sample1.filtered.shifted.bam
+Shell command: 
+        macs2 callpeak             -t results/tn5_shift/sample1.filtered.shifted.bam             -f BAMPE             -g hs             -n sample1             --outdir results/macs2_peakcall             --nomodel             -q 0.01             2> logs/macs2/sample1.err
+                
+         
+Activating conda environment: .snakemake/conda/c9cbbff4550f687a57c0c3cc891bb015_
+Select jobs to execute...
+[Mon Oct 27 14:13:19 2025]
+Finished jobid: 91 (Rule: bedtools_genomecov)
+112 of 127 steps (88%) done
+Execute 1 jobs...
+
+[Mon Oct 27 14:13:19 2025]
+Job 96: [sort]  Sample:  sample1 | BedGraph: results/bedtools_genomecov/sample1.bedGraph | Sorted BedGraph: results/sorted_bedgraph_file/sample1.sorted.bedGraph | Resources: 4000...  
+Reason: Missing output files: results/sorted_bedgraph_file/sample1.sorted.bedGraph; Input files updated by another job: results/bedtools_genomecov/sample1.bedGraph
+Shell command: 
+        sort         -k1,1 -k2,2n         --parallel 4         -S 4000M         results/bedtools_genomecov/sample1.bedGraph         > results/sorted_bedgraph_file/sample1.sorted.bedGraph         2> logs/sorted_bedgraph/sample1.err
+        
+Loaded 14661227 alignments near TSS regions
+Calculating TSS enrichment score...
+Select jobs to execute...
+[Mon Oct 27 14:13:25 2025]
+Finished jobid: 96 (Rule: sorted_bedgraph)
+113 of 127 steps (89%) done
+Execute 1 jobs...
+
+[Mon Oct 27 14:13:25 2025]
+Job 101: [bedGraphToBigWig] Sample: sample1 | Sorted BedGraph: results/sorted_bedgraph_file/sample1.sorted.bedGraph | BigWig: results/bigwig/sample1.bw | Genome: data/reference/genome.chrom.sizes... 
+Reason: Missing output files: results/bigwig/sample1.bw; Input files updated by another job: results/sorted_bedgraph_file/sample1.sorted.bedGraph
+Shell command: 
+        bedGraphToBigWig         results/sorted_bedgraph_file/sample1.sorted.bedGraph         data/reference/genome.chrom.sizes         results/bigwig/sample1.bw         2> logs/bigwig/sample1.err 
+        
+Activating conda environment: .snakemake/conda/a4101fbb1927eb6333a7d2f5e4906ded_
+Select jobs to execute...
+TSS Enrichment Score: 2.440114 
+null device 
+          1 
+Analysis complete!
+[Mon Oct 27 14:13:31 2025]
+Finished jobid: 90 (Rule: tss_enrichment)
+114 of 127 steps (90%) done
+[Mon Oct 27 14:13:41 2025]
+Finished jobid: 136 (Rule: peak_annotation)
+115 of 127 steps (91%) done
+Execute 1 jobs...
+
+[Mon Oct 27 14:13:41 2025]
+Job 126: [deepTools heatmap] Sample: sample5 | BigWig: results/bigwig/sample5.bw | Peaks: results/filtered_peaks/sample5_filtered_peaks.bed | Output: results/heatmap/plot/sample5_tss_heatmap.pdf
+Reason: Missing output files: results/heatmap/matrix/sample5_matrix.gz, results/heatmap/sample5_regions.bed, results/heatmap/plot/sample5_tss_heatmap.pdf; Input files updated by another job: results/filtered_peaks/sample5_filtered_peaks.bed, results/bigwig/sample5.bw
+Shell command: 
+        computeMatrix reference-point             --referencePoint TSS             -b 3000 -a 3000             -R results/filtered_peaks/sample5_filtered_peaks.bed             -S results/bigwig/sample5.bw             --skipZeros             --missingDataAsZero             --numberOfProcessors 8             -out results/heatmap/matrix/sample5_matrix.gz             --outFileSortedRegions results/heatmap/sample5_regions.bed             2> logs/heatmap/matrix/sample5.err
+
+        plotHeatmap             -m results/heatmap/matrix/sample5_matrix.gz             -out results/heatmap/plot/sample5_tss_heatmap.pdf             --colorMap coolwarm             --regionsLabel "TSS"             --samplesLabel sample5             --heatmapHeight 12 --heatmapWidth 6             2>> logs/heatmap/plot/sample5.err
+        
+Activating conda environment: .snakemake/conda/ec40e494b5a7b344ab1489fc1aae2631_
+[Mon Oct 27 14:13:45 2025]
+Finished jobid: 126 (Rule: heatmap)
+116 of 127 steps (91%) done
+[Mon Oct 27 14:13:49 2025]
+Finished jobid: 101 (Rule: bigwig_conversion)
+117 of 127 steps (92%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Oct 27 14:13:49 2025]
+Job 111: [multiBigwigSummary +  plotCorrelation] | BigWigs: results/bigwig/sample1.bw results/bigwig/sample2.bw results/bigwig/sample3.bw results/bigwig/sample4.bw results/bigwig/sample5.bw | Outputs: results/correlation_analysis/matrix.npz, results/correlation_analysis/matrix.tab, results/correlation_analysis/correlation_heatmap.pdf, results/correlation_analysis/correlation_values.tab | Binsize: 1000 ...
+Reason: Missing output files: results/correlation_analysis/matrix.tab, results/correlation_analysis/matrix.npz, results/correlation_analysis/correlation_heatmap.pdf, results/correlation_analysis/correlation_values.tab; Input files updated by another job: results/bigwig/sample2.bw, results/bigwig/sample4.bw, results/bigwig/sample3.bw, results/bigwig/sample5.bw, results/bigwig/sample1.bw
+Shell command: 
+        multiBigwigSummary bins             --bwfiles results/bigwig/sample1.bw results/bigwig/sample2.bw results/bigwig/sample3.bw results/bigwig/sample4.bw results/bigwig/sample5.bw             --binSize 1000             --numberOfProcessors 4             --outFile results/correlation_analysis/matrix.npz             --outRawCounts results/correlation_analysis/matrix.tab             2> logs/correlation_analysis/correlation_analysis.err
+             
+        plotCorrelation             --corData results/correlation_analysis/matrix.npz             --corMethod pearson             --whatToPlot heatmap             --plotNumbers             --outFile results/correlation_analysis/correlation_heatmap.pdf             --removeOutliers             --skipZeros             2>> logs/correlation_analysis/correlation_analysis.err
+
+        plotCorrelation             --corData results/correlation_analysis/matrix.npz             --corMethod pearson             --whatToPlot heatmap             --outFileCorMatrix results/correlation_analysis/correlation_values.tab             --removeOutliers             --skipZeros             2>> logs/correlation_analysis/correlation_analysis.err    
+        
+Activating conda environment: .snakemake/conda/f7b3b8b13f4f1fe77b942c40f0294d92_
+[Mon Oct 27 14:14:05 2025]
+Finished jobid: 106 (Rule: normalize_coverage)
+118 of 127 steps (93%) done
+[Mon Oct 27 14:14:47 2025]
+Finished jobid: 112 (Rule: macs2_peak_calling)
+119 of 127 steps (94%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Oct 27 14:14:47 2025]
+Job 117: [Bedtools intersect] Sample: sample1 | Peaks: results/macs2_peakcall/sample1_peaks.narrowPeak | Filtered Peaks: results/filtered_peaks/sample1_filtered_peaks.bed | Blacklist: data/reference/ENCODE_blacklist.bed
+Reason: Missing output files: results/filtered_peaks/sample1_filtered_peaks.bed; Input files updated by another job: results/macs2_peakcall/sample1_peaks.narrowPeak
+Shell command: 
+        awk 'BEGIN {OFS="\t"} {if ($1 ~ /^[0-9]+$/ || $1 == "X" || $1 == "Y" || $1 == "MT") $1="chr"$1; print}' results/macs2_peakcall/sample1_peaks.narrowPeak > results/macs2_peakcall/sample1_peaks.narrowPeak.tmp &&         bedtools intersect -v             -a results/macs2_peakcall/sample1_peaks.narrowPeak.tmp              -b data/reference/ENCODE_blacklist.bed         > results/filtered_peaks/sample1_filtered_peaks.bed 
+        2> logs/blacklist_region_filter/sample1.err 
+         
+        rm -rf results/macs2_peakcall/sample1_peaks.narrowPeak.tmp
+        
+Activating conda environment: .snakemake/conda/56cef8899ac977f0ac1fc76bacccdfab_
+***** WARNING: File results/macs2_peakcall/sample1_peaks.narrowPeak.tmp has inconsistent naming convention for record:
+GL000195.1	30591	31069	sample1_peak_28601	555	.	17.2636	60.1612	55.5243	253
+
+***** WARNING: File results/macs2_peakcall/sample1_peaks.narrowPeak.tmp has inconsistent naming convention for record:
+GL000195.1	30591	31069	sample1_peak_28601	555	.	17.2636	60.1612	55.5243	253
+
+[Mon Oct 27 14:14:47 2025]
+Finished jobid: 117 (Rule: blacklist_region_filter)
+120 of 127 steps (94%) done
+Select jobs to execute...
+Execute 3 jobs...
+
+[Mon Oct 27 14:14:47 2025]
+Job 137: [Motif analysis] Sample: All combined | Peaks: results/filtered_peaks/sample1_filtered_peaks.bed results/filtered_peaks/sample2_filtered_peaks.bed results/filtered_peaks/sample3_filtered_peaks.bed results/filtered_peaks/sample4_filtered_peaks.bed results/filtered_peaks/sample5_filtered_peaks.bed | Output: results/motif_analysis
+Reason: Missing output files: results/motif_analysis; Input files updated by another job: results/filtered_peaks/sample3_filtered_peaks.bed, results/filtered_peaks/sample5_filtered_peaks.bed, results/filtered_peaks/sample2_filtered_peaks.bed, results/filtered_peaks/sample1_filtered_peaks.bed, results/filtered_peaks/sample4_filtered_peaks.bed
+Shell command: 
+        cat results/filtered_peaks/sample1_filtered_peaks.bed results/filtered_peaks/sample2_filtered_peaks.bed results/filtered_peaks/sample3_filtered_peaks.bed results/filtered_peaks/sample4_filtered_peaks.bed results/filtered_peaks/sample5_filtered_peaks.bed > merged_peaks.tmp
+        findMotifsGenome.pl merged_peaks.tmp data/reference/genome.fa results/motif_analysis             -p 8         2> logs/motif_analysis/motif_analysis.log
+
+        rm -rf merged_peaks.tmp
+        
+Activating conda environment: .snakemake/conda/7b27b5c2a7d99d887a21146512d6fcea_
+
+[Mon Oct 27 14:14:47 2025]
+Job 132: [Peak annotation] Sample: sample1 | Peaks: results/filtered_peaks/sample1_filtered_peaks.bed | Output: results/peak_annotation/sample1_peak_annotation.txt
+Reason: Missing output files: results/peak_annotation/sample1_peak_annotation.txt; Input files updated by another job: results/filtered_peaks/sample1_filtered_peaks.bed
+Shell command: 
+        Rscript -e '         library(ChIPseeker);         library(GenomicFeatures);        
+        peakfile <- "results/filtered_peaks/sample1_filtered_peaks.bed";         
+        txdb <- makeTxDbFromGFF("data/reference/annotation.gtf", format="gtf");         peakAnno <- annotatePeak(peakfile, TxDb=txdb, tssRegion=c(-3000, 3000), verbose=FALSE);         
+        #Save detailed annotation
+        write.table(as.data.frame(peakAnno), "results/peak_annotation/sample1_peak_annotation.txt", sep="	", row.names=FALSE, quote=FALSE);         
+        #Save summary counts per feature
+        feature_summary <- as.data.frame(table(peakAnno@anno$annotation));         write.table(feature_summary, "results/peak_annotation/sample1_peak_annotation_summary.txt", sep="	", row.names=FALSE, quote=FALSE)'         2> logs/peak_annotation/sample1.err
+        
+Activating conda environment: .snakemake/conda/0a04d299429a5699ca68f9d27418dc4b_
+
+[Mon Oct 27 14:14:47 2025]
+Job 122: [deepTools heatmap] Sample: sample1 | BigWig: results/bigwig/sample1.bw | Peaks: results/filtered_peaks/sample1_filtered_peaks.bed | Output: results/heatmap/plot/sample1_tss_heatmap.pdf
+Reason: Missing output files: results/heatmap/sample1_regions.bed, results/heatmap/matrix/sample1_matrix.gz, results/heatmap/plot/sample1_tss_heatmap.pdf; Input files updated by another job: results/filtered_peaks/sample1_filtered_peaks.bed, results/bigwig/sample1.bw
+Shell command: 
+        computeMatrix reference-point             --referencePoint TSS             -b 3000 -a 3000             -R results/filtered_peaks/sample1_filtered_peaks.bed             -S results/bigwig/sample1.bw             --skipZeros             --missingDataAsZero             --numberOfProcessors 8             -out results/heatmap/matrix/sample1_matrix.gz             --outFileSortedRegions results/heatmap/sample1_regions.bed             2> logs/heatmap/matrix/sample1.err
+
+        plotHeatmap             -m results/heatmap/matrix/sample1_matrix.gz             -out results/heatmap/plot/sample1_tss_heatmap.pdf             --colorMap coolwarm             --regionsLabel "TSS"             --samplesLabel sample1             --heatmapHeight 12 --heatmapWidth 6             2>> logs/heatmap/plot/sample1.err
+        
+Activating conda environment: .snakemake/conda/ec40e494b5a7b344ab1489fc1aae2631_
+Select jobs to execute...
+Loaded 24570691 alignments near TSS regions
+Calculating TSS enrichment score...
+TSS Enrichment Score: 2.223827 
+null device 
+          1 
+Analysis complete!
+[Mon Oct 27 14:15:33 2025]
+Finished jobid: 86 (Rule: tss_enrichment)
+121 of 127 steps (95%) done
+Execute 1 jobs...
+
+[Mon Oct 27 14:15:33 2025]
+Job 127: [FRiP calculation] Sample: sample1 | Peaks: results/filtered_peaks/sample1_filtered_peaks.bed | BAM: results/tn5_shift/sample1.filtered.shifted.bam | Output: results/frip_calculation/sample1_frip.txt
+Reason: Missing output files: results/frip_calculation/sample1_frip.txt; Input files updated by another job: results/filtered_peaks/sample1_filtered_peaks.bed, results/tn5_shift/sample1.filtered.shifted.bam
+Shell command: 
+        (
+        sed 's/^chr//g' results/filtered_peaks/sample1_filtered_peaks.bed > results/filtered_peaks/sample1_filtered_peaks.bed.nochr
+        total_fragments=$(samtools view -c -f 64 results/tn5_shift/sample1.filtered.shifted.bam)
+        fragments_in_peaks=$(bedtools coverage -a results/filtered_peaks/sample1_filtered_peaks.bed.nochr -b results/tn5_shift/sample1.filtered.shifted.bam | awk '{sum += $11} END {print sum+0}')
+        frip=$(echo "scale=6; ${fragments_in_peaks} / ${total_fragments}" | bc)
+        echo -e "FRiP	$frip"  > results/frip_calculation/sample1_frip.txt
+        echo -e "..................................................................." >> results/frip_calculation/sample1_frip.txt
+        echo -e "Sample\tTotal_Reads\tReads_in_Peaks\tFRiP_Score" >> results/frip_calculation/sample1_frip.txt
+        echo -e "sample1\t$total_fragments\t$fragments_in_peaks\t$frip" >> results/frip_calculation/sample1_frip.txt
+        ) 2> logs/frip/sample1.err        
+        
+Activating conda environment: .snakemake/conda/56cef8899ac977f0ac1fc76bacccdfab_
+[Mon Oct 27 14:16:00 2025]
+Finished jobid: 127 (Rule: frip_calculation)
+122 of 127 steps (96%) done
+[Mon Oct 27 14:16:18 2025]
+Finished jobid: 132 (Rule: peak_annotation)
+123 of 127 steps (97%) done
+[Mon Oct 27 14:16:46 2025]
+Finished jobid: 122 (Rule: heatmap)
+124 of 127 steps (98%) done
+[Mon Oct 27 14:21:39 2025]
+Finished jobid: 111 (Rule: correlation_analysis)
+125 of 127 steps (98%) done
+[Mon Oct 27 14:28:55 2025]
+Finished jobid: 137 (Rule: motif_analysis)
+126 of 127 steps (99%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Oct 27 14:28:55 2025]
+localrule all:
+    input: results/fastp/sample1_R1_trimmed.fastq.gz, results/fastp/sample2_R1_trimmed.fastq.gz, results/fastp/sample3_R1_trimmed.fastq.gz, results/fastp/sample4_R1_trimmed.fastq.gz, results/fastp/sample5_R1_trimmed.fastq.gz, results/fastp/sample1_R2_trimmed.fastq.gz, results/fastp/sample2_R2_trimmed.fastq.gz, results/fastp/sample3_R2_trimmed.fastq.gz, results/fastp/sample4_R2_trimmed.fastq.gz, results/fastp/sample5_R2_trimmed.fastq.gz, results/fastp/sample1.html, results/fastp/sample2.html, results/fastp/sample3.html, results/fastp/sample4.html, results/fastp/sample5.html, results/fastp/sample1.json, results/fastp/sample2.json, results/fastp/sample3.json, results/fastp/sample4.json, results/fastp/sample5.json, results/fastqc/sample1_R1_trimmed_fastqc.html, results/fastqc/sample2_R1_trimmed_fastqc.html, results/fastqc/sample3_R1_trimmed_fastqc.html, results/fastqc/sample4_R1_trimmed_fastqc.html, results/fastqc/sample5_R1_trimmed_fastqc.html, results/fastqc/sample1_R1_trimmed_fastqc.zip, results/fastqc/sample2_R1_trimmed_fastqc.zip, results/fastqc/sample3_R1_trimmed_fastqc.zip, results/fastqc/sample4_R1_trimmed_fastqc.zip, results/fastqc/sample5_R1_trimmed_fastqc.zip, results/fastqc/sample1_R2_trimmed_fastqc.html, results/fastqc/sample2_R2_trimmed_fastqc.html, results/fastqc/sample3_R2_trimmed_fastqc.html, results/fastqc/sample4_R2_trimmed_fastqc.html, results/fastqc/sample5_R2_trimmed_fastqc.html, results/fastqc/sample1_R2_trimmed_fastqc.zip, results/fastqc/sample2_R2_trimmed_fastqc.zip, results/fastqc/sample3_R2_trimmed_fastqc.zip, results/fastqc/sample4_R2_trimmed_fastqc.zip, results/fastqc/sample5_R2_trimmed_fastqc.zip, results/bowtie2/sample1.bam, results/bowtie2/sample2.bam, results/bowtie2/sample3.bam, results/bowtie2/sample4.bam, results/bowtie2/sample5.bam, results/samtools_sort/sample1.sorted.bam, results/samtools_sort/sample2.sorted.bam, results/samtools_sort/sample3.sorted.bam, results/samtools_sort/sample4.sorted.bam, results/samtools_sort/sample5.sorted.bam, results/mito-ATAC/sample1_mito_stats.txt, results/mito-ATAC/sample2_mito_stats.txt, results/mito-ATAC/sample3_mito_stats.txt, results/mito-ATAC/sample4_mito_stats.txt, results/mito-ATAC/sample5_mito_stats.txt, results/remove_mito_reads/sample1_noMT.sorted.bam, results/remove_mito_reads/sample2_noMT.sorted.bam, results/remove_mito_reads/sample3_noMT.sorted.bam, results/remove_mito_reads/sample4_noMT.sorted.bam, results/remove_mito_reads/sample5_noMT.sorted.bam, results/samtools_index/sample1_noMT.sorted.bam.bai, results/samtools_index/sample2_noMT.sorted.bam.bai, results/samtools_index/sample3_noMT.sorted.bam.bai, results/samtools_index/sample4_noMT.sorted.bam.bai, results/samtools_index/sample5_noMT.sorted.bam.bai, results/samtools_fixmate/sample1_noMT.sorted.fixmate.bam, results/samtools_fixmate/sample2_noMT.sorted.fixmate.bam, results/samtools_fixmate/sample3_noMT.sorted.fixmate.bam, results/samtools_fixmate/sample4_noMT.sorted.fixmate.bam, results/samtools_fixmate/sample5_noMT.sorted.fixmate.bam, results/samtools_markdup/sample1_noMT.sorted.dedup.bam, results/samtools_markdup/sample2_noMT.sorted.dedup.bam, results/samtools_markdup/sample3_noMT.sorted.dedup.bam, results/samtools_markdup/sample4_noMT.sorted.dedup.bam, results/samtools_markdup/sample5_noMT.sorted.dedup.bam, results/samtools_index/post_markdup/sample1_noMT.sorted.dedup.bam.bai, results/samtools_index/post_markdup/sample2_noMT.sorted.dedup.bam.bai, results/samtools_index/post_markdup/sample3_noMT.sorted.dedup.bam.bai, results/samtools_index/post_markdup/sample4_noMT.sorted.dedup.bam.bai, results/samtools_index/post_markdup/sample5_noMT.sorted.dedup.bam.bai, results/samtools_view/sample1.filtered.bam, results/samtools_view/sample2.filtered.bam, results/samtools_view/sample3.filtered.bam, results/samtools_view/sample4.filtered.bam, results/samtools_view/sample5.filtered.bam, results/samtools_view/sample1.filtered.bam.bai, results/samtools_view/sample2.filtered.bam.bai, results/samtools_view/sample3.filtered.bam.bai, results/samtools_view/sample4.filtered.bam.bai, results/samtools_view/sample5.filtered.bam.bai, results/tn5_shift/sample1.filtered.shifted.bam, results/tn5_shift/sample2.filtered.shifted.bam, results/tn5_shift/sample3.filtered.shifted.bam, results/tn5_shift/sample4.filtered.shifted.bam, results/tn5_shift/sample5.filtered.shifted.bam, results/tn5_shift/sample1.filtered.shifted.bam.bai, results/tn5_shift/sample2.filtered.shifted.bam.bai, results/tn5_shift/sample3.filtered.shifted.bam.bai, results/tn5_shift/sample4.filtered.shifted.bam.bai, results/tn5_shift/sample5.filtered.shifted.bam.bai, results/samtools_stats/sample1_postFiltering.stats.txt, results/samtools_stats/sample2_postFiltering.stats.txt, results/samtools_stats/sample3_postFiltering.stats.txt, results/samtools_stats/sample4_postFiltering.stats.txt, results/samtools_stats/sample5_postFiltering.stats.txt, results/fragment_size_analysis/sample1_fragment_sizes.txt, results/fragment_size_analysis/sample2_fragment_sizes.txt, results/fragment_size_analysis/sample3_fragment_sizes.txt, results/fragment_size_analysis/sample4_fragment_sizes.txt, results/fragment_size_analysis/sample5_fragment_sizes.txt, results/fragment_size_analysis/sample1_fragment.png, results/fragment_size_analysis/sample2_fragment.png, results/fragment_size_analysis/sample3_fragment.png, results/fragment_size_analysis/sample4_fragment.png, results/fragment_size_analysis/sample5_fragment.png, results/fragment_size_analysis/sample1_fragment_stats.txt, results/fragment_size_analysis/sample2_fragment_stats.txt, results/fragment_size_analysis/sample3_fragment_stats.txt, results/fragment_size_analysis/sample4_fragment_stats.txt, results/fragment_size_analysis/sample5_fragment_stats.txt, results/picard/CollectAlignmentSummaryMetrics/sample1.alignment_metrics.txt, results/picard/CollectAlignmentSummaryMetrics/sample2.alignment_metrics.txt, results/picard/CollectAlignmentSummaryMetrics/sample3.alignment_metrics.txt, results/picard/CollectAlignmentSummaryMetrics/sample4.alignment_metrics.txt, results/picard/CollectAlignmentSummaryMetrics/sample5.alignment_metrics.txt, results/picard/CollectInsertSizeMetrics/sample1.insert_metrics.txt, results/picard/CollectInsertSizeMetrics/sample2.insert_metrics.txt, results/picard/CollectInsertSizeMetrics/sample3.insert_metrics.txt, results/picard/CollectInsertSizeMetrics/sample4.insert_metrics.txt, results/picard/CollectInsertSizeMetrics/sample5.insert_metrics.txt, results/picard/CollectInsertSizeMetrics/sample1.insert_histogram.pdf, results/picard/CollectInsertSizeMetrics/sample2.insert_histogram.pdf, results/picard/CollectInsertSizeMetrics/sample3.insert_histogram.pdf, results/picard/CollectInsertSizeMetrics/sample4.insert_histogram.pdf, results/picard/CollectInsertSizeMetrics/sample5.insert_histogram.pdf, results/tss_enrichment/sample1_tss_enrichment.txt, results/tss_enrichment/sample2_tss_enrichment.txt, results/tss_enrichment/sample3_tss_enrichment.txt, results/tss_enrichment/sample4_tss_enrichment.txt, results/tss_enrichment/sample5_tss_enrichment.txt, results/tss_enrichment/sample1_tss_enrichment.pdf, results/tss_enrichment/sample2_tss_enrichment.pdf, results/tss_enrichment/sample3_tss_enrichment.pdf, results/tss_enrichment/sample4_tss_enrichment.pdf, results/tss_enrichment/sample5_tss_enrichment.pdf, results/bedtools_genomecov/sample1.bedGraph, results/bedtools_genomecov/sample2.bedGraph, results/bedtools_genomecov/sample3.bedGraph, results/bedtools_genomecov/sample4.bedGraph, results/bedtools_genomecov/sample5.bedGraph, results/sorted_bedgraph_file/sample1.sorted.bedGraph, results/sorted_bedgraph_file/sample2.sorted.bedGraph, results/sorted_bedgraph_file/sample3.sorted.bedGraph, results/sorted_bedgraph_file/sample4.sorted.bedGraph, results/sorted_bedgraph_file/sample5.sorted.bedGraph, results/bigwig/sample1.bw, results/bigwig/sample2.bw, results/bigwig/sample3.bw, results/bigwig/sample4.bw, results/bigwig/sample5.bw, results/normalized_coverage/sample1_CPM.bw, results/normalized_coverage/sample2_CPM.bw, results/normalized_coverage/sample3_CPM.bw, results/normalized_coverage/sample4_CPM.bw, results/normalized_coverage/sample5_CPM.bw, results/correlation_analysis/matrix.npz, results/correlation_analysis/matrix.tab, results/correlation_analysis/correlation_heatmap.pdf, results/correlation_analysis/correlation_values.tab, results/macs2_peakcall/sample1_peaks.narrowPeak, results/macs2_peakcall/sample2_peaks.narrowPeak, results/macs2_peakcall/sample3_peaks.narrowPeak, results/macs2_peakcall/sample4_peaks.narrowPeak, results/macs2_peakcall/sample5_peaks.narrowPeak, results/filtered_peaks/sample1_filtered_peaks.bed, results/filtered_peaks/sample2_filtered_peaks.bed, results/filtered_peaks/sample3_filtered_peaks.bed, results/filtered_peaks/sample4_filtered_peaks.bed, results/filtered_peaks/sample5_filtered_peaks.bed, results/heatmap/matrix/sample1_matrix.gz, results/heatmap/matrix/sample2_matrix.gz, results/heatmap/matrix/sample3_matrix.gz, results/heatmap/matrix/sample4_matrix.gz, results/heatmap/matrix/sample5_matrix.gz, results/heatmap/sample1_regions.bed, results/heatmap/sample2_regions.bed, results/heatmap/sample3_regions.bed, results/heatmap/sample4_regions.bed, results/heatmap/sample5_regions.bed, results/heatmap/plot/sample1_tss_heatmap.pdf, results/heatmap/plot/sample2_tss_heatmap.pdf, results/heatmap/plot/sample3_tss_heatmap.pdf, results/heatmap/plot/sample4_tss_heatmap.pdf, results/heatmap/plot/sample5_tss_heatmap.pdf, results/frip_calculation/sample1_frip.txt, results/frip_calculation/sample2_frip.txt, results/frip_calculation/sample3_frip.txt, results/frip_calculation/sample4_frip.txt, results/frip_calculation/sample5_frip.txt, results/peak_annotation/sample1_peak_annotation.txt, results/peak_annotation/sample2_peak_annotation.txt, results/peak_annotation/sample3_peak_annotation.txt, results/peak_annotation/sample4_peak_annotation.txt, results/peak_annotation/sample5_peak_annotation.txt, results/motif_analysis, results/preseq/sample1.ccurve.txt, results/preseq/sample2.ccurve.txt, results/preseq/sample3.ccurve.txt, results/preseq/sample4.ccurve.txt, results/preseq/sample5.ccurve.txt, results/qualimap/sample1_qualimap_report, results/qualimap/sample2_qualimap_report, results/qualimap/sample3_qualimap_report, results/qualimap/sample4_qualimap_report, results/qualimap/sample5_qualimap_report, results/multiqc
+    jobid: 0
+    reason: Input files updated by another job: results/picard/CollectInsertSizeMetrics/sample4.insert_histogram.pdf, results/samtools_stats/sample3_postFiltering.stats.txt, results/samtools_sort/sample2.sorted.bam, results/fragment_size_analysis/sample2_fragment_stats.txt, results/samtools_index/post_markdup/sample2_noMT.sorted.dedup.bam.bai, results/tn5_shift/sample3.filtered.shifted.bam, results/tss_enrichment/sample4_tss_enrichment.pdf, results/tn5_shift/sample3.filtered.shifted.bam.bai, results/fragment_size_analysis/sample3_fragment_stats.txt, results/normalized_coverage/sample5_CPM.bw, results/samtools_sort/sample5.sorted.bam, results/heatmap/plot/sample3_tss_heatmap.pdf, results/picard/CollectInsertSizeMetrics/sample3.insert_metrics.txt, results/multiqc, results/filtered_peaks/sample5_filtered_peaks.bed, results/filtered_peaks/sample2_filtered_peaks.bed, results/samtools_view/sample5.filtered.bam.bai, results/heatmap/plot/sample5_tss_heatmap.pdf, results/bedtools_genomecov/sample4.bedGraph, results/tss_enrichment/sample2_tss_enrichment.txt, results/samtools_stats/sample2_postFiltering.stats.txt, results/fragment_size_analysis/sample4_fragment_stats.txt, results/preseq/sample5.ccurve.txt, results/heatmap/plot/sample1_tss_heatmap.pdf, results/picard/CollectInsertSizeMetrics/sample4.insert_metrics.txt, results/peak_annotation/sample2_peak_annotation.txt, results/preseq/sample2.ccurve.txt, results/frip_calculation/sample2_frip.txt, results/heatmap/sample3_regions.bed, results/fragment_size_analysis/sample3_fragment.png, results/samtools_view/sample1.filtered.bam.bai, results/fragment_size_analysis/sample5_fragment_sizes.txt, results/samtools_sort/sample1.sorted.bam, results/fragment_size_analysis/sample5_fragment_stats.txt, results/fragment_size_analysis/sample1_fragment_stats.txt, results/samtools_index/post_markdup/sample4_noMT.sorted.dedup.bam.bai, results/samtools_index/post_markdup/sample3_noMT.sorted.dedup.bam.bai, results/mito-ATAC/sample1_mito_stats.txt, results/picard/CollectInsertSizeMetrics/sample1.insert_metrics.txt, results/samtools_fixmate/sample4_noMT.sorted.fixmate.bam, results/remove_mito_reads/sample2_noMT.sorted.bam, results/remove_mito_reads/sample5_noMT.sorted.bam, results/mito-ATAC/sample4_mito_stats.txt, results/preseq/sample3.ccurve.txt, results/samtools_markdup/sample5_noMT.sorted.dedup.bam, results/tss_enrichment/sample5_tss_enrichment.txt, results/samtools_markdup/sample4_noMT.sorted.dedup.bam, results/qualimap/sample5_qualimap_report, results/normalized_coverage/sample2_CPM.bw, results/tn5_shift/sample4.filtered.shifted.bam, results/samtools_markdup/sample1_noMT.sorted.dedup.bam, results/normalized_coverage/sample3_CPM.bw, results/preseq/sample1.ccurve.txt, results/samtools_markdup/sample2_noMT.sorted.dedup.bam, results/macs2_peakcall/sample4_peaks.narrowPeak, results/picard/CollectInsertSizeMetrics/sample2.insert_histogram.pdf, results/filtered_peaks/sample1_filtered_peaks.bed, results/sorted_bedgraph_file/sample3.sorted.bedGraph, results/macs2_peakcall/sample3_peaks.narrowPeak, results/remove_mito_reads/sample4_noMT.sorted.bam, results/picard/CollectInsertSizeMetrics/sample3.insert_histogram.pdf, results/bedtools_genomecov/sample5.bedGraph, results/peak_annotation/sample1_peak_annotation.txt, results/heatmap/matrix/sample5_matrix.gz, results/picard/CollectAlignmentSummaryMetrics/sample4.alignment_metrics.txt, results/sorted_bedgraph_file/sample5.sorted.bedGraph, results/frip_calculation/sample5_frip.txt, results/mito-ATAC/sample5_mito_stats.txt, results/sorted_bedgraph_file/sample1.sorted.bedGraph, results/samtools_view/sample2.filtered.bam.bai, results/mito-ATAC/sample2_mito_stats.txt, results/peak_annotation/sample5_peak_annotation.txt, results/samtools_index/post_markdup/sample5_noMT.sorted.dedup.bam.bai, results/tss_enrichment/sample3_tss_enrichment.pdf, results/correlation_analysis/matrix.tab, results/heatmap/matrix/sample2_matrix.gz, results/samtools_sort/sample4.sorted.bam, results/frip_calculation/sample1_frip.txt, results/picard/CollectInsertSizeMetrics/sample5.insert_metrics.txt, results/fragment_size_analysis/sample4_fragment_sizes.txt, results/samtools_view/sample2.filtered.bam, results/tss_enrichment/sample4_tss_enrichment.txt, results/normalized_coverage/sample1_CPM.bw, results/samtools_fixmate/sample2_noMT.sorted.fixmate.bam, results/correlation_analysis/matrix.npz, results/picard/CollectAlignmentSummaryMetrics/sample1.alignment_metrics.txt, results/bigwig/sample4.bw, results/tn5_shift/sample1.filtered.shifted.bam.bai, results/qualimap/sample1_qualimap_report, results/preseq/sample4.ccurve.txt, results/macs2_peakcall/sample2_peaks.narrowPeak, results/bedtools_genomecov/sample3.bedGraph, results/fragment_size_analysis/sample5_fragment.png, results/fragment_size_analysis/sample4_fragment.png, results/picard/CollectInsertSizeMetrics/sample5.insert_histogram.pdf, results/heatmap/plot/sample2_tss_heatmap.pdf, results/peak_annotation/sample3_peak_annotation.txt, results/qualimap/sample4_qualimap_report, results/tn5_shift/sample2.filtered.shifted.bam, results/samtools_index/sample4_noMT.sorted.bam.bai, results/sorted_bedgraph_file/sample4.sorted.bedGraph, results/samtools_index/sample5_noMT.sorted.bam.bai, results/bigwig/sample2.bw, results/correlation_analysis/correlation_values.tab, results/fragment_size_analysis/sample3_fragment_sizes.txt, results/tn5_shift/sample4.filtered.shifted.bam.bai, results/fragment_size_analysis/sample2_fragment.png, results/picard/CollectInsertSizeMetrics/sample2.insert_metrics.txt, results/tss_enrichment/sample5_tss_enrichment.pdf, results/samtools_fixmate/sample1_noMT.sorted.fixmate.bam, results/tss_enrichment/sample3_tss_enrichment.txt, results/tss_enrichment/sample2_tss_enrichment.pdf, results/picard/CollectAlignmentSummaryMetrics/sample3.alignment_metrics.txt, results/heatmap/matrix/sample1_matrix.gz, results/peak_annotation/sample4_peak_annotation.txt, results/fragment_size_analysis/sample1_fragment_sizes.txt, results/heatmap/matrix/sample3_matrix.gz, results/samtools_view/sample1.filtered.bam, results/samtools_fixmate/sample5_noMT.sorted.fixmate.bam, results/macs2_peakcall/sample5_peaks.narrowPeak, results/samtools_stats/sample5_postFiltering.stats.txt, results/remove_mito_reads/sample1_noMT.sorted.bam, results/heatmap/sample2_regions.bed, results/motif_analysis, results/samtools_index/sample1_noMT.sorted.bam.bai, results/bedtools_genomecov/sample2.bedGraph, results/heatmap/plot/sample4_tss_heatmap.pdf, results/samtools_view/sample4.filtered.bam, results/tss_enrichment/sample1_tss_enrichment.txt, results/tn5_shift/sample2.filtered.shifted.bam.bai, results/samtools_view/sample4.filtered.bam.bai, results/tn5_shift/sample5.filtered.shifted.bam, results/normalized_coverage/sample4_CPM.bw, results/samtools_view/sample3.filtered.bam.bai, results/samtools_index/post_markdup/sample1_noMT.sorted.dedup.bam.bai, results/qualimap/sample2_qualimap_report, results/picard/CollectInsertSizeMetrics/sample1.insert_histogram.pdf, results/tn5_shift/sample1.filtered.shifted.bam, results/frip_calculation/sample4_frip.txt, results/samtools_stats/sample4_postFiltering.stats.txt, results/bigwig/sample3.bw, results/frip_calculation/sample3_frip.txt, results/correlation_analysis/correlation_heatmap.pdf, results/tn5_shift/sample5.filtered.shifted.bam.bai, results/samtools_stats/sample1_postFiltering.stats.txt, results/fragment_size_analysis/sample1_fragment.png, results/samtools_view/sample5.filtered.bam, results/sorted_bedgraph_file/sample2.sorted.bedGraph, results/heatmap/sample1_regions.bed, results/tss_enrichment/sample1_tss_enrichment.pdf, results/macs2_peakcall/sample1_peaks.narrowPeak, results/bedtools_genomecov/sample1.bedGraph, results/samtools_index/sample2_noMT.sorted.bam.bai, results/samtools_view/sample3.filtered.bam, results/picard/CollectAlignmentSummaryMetrics/sample2.alignment_metrics.txt, results/picard/CollectAlignmentSummaryMetrics/sample5.alignment_metrics.txt, results/bigwig/sample1.bw, results/heatmap/sample5_regions.bed, results/heatmap/matrix/sample4_matrix.gz, results/filtered_peaks/sample3_filtered_peaks.bed, results/fragment_size_analysis/sample2_fragment_sizes.txt, results/heatmap/sample4_regions.bed, results/bigwig/sample5.bw, results/filtered_peaks/sample4_filtered_peaks.bed
+    resources: tmpdir=/tmp
+Shell command: None
+[Mon Oct 27 14:28:55 2025]
+Finished jobid: 0 (Rule: all)
+127 of 127 steps (100%) done
+Complete log(s): /home/mangala/ATACseq_Pipeline/ATACseq_Pipeline/.snakemake/log/2025-10-27T135043.511682.snakemake.log
